@@ -8,7 +8,7 @@ import { Logo } from "./logo";
 import { ThemeToggle } from "./theme-toggle";
 import { cn } from "@/lib/utils";
 
-const navigation = [{ href: "/path", label: "Your path" }, { href: "/bank", label: "Bank check" }, { href: "/deadlines", label: "Deadlines" }];
+const navigation = [{ href: "/path", label: "Your path" }, { href: "/bank", label: "Bank check" }, { href: "/deadlines", label: "Deadlines" }, { href: "/agents", label: "Agents" }];
 
 export function TopBar() {
   const pathname = usePathname();
