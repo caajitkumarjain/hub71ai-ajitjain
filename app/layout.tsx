@@ -27,7 +27,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <footer className="border-t border-line">
             <div className="mx-auto flex max-w-[1152px] flex-col gap-4 px-4 py-7 text-xs leading-5 text-ink-muted md:flex-row md:items-center md:justify-between">
               <p className="max-w-2xl">Manzil prepares and explains. You submit through official channels. Not legal or tax advice.</p>
-              <Link href="/admin/login" className="w-fit whitespace-nowrap underline-offset-4 hover:text-ink hover:underline">Operator access</Link>
+              <div className="flex flex-wrap gap-x-5 gap-y-2"><Link href="/rulebook" className="w-fit whitespace-nowrap underline-offset-4 hover:text-ink hover:underline">Rulebook</Link><Link href="/admin/login" className="w-fit whitespace-nowrap underline-offset-4 hover:text-ink hover:underline">Operator access</Link></div>
             </div>
           </footer>
         </div>

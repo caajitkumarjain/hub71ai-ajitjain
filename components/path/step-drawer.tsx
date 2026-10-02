@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { safeSourceUrl, SourceChip, VerifyBadge } from "@/components/brand/source-chip";
 import { shortTitle } from "./swimlane-timeline";
 import { useMissionPack } from "./use-mission-pack";
+import { DurationReport } from "./duration-report";
 import styles from "./path.module.css";
 
 const rules = Rule.array().parse(rawRules);
@@ -39,6 +40,7 @@ export function StepDrawer({ node, nodes, profile, updating, notice, onClose, on
       <section><h3 className="mb-2 font-medium">Why</h3><p className="leading-6 text-ink-muted">{why}</p></section>
       <section><h3 className="mb-3 font-medium">You’ll need</h3>{node.documents.length ? <ul className="space-y-3">{node.documents.map((document) => <li key={document}><label className="flex items-start gap-3"><input type="checkbox" className="mt-1 size-4 accent-primary" />{document}</label></li>)}</ul> : <p className="text-sm leading-6 text-ink-muted">UNKNOWN · verify the document checklist with {node.authority}.</p>}</section>
       <section className="rounded-xl border border-line bg-bg p-4"><p className="font-medium">Takes ~{node.durationDays.likely} days <span className="text-xs font-normal text-ink-muted">· estimate</span></p><p className="mt-2">Costs {node.costAED ? `AED ${node.costAED.min.toLocaleString("en-US")}–${node.costAED.max.toLocaleString("en-US")} · estimate` : `UNKNOWN · verify with ${node.authority}`}</p><div className="mt-3"><SourceChip {...node} /></div></section>
+      <DurationReport key={node.id} stepId={node.id} profile={profile} />
       <section><h3 className="mb-3 font-medium">Unlocks next</h3>{unlocks.length ? <ul className="space-y-2 text-sm text-ink-muted">{unlocks.map((next) => <li key={next.id} className="flex items-center gap-2"><ArrowUpRight aria-hidden="true" className="size-4 shrink-0 text-primary-ink" />{shortTitle(next)}</li>)}</ul> : <p className="text-sm text-ink-muted">No further steps depend on this one.</p>}</section>
       {linkedRules.length > 0 && <section><h3 className="mb-3 font-medium">Sources & linked rules</h3><div className="space-y-4">{linkedRules.map((rule) => <div key={rule.id}><p className="mb-2 text-sm">{rule.title} {rule.verify && <VerifyBadge />}</p><SourceChip {...rule} /></div>)}</div></section>}
       {officialUrl ? <Button asChild variant="outline" className="w-full"><a href={officialUrl} target="_blank" rel="noopener noreferrer">Official link<ArrowUpRight aria-hidden="true" /><span className="sr-only">(opens in a new tab)</span></a></Button> : <p className="text-sm text-ink-muted">UNKNOWN · verify the official link with {node.authority}.</p>}
