@@ -50,13 +50,13 @@ export function SwimlaneTimeline({ path, selectedId, onSelect }: { path: PathRes
             const short = width < 19;
             const labelLeft = short && (node.earliestFinish + 30) / span > .7;
             return <div key={node.id} className={styles.stepRow}><button id={`step-${node.id}`} type="button" data-step-id={node.id} data-status={node.status} aria-haspopup="dialog" aria-expanded={selectedId === node.id}
-              aria-label={`${shortTitle(node)}${node.critical && node.status !== "done" ? " Critical" : ""}. Day ${node.earliestStart} → ${node.earliestFinish} · ${node.status === "done" ? "Done" : `${node.durationDays.likely} days · estimate`}${node.status === "blocked" ? " · Blocked" : node.status === "in_progress" ? " · In progress" : ""}. ${node.title}.${node.verify ? " Verify with authority." : ""}`}
+              aria-label={`${shortTitle(node)}${node.critical && node.status !== "done" ? " Critical" : ""} Day ${node.earliestStart} → ${node.earliestFinish} · ${node.status === "done" ? "Done" : `${node.durationDays.likely} days · estimate`}${node.status === "blocked" ? " · Blocked" : node.status === "in_progress" ? " · In progress" : ""}. ${node.title}.${node.verify ? " Verify with authority." : ""}`}
               aria-describedby={`step-tooltip-${node.id}`}
               onClick={() => onSelect(node)}
               className={cn(styles.step, node.status === "done" ? styles.done : node.critical && styles.critical)}
               style={{ "--step-left": position(node.earliestStart), "--step-width": `${width}%` } as CSSProperties}>
-              <span className={cn(styles.barLabel, short && styles.shortLabel, labelLeft && styles.shortLabelLeft)}>{node.status === "done" && <Check className="size-3 shrink-0" aria-hidden="true" />}{shortTitle(node)}{node.verify && <span className={styles.verifyDot} aria-hidden="true" />}{node.critical && node.status !== "done" && <span className="text-[9px] uppercase tracking-wide opacity-80">Critical</span>}</span>
-              <span className={styles.mobileTime}>Day {node.earliestStart} → {node.earliestFinish} · {node.status === "done" ? "Done" : `${node.durationDays.likely} days · estimate`}{node.status === "blocked" ? " · Blocked" : node.status === "in_progress" ? " · In progress" : ""}</span>
+              <span className={cn(styles.barLabel, short && styles.shortLabel, labelLeft && styles.shortLabelLeft)}>{node.status === "done" && <Check className="size-3 shrink-0" aria-hidden="true" />}{shortTitle(node)}{node.verify && <span className={styles.verifyDot} aria-hidden="true" />}{node.critical && node.status !== "done" && <span className="text-[9px] uppercase tracking-wide opacity-80">{" "}Critical</span>}</span>
+              <span className={styles.mobileTime}>{" "}Day {node.earliestStart} → {node.earliestFinish} · {node.status === "done" ? "Done" : `${node.durationDays.likely} days · estimate`}{node.status === "blocked" ? " · Blocked" : node.status === "in_progress" ? " · In progress" : ""}</span>
               <span id={`step-tooltip-${node.id}`} role="tooltip" className={cn(styles.stepTooltip, (node.earliestFinish + 30) / span > .7 && styles.tooltipLeft)}><strong>{node.title}</strong><span>{node.authority}</span><span>Day {node.earliestStart} → {node.earliestFinish} · estimate</span></span>
             </button></div>;
           })}
