@@ -81,7 +81,9 @@
     "authority": "FTA",
     "kind": "info",
     "trigger": {
-      "type": "none"
+      "type": "none",
+      "field": "revenue12mAED",
+      "threshold": 187500
     },
     "penaltyAED": null,
     "sourceUrl": null,
@@ -120,7 +122,9 @@
     "kind": "deadline",
     "trigger": {
       "type": "fixed_date",
-      "date": "2026-10-30"
+      "date": "2026-10-30",
+      "field": "revenue12mAED",
+      "threshold": 50000000
     },
     "penaltyAED": null,
     "sourceUrl": "https://www.khaleejtimes.com/business/uae-extends-e-invoicing-service-provider-deadline-to-october-2026",

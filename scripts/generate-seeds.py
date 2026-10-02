@@ -82,7 +82,9 @@ triggers = {
     "CT-REG": {"type": "from_date", "field": "incorporationDate", "offsetMonths": 3},
     "CT-RET": {"type": "from_date", "field": "incorporationDate", "offsetMonths": 21},
     "VAT-REG": {"type": "threshold", "field": "revenue12mAED", "threshold": 375000, "offsetDays": 30},
-    "EINV-P1-ASP": {"type": "fixed_date", "date": "2026-10-30"},
+    # §8.1 supplies these thresholds; retain them as data even on info/fixed-date rules.
+    "VAT-VOL": {"type": "none", "field": "revenue12mAED", "threshold": 187500},
+    "EINV-P1-ASP": {"type": "fixed_date", "date": "2026-10-30", "field": "revenue12mAED", "threshold": 50000000},
     "EINV-P1-LIVE": {"type": "fixed_date", "date": "2027-01-01"},
     "EINV-P2": {"type": "fixed_date", "date": "2027-07-01"},
     "ADGM-CS": {"type": "recurring", "field": "incorporationDate", "offsetMonths": 13, "every": "year"},
