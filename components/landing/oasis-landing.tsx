@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { agentPortraits } from "@/components/agents-room/portraits";
+import agents from "@/data/agents.json";
 import { animate, motion, useMotionValue, useReducedMotion, useTransform } from "motion/react";
 import { ArrowDown, ArrowRight, ArrowUpRight, Bot, Building2, CalendarClock, Check, CheckCheck, ChevronRight, Compass, FileCheck2, Landmark, MapPin, Route, Sparkles, ShieldCheck } from "lucide-react";
 import { useEffect, type CSSProperties, type ReactNode } from "react";
@@ -86,6 +89,18 @@ export function OasisLanding(props: LandingProps) {
         { Icon: Route, title: "See your path", text: "A connected timeline shows what comes first, what can run together and what needs attention." },
         { Icon: FileCheck2, title: "Stay on track", text: "Check the sources, prepare your documents and keep moving through the official channels." },
       ].map(({ Icon, title, text }, index) => <Reveal key={title} delay={index * 0.08} className={styles.howCard}><div className={styles.howCardTop}><span className={styles.howIcon}><Icon aria-hidden="true" /></span><span className={styles.stepNumber}>0{index + 1}</span></div><h3>{title}</h3><p>{text}</p></Reveal>)}</div>
+    </section>
+
+    <section className="mx-auto max-w-[1152px] px-4 py-12 md:py-16" aria-labelledby="agent-team-heading">
+      <Reveal className="rounded-2xl border border-line bg-surface p-6 shadow-sm md:p-10">
+        <p className={styles.sectionEyebrow}>SPECIALISTS FOR YOUR NEXT STEP</p>
+        <h2 id="agent-team-heading" className="mt-3 font-heading text-3xl text-ink md:text-4xl">Meet the agent team</h2>
+        <p className="mt-3 max-w-xl text-sm leading-7 text-ink-muted">Get to know the specialists behind your path, bank readiness and deadlines. See their tools, sources and work in progress.</p>
+        <div className="my-7 grid grid-cols-3 gap-5 sm:grid-cols-6">
+          {agents.slice(0, 6).map((agent) => <div key={agent.id} className="min-w-0 text-center"><Image src={agentPortraits[agent.id]} alt="" width={88} height={88} sizes="88px" className="mx-auto size-20 rounded-full border-2 border-primary-soft object-cover" /><p className="mt-3 text-xs font-semibold leading-5 text-ink">{agent.name}</p></div>)}
+        </div>
+        <Link href="/agents" className="oasis-button inline-flex min-h-12 items-center gap-3 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition duration-200 ease-out hover:bg-primary-hover hover:text-primary-hover-foreground motion-safe:hover:-translate-y-px">See the agents at work<ArrowRight aria-hidden="true" className="size-4" /></Link>
+      </Reveal>
     </section>
 
     <section className={styles.bentoSection} aria-labelledby="bento-heading">
