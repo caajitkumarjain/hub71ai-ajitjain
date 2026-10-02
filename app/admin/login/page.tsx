@@ -1,3 +1,10 @@
-import { RouteShell } from "@/components/brand/route-shell";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { adminCookie, validAdminSession } from "@/lib/admin/auth";
+import { AdminLoginForm } from "@/components/admin/login-form";
 export const metadata = { title: "Operator access" };
-export default function AdminLoginPage() { return <RouteShell eyebrow="Manzil for operators" title="Operator access" description="A dedicated space for the teams helping founders settle and build." pattern />; }
+export const dynamic = "force-dynamic";
+export default async function AdminLoginPage() {
+  if (validAdminSession((await cookies()).get(adminCookie)?.value)) redirect("/admin");
+  return <AdminLoginForm configured={Boolean(process.env.ADMIN_PASSCODE)} />;
+}

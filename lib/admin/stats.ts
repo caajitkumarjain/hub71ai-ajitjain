@@ -35,7 +35,7 @@ export function adminStats(events: readonly FounderEvent[], runs: readonly Trace
     const current = samples.get(stall.stepId) ?? { days: [], live: 0 };
     current.days.push(stall.days); samples.set(stall.stepId, current);
   }
-  const liveFounderIds = new Set<string>();
+  const liveFounderIds = new Set<string>(filter.family === "all" && filter.jurisdiction === "all" ? events.map((event) => event.founderId) : []);
   for (const event of events) {
     if (String(event.type) !== "duration_report" || !event.stepId || !steps.some((step) => step.id === event.stepId)) continue;
     const payload = event.payload;
