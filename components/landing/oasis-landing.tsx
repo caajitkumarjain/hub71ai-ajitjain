@@ -94,7 +94,7 @@ export function OasisLanding(props: LandingProps) {
     <section className="mx-auto max-w-[1152px] px-4 py-12 md:py-16" aria-labelledby="agent-team-heading">
       <Reveal className="rounded-2xl border border-line bg-surface p-6 shadow-sm md:p-10">
         <p className={styles.sectionEyebrow}>SPECIALISTS FOR YOUR NEXT STEP</p>
-        <h2 id="agent-team-heading" className="mt-3 font-heading text-3xl text-ink md:text-4xl">Meet the agent team</h2>
+        <h2 id="agent-team-heading" className="mt-3 font-display text-3xl text-ink md:text-4xl">Meet the agent team</h2>
         <p className="mt-3 max-w-xl text-sm leading-7 text-ink-muted">Get to know the specialists behind your path, bank readiness and deadlines. See their tools, sources and work in progress.</p>
         <div className="my-7 grid grid-cols-3 gap-5 sm:grid-cols-6">
           {agents.slice(0, 6).map((agent) => <div key={agent.id} className="min-w-0 text-center"><Image src={agentPortraits[agent.id]} alt="" width={88} height={88} sizes="88px" className="mx-auto size-20 rounded-full border-2 border-primary-soft object-cover" /><p className="mt-3 text-xs font-semibold leading-5 text-ink">{agent.name}</p></div>)}
