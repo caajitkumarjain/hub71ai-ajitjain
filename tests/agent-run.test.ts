@@ -61,6 +61,52 @@ beforeEach(() => { vi.stubEnv("RUN_MAX_CALLS", "12"); vi.stubEnv("RUN_BUDGET_USD
 afterEach(() => { vi.unstubAllEnvs(); });
 
 describe("real SDK runner with deterministic model transport", () => {
+  it("hands a location question to Bawsala and verifies sourced navigation tools", async () => {
+    const args = {
+      facts: { customerLocations: ["abroad"], regulatedFinancialActivity: true, raisingForeignInvestment: true, physicalGoods: false },
+      calcInputs: { annualProfitAED: 500000, annualRevenueAED: 1000000, mainlandRevenueSharePct: 0, visas: 1, years: 3 },
+    };
+    const provider = new ScriptedProvider([
+      handoff("bawsala"), toolCall("navigate_jurisdiction", args), toolCall("simulate_jurisdiction", args),
+      toolCall("flip_points", args), toolCall("get_rules", { ids: ["R-FIN", "R-FIT"] }),
+      final(answer({ answer_md: "ADGM is the eligible location for this regulated financial activity. Verify licensing with FSRA; unknown costs remain excluded from estimates.", evidence: ["adgm", "R-FIN", "R-FIT"], next_actions: [{ label: "Review location", href: "/navigator" }], authority_to_verify: "FSRA" })),
+    ]);
+    const events: TraceEvent[] = [];
+    const result = await runAgent(input("Where should I set up a regulated financial company?"), (event) => events.push(event), { modelProvider: provider });
+    expect(result.status).toBe("complete");
+    expect(events.find((event) => event.kind === "handoff")?.name).toBe("Bawsala");
+    expect(events.find((event) => event.name === "navigate_jurisdiction" && event.kind === "tool_result")?.data).toMatchObject({ winner: { jurisdictionId: "adgm" }, missingFacts: [] });
+    expect(events.find((event) => event.kind === "verifier")?.name).toBe("approve");
+    expect(profile.regulatedFinancialActivity).toBeUndefined();
+  });
+
+  it("blocks a Bawsala recommendation with unanswered interview facts", async () => {
+    const provider = new ScriptedProvider([
+      toolCall("navigate_jurisdiction"),
+      final(answer({ answer_md: "Choose ADGM.", evidence: ["adgm"] })),
+      final(answer({ status: "abstain", answer_md: "Where are your customers? Is the activity regulated finance? Are you raising from foreign investors? Will you sell physical goods?", evidence: [] })),
+    ]);
+    const events: TraceEvent[] = [];
+    const result = await runAgent(input("Where should I set up?", "navigator"), (event) => events.push(event), { modelProvider: provider });
+    expect(result.status).toBe("abstain");
+    expect((result.answer_md.match(/\?/g) ?? []).length).toBeLessThanOrEqual(4);
+    expect(events.filter((event) => event.kind === "verifier").map((event) => event.name)).toEqual(["revise", "approve"]);
+    expect(events.filter((event) => event.kind === "message_delta").map((event) => event.data)).not.toContainEqual({ delta: "Choose ADGM.", verified: true });
+  });
+
+  it.each(["path", "pathfinder"] as const)("hands location questions from explicit %s intent to Bawsala", async (intent) => {
+    const provider = new ScriptedProvider([
+      handoff("bawsala"), toolCall("navigate_jurisdiction"),
+      final(answer({ status: "abstain", answer_md: "Where are your customers? Is your financial activity regulated? Are you raising from foreign investors? Will you handle physical goods?", evidence: [] })),
+    ]);
+    const events: TraceEvent[] = [];
+    const result = await runAgent(input("Should I set up in ADGM or on the mainland?", intent), (event) => events.push(event), { modelProvider: provider });
+    expect(result.status).toBe("abstain");
+    expect(events.find((event) => event.kind === "handoff")).toMatchObject({ agent: "Pathfinder", name: "Bawsala" });
+    expect(events.find((event) => event.kind === "tool_result" && event.name === "navigate_jurisdiction")?.agent).toBe("Bawsala");
+    expect(provider.requests).toHaveLength(3);
+  });
+
   it("E1 hands off to Pathfinder, runs the real path engine, verifies and then publishes", async () => {
     const provider = new ScriptedProvider([handoff("pathfinder"), toolCall("compile_path"), final()]);
     const events: TraceEvent[] = [];

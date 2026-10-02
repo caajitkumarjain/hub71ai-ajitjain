@@ -18,6 +18,9 @@ export const Profile = z.object({
   childrenAges: z.array(z.number().int().min(0).max(18)).default([]),
   businessDescription: z.string(), revenueModel: RevenueModel,
   activityCode: z.string().optional(), jurisdiction: Jurisdiction.optional(),
+  customerLocations: z.array(z.enum(["mainland", "freezone", "abroad", "government"])).max(4).optional(),
+  regulatedFinancialActivity: z.boolean().optional(),
+  raisingForeignInvestment: z.boolean().optional(), physicalGoods: z.boolean().optional(),
   fundingUSD: money.default(0), revenue12mAED: money.default(0),
   hires12m: z.number().int().nonnegative().default(0),
   drivingLicenceCountry: z.string().optional(), incorporationDate: isoDate.optional(),
@@ -117,6 +120,8 @@ export const Activity = z.object({ id: z.string(), revenueModels: z.array(Revenu
 export type Activity = z.infer<typeof Activity>;
 export const JurisdictionData = z.object({
   id: Jurisdiction, name: z.string(), licenceAEDPerYear: money.nullable(),
+  isFreeZone: z.boolean(), focusTags: z.array(z.string()).min(1),
+  classificationSource: z.object({ sourceUrl: z.url(), verifiedOn: isoDate, verify: z.boolean(), note: z.string().optional() }),
   officeAEDPerYear: money.nullable(), setupOneOffAED: money.nullable(), visaAEDPerPerson: money.nullable(),
   sourceUrl: z.url().nullable(), verifiedOn: isoDate, confidence: Confidence, verify: z.boolean(),
   notes: z.string(), fitRules: z.array(z.object({ condition: Condition, message: z.string() })),

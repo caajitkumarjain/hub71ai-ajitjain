@@ -20,7 +20,7 @@ export const Message = z.object({ role: z.enum(["user", "assistant"]), content: 
 export const AgentRequest = z.object({
   messages: z.array(Message).min(1).max(20), profile: Profile,
   locale: Language.optional(),
-  intent: z.enum(["path", "pathfinder", "bank", "deadlines", "mission", "activity"]).optional(),
+  intent: z.enum(["path", "pathfinder", "bank", "deadlines", "mission", "activity", "navigator"]).optional(),
 }).strict().refine((value) => value.messages.at(-1)?.role === "user", "The last message must be from the user.");
 export type AgentRequest = z.infer<typeof AgentRequest>;
 export const MissionRequest = z.object({ profile: Profile, stepId: z.string().min(1), locale: Language.optional() }).strict();

@@ -115,6 +115,12 @@ export async function runAgent(input: AgentRequest, onEvent: (event: TraceEvent)
         const parsedCandidate = AgentAnswer.safeParse(candidate);
         if (parsedCandidate.success && parsedCandidate.data.status === "complete") {
           if (!context.toolResults.length) verdict.reasons.push("Read the relevant tools before giving a complete answer.");
+          if (activeName === "Bawsala") {
+            const navigation = context.toolResults.findLast((value): value is Record<string, unknown> => Boolean(value && typeof value === "object" && "tool" in value && value.tool === "navigate_jurisdiction"));
+            if (!navigation || !Array.isArray(navigation.missingFacts) || navigation.missingFacts.length) {
+              verdict.reasons.push("Ask only the missing customer, regulation, investor and goods questions (at most four), then abstain until answered. Call navigate_jurisdiction with those facts before recommending.");
+            } else if (!navigation.winner) verdict.reasons.push("No eligible jurisdiction was found; abstain instead of recommending a knocked-out location.");
+          }
           if (request.intent === "activity" && parsedCandidate.data.activityMatches?.length !== 3) {
             verdict.reasons.push("A complete activity match must return exactly three distinct seeded activities.");
           }

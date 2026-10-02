@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import personas from "@/data/personas.json";
 import rawJurisdictions from "@/data/jurisdictions.json";
 import { JurisdictionComparison, JurisdictionData, Profile } from "@/lib/schemas";
-import { compareJurisdictions } from "@/lib/engines/jurisdiction-twin";
+import { CalculatorInputs, compareJurisdictions, flipPoints, jurisdictionRules, navigate } from "@/lib/engines/jurisdiction-twin";
 
 const priya = Profile.parse(personas.priya);
 const jurisdictions = JurisdictionData.array().parse(rawJurisdictions);
@@ -10,6 +10,110 @@ const jurisdictions = JurisdictionData.array().parse(rawJurisdictions);
 const priced = JurisdictionData.parse({
   ...jurisdictions[0], licenceAEDPerYear: 100, officeAEDPerYear: 200,
   visaAEDPerPerson: 300, setupOneOffAED: 400,
+});
+
+describe("Bawsala deterministic navigation", () => {
+  const informedPriya = Profile.parse({ ...priya, customerLocations: ["abroad"], regulatedFinancialActivity: false, raisingForeignInvestment: true, physicalGoods: false });
+  const base = { annualProfitAED: 1000000, annualRevenueAED: 2000000, mainlandRevenueSharePct: 0, visas: 2, years: 3 };
+
+  it("keeps only ADGM eligible for regulated financial activities", () => {
+    const result = navigate({ ...informedPriya, regulatedFinancialActivity: true }, {}, base);
+    expect(result.rankings.filter((entry) => !entry.knockouts.length).map((entry) => entry.jurisdictionId)).toEqual(["adgm"]);
+    expect(result.winner?.jurisdictionId).toBe("adgm");
+    expect(result.rankings.filter((entry) => entry.jurisdictionId !== "adgm").every((entry) => entry.knockouts[0].includes("R-FIN"))).toBe(true);
+  });
+
+  it("flags QFZP and dual licensing for every free-zone route at forty percent mainland revenue", () => {
+    const result = navigate(informedPriya, {}, { ...base, mainlandRevenueSharePct: 40 });
+    for (const entry of result.rankings.filter((item) => item.jurisdictionId !== "mainland")) {
+      expect(entry.warnings).toEqual(expect.arrayContaining(["R-QFZP", "R-DUAL"]));
+      expect(entry.taxEstimateAED).toBe(168750);
+      expect(entry.unknowns).toContain("Dual-licence fee is an unconfirmed user-supplied estimate");
+    }
+  });
+
+  it("includes only known costs and counts the dual fee once", () => {
+    const result = navigate(informedPriya, {}, { ...base, mainlandRevenueSharePct: 40 });
+    const adgm = result.rankings.find((entry) => entry.jurisdictionId === "adgm")!;
+    expect(adgm.totalCostAED).toBe(17727);
+    expect(adgm.totalAED).toBe(adgm.totalCostAED + adgm.taxEstimateAED);
+    expect(adgm.unknowns).toEqual(expect.arrayContaining(["officeAEDPerYear", "setupOneOffAED", "visaAEDPerPerson"]));
+    expect(result.rankings.find((entry) => entry.jurisdictionId === "hub71")?.totalCostAED).toBe(1200);
+  });
+
+  it("uses the five-percent inclusive boundary then switches to the standard regime", () => {
+    const within = navigate(informedPriya, {}, { ...base, mainlandRevenueSharePct: 5 });
+    const outside = navigate(informedPriya, {}, { ...base, mainlandRevenueSharePct: 5.01 });
+    expect(within.rankings.find((entry) => entry.jurisdictionId === "adgm")?.taxEstimateAED).toBe(0);
+    expect(outside.rankings.find((entry) => entry.jurisdictionId === "adgm")?.taxEstimateAED).toBe(168750);
+  });
+
+  it("also enforces the monetary cap when five percent would be larger", () => {
+    const result = navigate(informedPriya, {}, { ...base, annualRevenueAED: 200000000, mainlandRevenueSharePct: 3 });
+    expect(result.rankings.find((entry) => entry.jurisdictionId === "adgm")?.taxEstimateAED).toBe(168750);
+  });
+
+  it("does not infer annual revenue from profit or assume the monetary cap passes", () => {
+    const result = navigate({ ...informedPriya, revenue12mAED: 0 }, {}, { annualProfitAED: 1000000, mainlandRevenueSharePct: 3 });
+    const adgm = result.rankings.find((entry) => entry.jurisdictionId === "adgm")!;
+    expect(adgm.taxEstimateAED).toBe(168750);
+    expect(adgm.unknowns).toContain("Annual revenue for the QFZP monetary cap; standard tax used conservatively");
+  });
+
+  it("flags dual permission for government customers even before a local revenue estimate exists", () => {
+    const result = navigate({ ...informedPriya, customerLocations: ["government"] }, {}, base);
+    expect(result.rankings.find((entry) => entry.jurisdictionId === "adgm")?.warnings).toContain("R-DUAL");
+  });
+
+  it("keeps all scores bounded and does not present unknown cost as free", () => {
+    const result = navigate(informedPriya, {}, base);
+    expect(result.rankings.every((entry) => entry.fitScore >= 0 && entry.fitScore <= 100)).toBe(true);
+    const hub = result.rankings.find((entry) => entry.jurisdictionId === "hub71")!;
+    expect(hub.totalCostAED).toBe(0);
+    expect(hub.criteria.cost).toBe(50);
+    expect(hub.unknowns).toContain("licenceAEDPerYear");
+  });
+
+  it("accepts partial weights and treats an all-zero priority set as equal", () => {
+    expect(navigate(informedPriya, { weights: { marketAccess: 100 } }, base).winner).not.toBeNull();
+    expect(navigate(informedPriya, { weights: { cost: 0, marketAccess: 0, tax: 0, investorAppeal: 0, speed: 0, visas: 0 } }, base)).toEqual(navigate(informedPriya, {}, base));
+  });
+
+  it("returns stable, nonempty flip points for Priya without mutating inputs", () => {
+    const before = structuredClone(informedPriya);
+    const first = flipPoints(informedPriya, {}, base);
+    expect(first).toEqual(flipPoints(informedPriya, {}, base));
+    expect(first.length).toBeGreaterThan(0);
+    expect(first.some((point) => point.input === "mainlandRevenueSharePct")).toBe(true);
+    expect(first.every((point) => point.fromJurisdictionId !== point.toJurisdictionId)).toBe(true);
+    expect(informedPriya).toEqual(before);
+  });
+
+  it("lowers confidence and identifies the four missing interview facts", () => {
+    const result = navigate(priya);
+    expect(result.confidence).toBe("Low");
+    expect(result.missingFacts).toHaveLength(4);
+  });
+
+  it("validates calculator boundaries and defaults", () => {
+    expect(CalculatorInputs.parse({}).years).toBe(3);
+    expect(() => navigate(informedPriya, {}, { mainlandRevenueSharePct: 101 })).toThrow();
+    expect(() => navigate(informedPriya, {}, { annualProfitAED: -1 })).toThrow();
+    expect(() => navigate(informedPriya, {}, { annualProfitAED: 1e308 })).toThrow();
+    expect(() => navigate(informedPriya, {}, { years: 0 })).toThrow();
+    expect(() => navigate(informedPriya, {}, { visas: 0.5 })).toThrow();
+  });
+
+  it("includes dated provenance for every new classification and rule", () => {
+    for (const location of jurisdictions) {
+      expect(location.classificationSource.verifiedOn).toBe("2026-10-02");
+      expect(location.classificationSource.sourceUrl).toMatch(/^https:\/\//);
+      expect(location.isFreeZone).toBe(location.id !== "mainland");
+      expect(location.focusTags.length).toBeGreaterThan(0);
+    }
+    expect(jurisdictionRules.map((rule) => rule.id)).toEqual(["R-DUAL", "R-QFZP", "R-CT", "R-FIN", "R-FIT"]);
+    expect(jurisdictionRules.every((rule) => rule.verifiedOn === "2026-10-02" && typeof rule.verify === "boolean")).toBe(true);
+  });
 });
 
 describe("§8.3 jurisdiction comparison", () => {

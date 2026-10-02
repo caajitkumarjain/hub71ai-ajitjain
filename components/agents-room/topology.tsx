@@ -27,7 +27,7 @@ function Node({ x, y, width = 180, height = 44, label, monogram, agentId, tone =
 }
 
 export function Topology({ agents }: { agents: AgentManifestEntry[] }) {
-  const specialistIds = ["pathfinder", "bank-officer", "deadline-sentinel", "mission-builder", "activity-matcher"];
+  const specialistIds = ["bawsala", "pathfinder", "bank-officer", "deadline-sentinel", "mission-builder", "activity-matcher"];
   const studioIds = ["name-agent", "bank-pack-agent", "governance-agent", "tax-prep-agent"];
   const specialistAgents = specialistIds.map((id) => agents.find((agent) => agent.id === id)!);
   const studioAgents = studioIds.map((id) => agents.find((agent) => agent.id === id)!);
@@ -35,14 +35,14 @@ export function Topology({ agents }: { agents: AgentManifestEntry[] }) {
   return <div className={styles.topology}>
     <svg className={styles.desktopMap} viewBox="0 0 1090 572" role="img" aria-labelledby="fleet-map-title fleet-map-description">
       <title id="fleet-map-title">Manzil agent routing</title>
-      <desc id="fleet-map-description">You pass through Input Guardrail to Concierge, which hands off to five specialists or four Company Studio agents in parallel. Every result passes through Verifier before returning to you. Moving dots illustrate routing, not live activity.</desc>
+      <desc id="fleet-map-description">You pass through Input Guardrail to Concierge, which hands off to six specialists or four Company Studio agents in parallel. Every result passes through Verifier before returning to you. Moving dots illustrate routing, not live activity.</desc>
       <text x="18" y="30" className={styles.mapCaption}>REQUEST</text>
       <text x="510" y="30" className={styles.mapCaption}>SPECIALIST HANDOFFS</text>
       <text x="820" y="30" className={styles.mapCaption}>VERIFIED RESPONSE</text>
       <Flow path="M 78 251 L 112 251" tone="teal" />
       <Flow path="M 248 251 L 286 251" delay={-0.8} tone="teal" />
       {specialistAgents.map((agent, index) => {
-        const y = 50 + index * 56;
+        const y = 50 + index * 46;
         return <g key={agent.id}>
           <Flow path={`M 424 251 H 465 V ${y + 22} H 510`} delay={-index * 0.65} tone={agentLane(agent.id)} />
           <Flow path={`M 700 ${y + 22} H 775 V 251 H 820`} delay={-index * 0.8 - 1} tone="teal" />
@@ -74,7 +74,7 @@ export function Topology({ agents }: { agents: AgentManifestEntry[] }) {
     </svg>
     <svg className={styles.mobileMap} viewBox="0 0 340 968" role="img" aria-labelledby="mobile-map-title mobile-map-description">
       <title id="mobile-map-title">Manzil agent routing</title>
-      <desc id="mobile-map-description">You to Input Guardrail to Concierge, then five specialists or four Company Studio agents in parallel, then Verifier and back to you.</desc>
+      <desc id="mobile-map-description">You to Input Guardrail to Concierge, then six specialists or four Company Studio agents in parallel, then Verifier and back to you.</desc>
       <Flow path="M 170 54 V 80" tone="teal" />
       <Flow path="M 170 124 V 150" tone="teal" delay={-1} />
       <Node x={117} y={10} width={106} label="You" tone="muted" />
@@ -82,7 +82,7 @@ export function Topology({ agents }: { agents: AgentManifestEntry[] }) {
       <Node x={70} y={150} width={200} label="Concierge" monogram="CO" agentId="concierge" tone="gold" />
       <text x="70" y="232" className={styles.mapCaption}>SPECIALIST HANDOFFS</text>
       {specialistAgents.map((agent, index) => {
-        const y = 250 + index * 52;
+        const y = 250 + index * 46;
         return <g key={agent.id}>
           <Flow path={`M 170 194 V 210 H 35 V ${y + 22} H 70`} delay={-index * .7} tone={agentLane(agent.id)} />
           <Flow path={`M 270 ${y + 22} H 306 V 847 H 270`} delay={-index * .7 - 1} tone="teal" />

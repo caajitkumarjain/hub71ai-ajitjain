@@ -23,7 +23,18 @@
         },
         "message": "✓ common-law, investor-recognised; tech-startup licence"
       }
-    ]
+    ],
+    "isFreeZone": true,
+    "focusTags": [
+      "finance",
+      "tech",
+      "holding"
+    ],
+    "classificationSource": {
+      "sourceUrl": "https://www.adgm.com/",
+      "verifiedOn": "2026-10-02",
+      "verify": true
+    }
   },
   {
     "id": "mainland",
@@ -37,7 +48,19 @@
     "confidence": "medium",
     "verify": true,
     "notes": "typical LLC with 2 visas AED 55–80k year one: show as a note",
-    "fitRules": []
+    "fitRules": [],
+    "isFreeZone": false,
+    "focusTags": [
+      "retail",
+      "government",
+      "F&B",
+      "all"
+    ],
+    "classificationSource": {
+      "sourceUrl": "https://www.added.gov.ae/",
+      "verifiedOn": "2026-10-02",
+      "verify": true
+    }
   },
   {
     "id": "hub71",
@@ -60,7 +83,17 @@
         },
         "message": "⚠ selective programme: incentives not guaranteed"
       }
-    ]
+    ],
+    "isFreeZone": true,
+    "focusTags": [
+      "tech startups"
+    ],
+    "classificationSource": {
+      "sourceUrl": "https://www.hub71.com/",
+      "verifiedOn": "2026-10-02",
+      "verify": true,
+      "note": "Hub71 is an ADGM-based ecosystem, not a separate statutory free zone; compare its programme route here."
+    }
   },
   {
     "id": "masdar",
@@ -81,7 +114,17 @@
         },
         "message": "✓ sustainability/tech focus"
       }
-    ]
+    ],
+    "isFreeZone": true,
+    "focusTags": [
+      "sustainability",
+      "tech"
+    ],
+    "classificationSource": {
+      "sourceUrl": "https://masdarcityfreezone.com/",
+      "verifiedOn": "2026-10-02",
+      "verify": true
+    }
   },
   {
     "id": "kezad",
@@ -90,7 +133,7 @@
     "officeAEDPerYear": null,
     "setupOneOffAED": null,
     "visaAEDPerPerson": null,
-    "sourceUrl": null,
+    "sourceUrl": "https://www.kezadgroup.com/about-us/",
     "verifiedOn": "2026-10-02",
     "confidence": "low",
     "verify": true,
@@ -107,7 +150,19 @@
         },
         "message": "✓ industrial/logistics focus"
       }
-    ]
+    ],
+    "isFreeZone": true,
+    "focusTags": [
+      "industrial",
+      "logistics",
+      "trading"
+    ],
+    "classificationSource": {
+      "sourceUrl": "https://www.kezadgroup.com/about-us/",
+      "verifiedOn": "2026-10-02",
+      "verify": true,
+      "note": "This comparison covers the KEZAD free-zone route; KEZAD also offers domestic economic zones."
+    }
   },
   {
     "id": "twofour54",
@@ -116,7 +171,7 @@
     "officeAEDPerYear": null,
     "setupOneOffAED": null,
     "visaAEDPerPerson": null,
-    "sourceUrl": null,
+    "sourceUrl": "https://www.twofour54.com/",
     "verifiedOn": "2026-10-02",
     "confidence": "low",
     "verify": true,
@@ -128,6 +183,16 @@
         },
         "message": "✓ media/gaming focus"
       }
-    ]
+    ],
+    "isFreeZone": true,
+    "focusTags": [
+      "media",
+      "gaming"
+    ],
+    "classificationSource": {
+      "sourceUrl": "https://www.twofour54.com/",
+      "verifiedOn": "2026-10-02",
+      "verify": true
+    }
   }
 ]
