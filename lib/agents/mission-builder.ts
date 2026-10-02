@@ -9,9 +9,9 @@ export function createMissionBuilder() {
   const tools = createTools("Mission Builder");
   return new Agent<ManzilRunContext, typeof AgentOutput>({
     name: "Mission Builder", model: models.reasoning, outputType: AgentOutput,
-    modelSettings: { reasoning: { effort: "low" }, maxTokens: 1800 },
+    modelSettings: { reasoning: { effort: "low" }, maxTokens: 4000 },
     handoffDescription: "Prepare or draft a step's mission pack, checklist and prefilled message; never submit it.",
-    instructions: ({ context }) => agentInstructions("Mission Builder", "Call get_step, get_rules for its rule IDs, and explain_dependencies. Cite exact step and descendant IDs; if no rules are returned, omit rule evidence. Draft markdown sections: What this achieves; Documents checklist; Prefilled fields from profileFields, with unknowns [to confirm]; Where to submit using officialUrl; Draft message when a human counterpart is involved; After this, you unlock the returned descendants. Mark the pack DRAFT. Never invent an official link or infer missing personal information.", context.locale),
+    instructions: ({ context }) => agentInstructions("Mission Builder", "Call get_step and get_rules. Return the document as pack JSON, never markdown. Keep answer_md a brief draft summary. For Company Studio, draft only the requested document. Each field value must exactly match profileFields or tool output; otherwise null, provenance needed. Do not assume identity, ownership, signatures, company names, funding origins or board decisions. Numbers in paragraphs must appear in verified fields/tool output. Use tool URLs and verified dates; unknown dates, email recipient, rule/step IDs and optional content are null. Include purpose, sections, fields, checklist, officialUrl and sources. A complete draft requires pack. This pack is exempt from the summary word limit.", context.locale),
     tools: [tools.getStep, tools.getRules, tools.explainDependencies],
   });
 }

@@ -1,6 +1,8 @@
 import { ArrowUpRight, Check, FileText, Info, Quote } from "lucide-react";
 import type { AgentAnswer } from "@/lib/agents/contracts";
-import type { TraceEvent } from "@/lib/schemas";
+import type { Profile, TraceEvent } from "@/lib/schemas";
+import { DownloadMenu } from "@/components/export/download-menu";
+import { PackPreview } from "@/components/export/pack-preview";
 import rules from "@/data/rules.json";
 import steps from "@/data/steps.json";
 import jurisdictions from "@/data/jurisdictions.json";
@@ -26,7 +28,7 @@ export function EvidenceSourceChips({ evidence }: { evidence: readonly string[] 
   </div></div>;
 }
 
-export function ResultCard({ result, events = [], isRunning = false }: { result: AgentAnswer; events?: readonly TraceEvent[]; isRunning?: boolean }) {
+export function ResultCard({ result, events = [], isRunning = false, profile }: { result: AgentAnswer; events?: readonly TraceEvent[]; isRunning?: boolean; profile?: Profile | null }) {
   const cached = events.some((event) => event.kind === "fallback");
   const isArabic = /^(ar(?:-|$)|arabic$|العربية$)/i.test(result.language);
   return <article className="overflow-hidden rounded-2xl border border-line bg-surface shadow-sm" aria-label="Manzil answer">
@@ -39,6 +41,7 @@ export function ResultCard({ result, events = [], isRunning = false }: { result:
         <span className="ml-auto text-[10px] uppercase tracking-wider text-ink-muted">Draft guidance</span>
       </div>
       <SafeMarkdown text={result.answer_md} />
+      {result.status === "complete" && result.pack && <div className="mt-5 space-y-4">{profile && <DownloadMenu options={[{ label: "Mission Pack (Word)", request: { kind: "document", document: "mission-pack", profile, pack: result.pack } }]} />}<PackPreview pack={result.pack} /></div>}
       {Boolean(result.activityMatches?.length) && <section className="mt-5 space-y-3" aria-label="Suggested activities"><h4 className="text-xs font-medium text-ink">Activities to explore</h4>{result.activityMatches?.map((match) => <div key={match.activityId} className="rounded-xl border border-line bg-bg p-3"><p className="font-medium text-ink">{match.activityId.replaceAll("-", " ")}</p><p className="mt-1 text-xs leading-6 text-ink-muted">{match.reason}</p></div>)}</section>}
       {Boolean(result.bankReview?.length) && <section className="mt-5 space-y-3" aria-label="AI review"><div><h4 className="text-xs font-medium text-ink">AI review</h4><p className="mt-1 text-[11px] leading-5 text-ink-muted">Questions to help you prepare. This is not a bank decision.</p></div>{result.bankReview?.map((finding, index) => <div key={index} className="rounded-xl border border-line bg-bg p-4"><p className="text-sm font-medium">{finding.title}</p><blockquote className="my-3 flex gap-2 border-l-2 border-gold pl-3 text-xs italic leading-6 text-ink-muted"><Quote aria-hidden="true" className="mt-1 size-3 shrink-0" /><span>{finding.evidenceQuote}</span></blockquote><p className="text-xs leading-6">{finding.question}</p></div>)}</section>}
       {result.authority_to_verify && <p className="mt-4 rounded-lg bg-amber/10 p-3 text-xs leading-6 text-ink">Verify with {result.authority_to_verify} before acting.</p>}

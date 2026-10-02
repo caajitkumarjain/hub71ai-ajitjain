@@ -8,7 +8,7 @@ import personas from "@/data/personas.json";
 const profile = Profile.parse(personas.priya);
 const answer = (patch: Partial<AgentAnswer> = {}) => AgentOutput.parse({
   status: "complete", answer_md: "Start certificate attestation before arrival.", evidence: ["F-ATTEST"],
-  numbers_used: [], next_actions: [], authority_to_verify: null, language: "en", activityMatches: [], bankReview: [], ...patch,
+  numbers_used: [], next_actions: [], authority_to_verify: null, language: "en", activityMatches: [], bankReview: [], pack: null, ...patch,
 });
 let itemId = 0;
 const response = (output: ModelResponse["output"], inputTokens = 10): ModelResponse => ({
@@ -262,6 +262,7 @@ describe("real SDK runner with deterministic model transport", () => {
   it("lets the generated draft-only Mission Pack prompt reach the specialist", async () => {
     const provider = new ScriptedProvider([toolCall("get_step", { stepId: "C-LIC" }), final(answer({
       answer_md: "Prepare the listed documents and confirm missing details before submitting through the official channel.", evidence: ["C-LIC"],
+      pack: { title: "Licence draft", purpose: "Review your details.", sections: [], fields: [{ label: "Founder", value: profile.name, provenance: "profile", sourceRuleId: null }], checklist: [], officialUrl: null, sources: [], email: null },
     }))]);
     const request = input("Prepare a draft mission pack for step C-LIC. Use my saved profile; mark missing details to confirm. Never send or submit anything.", "mission");
     expect((await runAgent(request, () => undefined, { modelProvider: provider })).status).toBe("complete");

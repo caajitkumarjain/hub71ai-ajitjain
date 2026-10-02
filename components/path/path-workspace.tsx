@@ -11,6 +11,7 @@ import { priya, readProfile, saveProfile } from "./profile-storage";
 import { SwimlaneTimeline } from "./swimlane-timeline";
 import { StepDrawer } from "./step-drawer";
 import { JurisdictionCard } from "./jurisdiction-card";
+import { DownloadMenu } from "@/components/export/download-menu";
 import styles from "./path.module.css";
 
 function CountUp({ value }: { value: number }) {
@@ -88,7 +89,7 @@ export function PathWorkspace() {
     : opportunity?.message.replace(" (Manzil Jurisdiction Twin)", "").replace(" (Bankability pre-check)", "");
   const exposure = exposureSummary(journey.obligations);
   return <section className="py-12 md:py-16">
-    <header className="mb-8 flex flex-wrap items-end justify-between gap-5"><div><p className={styles.eyebrow}>Arrive. Build. Belong.</p><h1 className="mt-4 font-display text-4xl leading-tight tracking-tight">{profile.name}’s path</h1><p className="mt-3 text-ink-muted">A clear order. Room to move forward.</p></div><Link href="/start" className="inline-flex min-h-11 items-center gap-2 text-sm text-ink-muted hover:text-ink">Edit my details<ArrowUpRight aria-hidden="true" className="size-4" /></Link></header>
+    <header className="mb-8 flex flex-wrap items-end justify-between gap-5"><div><p className={styles.eyebrow}>Arrive. Build. Belong.</p><h1 className="mt-4 font-display text-4xl leading-tight tracking-tight">{profile.name}’s path</h1><p className="mt-3 text-ink-muted">A clear order. Room to move forward.</p></div><div className="flex flex-wrap items-center gap-4"><DownloadMenu options={[{ label: "Checklist tracker (Excel)", request: { kind: "checklist", profile } }]} /><Link href="/start" className="inline-flex min-h-11 items-center gap-2 text-sm text-ink-muted hover:text-ink">Edit my details<ArrowUpRight aria-hidden="true" className="size-4" /></Link></div></header>
     {storageNotice && <p role="status" className="mb-4 text-xs text-ink-muted">{storageNotice}</p>}
     <div className="grid gap-4 sm:grid-cols-3" aria-label="Your path at a glance">
       <article className="rounded-xl border border-line bg-surface p-6"><p className="text-sm text-ink-muted">Ready in <span className="text-xs">· estimate</span></p><p className="mt-4 font-display text-[38px] leading-tight">~<CountUp value={path.optimizedDays} /> <span className="text-xl">days</span></p><p className="mt-3 text-xs text-ink-muted">vs ~{path.naiveDays} days step by step</p></article>

@@ -10,6 +10,7 @@ import { exposureSummary } from "@/components/path/journey-client";
 import { priya, readProfile } from "@/components/path/profile-storage";
 import { dateLabel, nextDeadline, obligationKey, positionToRevenue, requestScenario, revenueLabels, revenueStops, revenueToPosition, scenarioChanges, type Scenario } from "./deadline-client";
 import { ObligationList } from "./obligation-list";
+import { DownloadMenu } from "@/components/export/download-menu";
 import styles from "./deadlines.module.css";
 
 type Session = { baseline: Profile; draft: Scenario };
@@ -72,7 +73,7 @@ export function DeadlinesWorkspace() {
   const isScenario = session && (session.draft.revenue12mAED !== session.baseline.revenue12mAED || session.draft.hires12m !== session.baseline.hires12m);
 
   return <section className="py-12 md:py-16">
-    <header className="mb-9 flex flex-wrap items-end justify-between gap-4"><div><p className={styles.eyebrow}>Keep moving forward</p><h1 className="mt-4 font-display text-4xl leading-tight tracking-tight">Deadlines</h1><p className="mt-3 text-ink-muted">Know what’s due, and see what changes as you grow.</p></div><Link href="/start" className="inline-flex min-h-11 items-center gap-2 text-sm text-ink-muted hover:text-ink">Edit my details<ArrowRight className="size-4" aria-hidden="true" /></Link></header>
+    <header className="mb-9 flex flex-wrap items-end justify-between gap-4"><div><p className={styles.eyebrow}>Keep moving forward</p><h1 className="mt-4 font-display text-4xl leading-tight tracking-tight">Deadlines</h1><p className="mt-3 text-ink-muted">Know what’s due, and see what changes as you grow.</p></div><div className="flex flex-wrap items-center gap-4">{appliedProfile.current && <DownloadMenu disabled={busy || !!error || !amountValid} options={[{ label: "Deadlines (Excel)", request: { kind: "deadlines", profile: appliedProfile.current } }]} />}<Link href="/start" className="inline-flex min-h-11 items-center gap-2 text-sm text-ink-muted hover:text-ink">Edit my details<ArrowRight className="size-4" aria-hidden="true" /></Link></div></header>
     <div className="mb-8 grid gap-4 md:grid-cols-2" aria-label="Deadline summary" aria-busy={busy}>
       <article className="rounded-xl border border-line bg-surface p-6 sm:p-7"><p className="text-sm text-ink-muted">AED at stake</p><p className="mt-4 font-display text-5xl leading-tight" data-exposure>{exposure ? money.format(exposure.total) : "—"}</p><p className="mt-3 text-xs leading-5 text-ink-muted">Next 12 months{exposure?.unknown ? " · excludes unknown penalties" : ""}</p><p className="mt-2 text-xs leading-5 text-ink-muted">Amounts and sources appear with each obligation below.</p></article>
       <article className="rounded-xl border border-line bg-surface p-6 sm:p-7"><p className="text-sm text-ink-muted">Next deadline</p>{next ? <><p className="mt-4 font-display text-3xl leading-tight"><time dateTime={next.row.dueDate!}>{dateLabel(next.row.dueDate!)}</time></p><p className="mt-3 text-sm font-medium">{next.row.title}</p><p className="mt-2 text-xs text-ink-muted">{next.daysLeft === 0 ? "Due today" : `${next.daysLeft} days left`} · {next.row.authority}</p></> : <p className="mt-4 text-sm leading-6 text-ink-muted">{result ? "No upcoming dated deadline was returned. Check the obligations below for dates to verify." : "Finding your next deadline…"}</p>}</article>

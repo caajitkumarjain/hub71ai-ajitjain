@@ -50,7 +50,7 @@ function matcherAnswer(activityId = "software-development") {
       { activityId, reason: "Fits software subscription services for clinics." },
       { activityId: "it-consultancy", reason: "Possible alternative if implementation includes IT consulting." },
       { activityId: "edtech-platform", reason: "Conditional alternative only if the platform also provides education." },
-    ], bankReview: [],
+    ], bankReview: [], pack: null,
   });
 }
 

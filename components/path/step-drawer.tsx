@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { safeSourceUrl, SourceChip, VerifyBadge } from "@/components/brand/source-chip";
 import { shortTitle } from "./swimlane-timeline";
 import { useMissionPack } from "./use-mission-pack";
+import { DownloadMenu } from "@/components/export/download-menu";
+import { PackPreview } from "@/components/export/pack-preview";
 import styles from "./path.module.css";
 
 const rules = Rule.array().parse(rawRules);
@@ -45,7 +47,7 @@ export function StepDrawer({ node, nodes, profile, updating, notice, onClose, on
       <div className="grid gap-3"><Button onClick={() => mission.prepare(profile, node.id)} disabled={mission.busy}>{mission.busy && <LoaderCircle aria-hidden="true" className="animate-spin" />}Prepare it for me</Button><Button variant="secondary" onClick={onDone} disabled={updating || node.status === "done"}>{updating ? <LoaderCircle aria-hidden="true" className="animate-spin" /> : <Check aria-hidden="true" />}{updating ? "Updating your path…" : node.status === "done" ? "Marked done" : "Mark done"}</Button></div>
       {notice && <p role="status" className="text-sm leading-6 text-ink-muted">{notice}</p>}
       {mission.status && <p role="status" className="text-sm leading-6 text-ink-muted">{mission.status}</p>}
-      {mission.result && <section aria-live="polite" className="rounded-xl border border-line bg-bg p-4"><div className="mb-3 flex gap-3 text-xs"><span className="uppercase tracking-wide">Draft · {mission.result.status}</span>{mission.cached && <span className="rounded-full bg-surface-2 px-2">cached</span>}</div><p className="whitespace-pre-wrap break-words text-sm leading-6">{mission.result.answer_md}</p></section>}
+      {mission.result && <section aria-live="polite" className="rounded-xl border border-line bg-bg p-4"><div className="mb-3 flex flex-wrap items-center justify-between gap-3 text-xs"><span className="uppercase tracking-wide">Draft · {mission.result.status}</span>{mission.cached && <span className="rounded-full bg-surface-2 px-2">cached</span>}{mission.result.status === "complete" && mission.result.pack && <DownloadMenu options={[{ label: "Mission Pack (Word)", request: { kind: "document", document: "mission-pack", profile, pack: mission.result.pack } }]} />}</div>{mission.result.pack ? <PackPreview pack={mission.result.pack} /> : <p className="whitespace-pre-wrap break-words text-sm leading-6">{mission.result.answer_md}</p>}</section>}
       <p className="text-xs leading-5 text-ink-muted">Manzil prepares and explains. You submit through official channels.</p>
     </div>
   </dialog>;
