@@ -1,0 +1,574 @@
+{
+  "version": 1,
+  "id": "E2",
+  "recordedAt": "2026-10-02T10:25:13.245Z",
+  "source": "real-openai-run",
+  "baseURL": "https://manzil-flame-delta.vercel.app",
+  "request": {
+    "profile": {
+      "id": "priya",
+      "name": "Priya",
+      "nationality": "India",
+      "arrivalDate": "2026-10-12",
+      "inUAE": false,
+      "spouse": true,
+      "childrenAges": [
+        7
+      ],
+      "businessDescription": "B2B SaaS for GCC clinics' appointment scheduling, clients in UAE and KSA, subscription revenue",
+      "revenueModel": "saas",
+      "fundingUSD": 400000,
+      "revenue12mAED": 420000,
+      "hires12m": 2,
+      "stepStatus": {},
+      "documents": [
+        {
+          "docType": "passport"
+        },
+        {
+          "docType": "proof_of_address"
+        },
+        {
+          "docType": "cv"
+        },
+        {
+          "docType": "source_of_funds"
+        }
+      ],
+      "locale": "en",
+      "activityCode": "general-trading",
+      "drivingLicenceCountry": "India"
+    },
+    "messages": [
+      {
+        "role": "user",
+        "content": "Do I need to register for VAT?"
+      }
+    ]
+  },
+  "answer": {
+    "status": "complete",
+    "answer_md": "**Yes—based on your current profile, mandatory VAT registration applies.** The applicable rule sets the revenue threshold at AED 375,000 and registration within 30 days of crossing it.\n\n- **Estimated deadline: 2026-11-01.** This assumes you cross the threshold today; it is not a confirmed deadline based on your actual crossing date.\n- **Late-registration penalty:** AED 10,000 + retroactive VAT.\n\nVoluntary registration is also available at the AED 187,500 threshold, but your profile already triggers mandatory registration.\n\nWhen did you actually cross the mandatory threshold? That date is needed to confirm your registration deadline.",
+    "evidence": [
+      "VAT-REG",
+      "VAT-VOL"
+    ],
+    "numbers_used": [
+      "375,000",
+      "30",
+      "2026-11-01",
+      "10,000",
+      "187,500"
+    ],
+    "next_actions": [
+      {
+        "label": "Review your deadlines",
+        "href": "/deadlines"
+      }
+    ],
+    "authority_to_verify": null,
+    "language": "en",
+    "activityMatches": [],
+    "bankReview": []
+  },
+  "events": [
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "parentId": null,
+      "ts": "2026-10-02T10:24:58.586Z",
+      "agent": "Manzil",
+      "kind": "run_start",
+      "name": "ask",
+      "data": {
+        "language": "en"
+      }
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "65bcc421-93aa-4806-b908-93dfc7e15c85",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:24:58.591Z",
+      "agent": "Input guardrail",
+      "kind": "guardrail",
+      "data": {
+        "approved": true,
+        "status": "passed"
+      }
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "d64f5594-2d46-4fb6-b1e4-83ce8706046c",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:25:00.023Z",
+      "agent": "Concierge",
+      "kind": "handoff",
+      "name": "Deadline Sentinel",
+      "data": {
+        "from": "Concierge",
+        "to": "Deadline Sentinel"
+      }
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "39810886-9eeb-43f1-8c89-156dcb5d93df",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:25:00.023Z",
+      "agent": "Deadline Sentinel",
+      "kind": "agent_start"
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "f0bc8997-30bc-40f7-9d6c-162bc44c6921",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:25:02.130Z",
+      "agent": "Deadline Sentinel",
+      "kind": "tool_call",
+      "name": "compute_obligations",
+      "data": {}
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "b5d87a58-a73e-4e6a-9a62-d163b8ea3485",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:25:02.137Z",
+      "agent": "Deadline Sentinel",
+      "kind": "tool_result",
+      "name": "compute_obligations",
+      "data": [
+        {
+          "ruleId": "CT-REG",
+          "title": "Corporate Tax registration",
+          "authority": "FTA (EmaraTax)",
+          "dueDate": "2027-01-20",
+          "penaltyAED": 10000,
+          "penaltyDisplay": "AED 10,000 (late registration)",
+          "status": "upcoming",
+          "reason": "Corporate Tax registration. from_date incorporation +3 months. Source: penalty: research brief (FTA Cabinet Decision; second-witnessed). Timing: FTA Decision No. 3 of 2024. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": null,
+          "verifiedOn": "2026-10-02",
+          "confidence": "medium",
+          "verify": true
+        },
+        {
+          "ruleId": "CT-WAIVER",
+          "title": "Late-registration penalty waiver if first CT return filed within 7 months of first tax period end",
+          "authority": "FTA",
+          "dueDate": null,
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with FTA",
+          "status": "info",
+          "reason": "Late-registration penalty waiver if first CT return filed within 7 months of first tax period end. info. Source: FTA Penalty Waiver Initiative (eff. 14-Apr-2025).",
+          "sourceUrl": null,
+          "verifiedOn": "2026-10-02",
+          "confidence": "medium",
+          "verify": true
+        },
+        {
+          "ruleId": "CT-RET",
+          "title": "Corporate Tax return & payment",
+          "authority": "FTA",
+          "dueDate": "2028-07-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with FTA",
+          "status": "upcoming",
+          "reason": "Corporate Tax return & payment. from_date incorporation, offsetMonths 21 (12-month first period + 9). Source: https://tax.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://tax.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "medium",
+          "verify": true
+        },
+        {
+          "ruleId": "VAT-REG",
+          "title": "Mandatory VAT registration",
+          "authority": "FTA",
+          "dueDate": "2026-11-01",
+          "penaltyAED": 10000,
+          "penaltyDisplay": "AED 10,000 + retroactive VAT",
+          "status": "due_soon",
+          "reason": "Mandatory VAT registration. threshold 375,000 → +30 days. Source: research brief. estimate — 30 days from crossing; assumes you cross today",
+          "sourceUrl": null,
+          "verifiedOn": "2026-10-02",
+          "confidence": "high",
+          "verify": false
+        },
+        {
+          "ruleId": "VAT-VOL",
+          "title": "Voluntary VAT registration available",
+          "authority": "FTA",
+          "dueDate": null,
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with FTA",
+          "status": "info",
+          "reason": "Voluntary VAT registration available. info. Source: research brief.",
+          "sourceUrl": null,
+          "verifiedOn": "2026-10-02",
+          "confidence": "high",
+          "verify": false
+        },
+        {
+          "ruleId": "VAT-LATEPAY",
+          "title": "Late VAT payment penalty 1% per month (from 14-Apr-2026, Cabinet Decision 129/2025)",
+          "authority": "FTA",
+          "dueDate": null,
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with FTA",
+          "status": "info",
+          "reason": "Late VAT payment penalty 1% per month (from 14-Apr-2026, Cabinet Decision 129/2025). info. Source: research brief.",
+          "sourceUrl": null,
+          "verifiedOn": "2026-10-02",
+          "confidence": "high",
+          "verify": true
+        },
+        {
+          "ruleId": "EINV-P2",
+          "title": "E-invoicing mandatory for remaining VAT-registered businesses",
+          "authority": "MoF / FTA",
+          "dueDate": "2027-07-01",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MoF / FTA",
+          "status": "upcoming",
+          "reason": "E-invoicing mandatory for remaining VAT-registered businesses. fixed_date 2027-07-01. Source: (as above).",
+          "sourceUrl": "https://taxnews.ey.com/news/2025-0724-uae-ministry-of-finance-releases-accredited-service-provider-accreditation-process-and-criteria",
+          "verifiedOn": "2026-10-02",
+          "confidence": "high",
+          "verify": true
+        },
+        {
+          "ruleId": "VISA-RENEW",
+          "title": "Residence visa & Emirates ID renewal reminder",
+          "authority": "ICP",
+          "dueDate": "2028-09-12",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with ICP",
+          "status": "upcoming",
+          "reason": "Residence visa & Emirates ID renewal reminder. from_date arrival + 24 months − 30 days. Source: https://icp.gov.ae/. Based on arrival date 2026-10-12.",
+          "sourceUrl": "https://icp.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2026-10-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "due_soon",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2026-11-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2026-12-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2027-01-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2027-02-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2027-03-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2027-04-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2027-05-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2027-06-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2027-07-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2027-08-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "WPS",
+          "title": "Monthly payroll via WPS",
+          "authority": "MOHRE / free-zone authority",
+          "dueDate": "2027-09-20",
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MOHRE / free-zone authority",
+          "status": "upcoming",
+          "reason": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/. Based on projected incorporation 2026-10-20 — arrival + C-LIC earliest finish (8 days).",
+          "sourceUrl": "https://www.mohre.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        },
+        {
+          "ruleId": "ESR-INFO",
+          "title": "Economic Substance Regulations: verify current applicability (repealed for later periods)",
+          "authority": "MoF",
+          "dueDate": null,
+          "penaltyAED": null,
+          "penaltyDisplay": "UNKNOWN · verify with MoF",
+          "status": "info",
+          "reason": "Economic Substance Regulations: verify current applicability (repealed for later periods). info. Source: https://mof.gov.ae/.",
+          "sourceUrl": "https://mof.gov.ae/",
+          "verifiedOn": "2026-10-02",
+          "confidence": "low",
+          "verify": true
+        }
+      ],
+      "ms": 6.559256999999889
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "c1956a5f-81f2-41e2-9e8a-04ede90e2b09",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:25:05.042Z",
+      "agent": "Deadline Sentinel",
+      "kind": "tool_call",
+      "name": "get_rules",
+      "data": {
+        "ids": [
+          "VAT-REG",
+          "VAT-VOL"
+        ]
+      }
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "bee507b4-89a5-44d5-a502-fb73f6f0fe95",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:25:05.042Z",
+      "agent": "Deadline Sentinel",
+      "kind": "tool_result",
+      "name": "get_rules",
+      "data": {
+        "rules": [
+          {
+            "id": "VAT-REG",
+            "title": "Mandatory VAT registration",
+            "authority": "FTA",
+            "appliesIf": {
+              "field": "revenueOverVAT",
+              "op": "truthy"
+            },
+            "kind": "threshold",
+            "trigger": {
+              "type": "threshold",
+              "field": "revenue12mAED",
+              "offsetDays": 30,
+              "threshold": 375000
+            },
+            "penaltyAED": 10000,
+            "penaltyNote": "AED 10,000 + retroactive VAT",
+            "currency": "AED",
+            "sourceUrl": null,
+            "verifiedOn": "2026-10-02",
+            "confidence": "high",
+            "verify": false,
+            "summary": "Mandatory VAT registration. threshold 375,000 → +30 days. Source: research brief."
+          },
+          {
+            "id": "VAT-VOL",
+            "title": "Voluntary VAT registration available",
+            "authority": "FTA",
+            "appliesIf": {
+              "field": "revenueOverVATVoluntary",
+              "op": "truthy"
+            },
+            "kind": "info",
+            "trigger": {
+              "type": "none",
+              "field": "revenue12mAED",
+              "threshold": 187500
+            },
+            "penaltyAED": null,
+            "sourceUrl": null,
+            "verifiedOn": "2026-10-02",
+            "confidence": "high",
+            "verify": false,
+            "summary": "Voluntary VAT registration available. info. Source: research brief."
+          }
+        ],
+        "missingIds": []
+      },
+      "ms": 0.39591999999993277
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "ddade0d2-407f-4c06-b0d2-8178ab3a5af1",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:25:11.795Z",
+      "agent": "Verifier",
+      "kind": "verifier",
+      "name": "approve",
+      "data": {
+        "verdict": "approve",
+        "reasons": [],
+        "approved": true,
+        "attempt": 1
+      }
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "95c7e104-c341-4204-aae3-443e21a9d899",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:25:11.795Z",
+      "agent": "Deadline Sentinel",
+      "kind": "message_delta",
+      "data": {
+        "delta": "**Yes—based on your current profile, mandatory VAT registration applies.** The applicable rule sets the revenue threshold at AED 375,000 and registration within 30 days of crossing it.\n\n- **Estimated deadline: 2026-11-01.** This assumes you cross the threshold today; it is not a confirmed deadline based on your actual crossing date.\n- **Late-registration penalty:** AED 10,000 + retroactive VAT.\n\nVoluntary registration is also available at the AED 187,500 threshold, but your profile already triggers mandatory registration.\n\nWhen did you actually cross the mandatory threshold? That date is needed to confirm your registration deadline.",
+        "verified": true
+      }
+    },
+    {
+      "runId": "e3f51240-b769-4977-832c-193b81376011",
+      "spanId": "3cff3b12-8112-45de-9c88-702ccdef8b8a",
+      "parentId": "ab246618-333c-4db2-a20f-5b6742752e30",
+      "ts": "2026-10-02T10:25:11.795Z",
+      "agent": "Manzil",
+      "kind": "final",
+      "data": {
+        "status": "complete",
+        "answer_md": "**Yes—based on your current profile, mandatory VAT registration applies.** The applicable rule sets the revenue threshold at AED 375,000 and registration within 30 days of crossing it.\n\n- **Estimated deadline: 2026-11-01.** This assumes you cross the threshold today; it is not a confirmed deadline based on your actual crossing date.\n- **Late-registration penalty:** AED 10,000 + retroactive VAT.\n\nVoluntary registration is also available at the AED 187,500 threshold, but your profile already triggers mandatory registration.\n\nWhen did you actually cross the mandatory threshold? That date is needed to confirm your registration deadline.",
+        "evidence": [
+          "VAT-REG",
+          "VAT-VOL"
+        ],
+        "numbers_used": [
+          "375,000",
+          "30",
+          "2026-11-01",
+          "10,000",
+          "187,500"
+        ],
+        "next_actions": [
+          {
+            "label": "Review your deadlines",
+            "href": "/deadlines"
+          }
+        ],
+        "authority_to_verify": null,
+        "language": "en",
+        "activityMatches": [],
+        "bankReview": []
+      },
+      "ms": 13209,
+      "costUSD": 0.019719399999999998
+    }
+  ]
+}

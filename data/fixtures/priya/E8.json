@@ -1,0 +1,277 @@
+{
+  "version": 1,
+  "id": "E8",
+  "recordedAt": "2026-10-02T10:25:12.272Z",
+  "source": "real-openai-run",
+  "baseURL": "https://manzil-flame-delta.vercel.app",
+  "request": {
+    "profile": {
+      "id": "priya",
+      "name": "Priya",
+      "nationality": "India",
+      "arrivalDate": "2026-10-12",
+      "inUAE": false,
+      "spouse": true,
+      "childrenAges": [
+        7
+      ],
+      "businessDescription": "B2B SaaS for GCC clinics' appointment scheduling, clients in UAE and KSA, subscription revenue",
+      "revenueModel": "saas",
+      "fundingUSD": 400000,
+      "revenue12mAED": 420000,
+      "hires12m": 2,
+      "stepStatus": {},
+      "documents": [
+        {
+          "docType": "passport"
+        },
+        {
+          "docType": "proof_of_address"
+        },
+        {
+          "docType": "cv"
+        },
+        {
+          "docType": "source_of_funds"
+        }
+      ],
+      "locale": "en",
+      "activityCode": "general-trading",
+      "drivingLicenceCountry": "India"
+    },
+    "messages": [
+      {
+        "role": "user",
+        "content": "Why would a bank reject my account?"
+      }
+    ]
+  },
+  "answer": {
+    "status": "complete",
+    "answer_md": "Your readiness check returned **52 — High risk**. This is not a bank rejection or a prediction of its decision.\n\nThe check flagged these potential obstacles:\n- **Activity mismatch:** your selected general-trading activity does not cover your stated SaaS subscription model. Review software-development with the licensing authority before changing it.\n- **Emirates ID not ready:** many banks require it for signatories; confirm your chosen bank’s requirements.\n- **Lease not ready:** an office or flexi-desk lease helps demonstrate business substance.\n\nPrioritise resolving the activity mismatch, preparing identity and lease evidence, and clearly explaining your subscription revenue. The additional questions below are preparation prompts only; they do not change your score.",
+    "evidence": [
+      "BK-01",
+      "BK-02",
+      "BK-04"
+    ],
+    "numbers_used": [
+      "52"
+    ],
+    "next_actions": [
+      {
+        "label": "Review bank readiness",
+        "href": "/bank"
+      },
+      {
+        "label": "Review setup steps",
+        "href": "/path"
+      }
+    ],
+    "authority_to_verify": "Your licensing authority and chosen bank",
+    "language": "en",
+    "activityMatches": [],
+    "bankReview": [
+      {
+        "title": "Subscription receipts",
+        "question": "Can you provide subscription agreements or invoices explaining expected customer payments?",
+        "evidenceQuote": "subscription revenue"
+      },
+      {
+        "title": "Cross-border payments",
+        "question": "How will customers in each market pay, and what supporting records can you provide?",
+        "evidenceQuote": "clients in UAE and KSA"
+      },
+      {
+        "title": "Healthcare data",
+        "question": "Does your scheduling service handle patient information, and how would you explain its scope and safeguards?",
+        "evidenceQuote": "clinics' appointment scheduling"
+      }
+    ]
+  },
+  "events": [
+    {
+      "runId": "da91ee5d-73b3-41c0-a14a-fe689594bb23",
+      "spanId": "83095aa5-3e80-4da2-b4bc-a5c3ff913001",
+      "parentId": null,
+      "ts": "2026-10-02T10:24:58.569Z",
+      "agent": "Manzil",
+      "kind": "run_start",
+      "name": "ask",
+      "data": {
+        "language": "en"
+      }
+    },
+    {
+      "runId": "da91ee5d-73b3-41c0-a14a-fe689594bb23",
+      "spanId": "a31a6976-ce6d-4abd-8add-b4235272243e",
+      "parentId": "83095aa5-3e80-4da2-b4bc-a5c3ff913001",
+      "ts": "2026-10-02T10:24:58.577Z",
+      "agent": "Input guardrail",
+      "kind": "guardrail",
+      "data": {
+        "approved": true,
+        "status": "passed"
+      }
+    },
+    {
+      "runId": "da91ee5d-73b3-41c0-a14a-fe689594bb23",
+      "spanId": "8edfcfb7-a637-431c-9f27-582e84490347",
+      "parentId": "83095aa5-3e80-4da2-b4bc-a5c3ff913001",
+      "ts": "2026-10-02T10:24:59.924Z",
+      "agent": "Concierge",
+      "kind": "handoff",
+      "name": "Bank Officer",
+      "data": {
+        "from": "Concierge",
+        "to": "Bank Officer"
+      }
+    },
+    {
+      "runId": "da91ee5d-73b3-41c0-a14a-fe689594bb23",
+      "spanId": "be9d8954-b063-4257-9171-8ea8e78334d7",
+      "parentId": "83095aa5-3e80-4da2-b4bc-a5c3ff913001",
+      "ts": "2026-10-02T10:24:59.924Z",
+      "agent": "Bank Officer",
+      "kind": "agent_start"
+    },
+    {
+      "runId": "da91ee5d-73b3-41c0-a14a-fe689594bb23",
+      "spanId": "0536e22f-9062-4032-b572-75f13c0d6666",
+      "parentId": "83095aa5-3e80-4da2-b4bc-a5c3ff913001",
+      "ts": "2026-10-02T10:25:01.577Z",
+      "agent": "Bank Officer",
+      "kind": "tool_call",
+      "name": "run_bankability",
+      "data": {}
+    },
+    {
+      "runId": "da91ee5d-73b3-41c0-a14a-fe689594bb23",
+      "spanId": "8d44f9f6-7aba-4310-8c0d-8ff094639d50",
+      "parentId": "83095aa5-3e80-4da2-b4bc-a5c3ff913001",
+      "ts": "2026-10-02T10:25:01.579Z",
+      "agent": "Bank Officer",
+      "kind": "tool_result",
+      "name": "run_bankability",
+      "data": {
+        "score": 52,
+        "band": "High risk",
+        "findings": [
+          {
+            "checkId": "BK-01",
+            "severity": "high",
+            "title": "Activity and revenue model do not match",
+            "whyBankCares": "The chosen activity does not cover the stated revenue model in the activity catalogue.",
+            "fix": "Review software-development with the licensing authority. Official activity codes vary by authority; verify before applying.",
+            "fixAction": {
+              "field": "activityCode",
+              "value": "software-development",
+              "label": "Use matching activity"
+            },
+            "pointsLost": 30
+          },
+          {
+            "checkId": "BK-02",
+            "severity": "medium",
+            "title": "Emirates ID is not ready",
+            "whyBankCares": "Many banks require Emirates ID for signatories.",
+            "fix": "Complete the founder's residency and Emirates ID steps, then confirm the bank's requirements.",
+            "pointsLost": 10
+          },
+          {
+            "checkId": "BK-04",
+            "severity": "low",
+            "title": "Office or flexi-desk lease is not ready",
+            "whyBankCares": "A completed office or flexi-desk lease helps evidence business substance.",
+            "fix": "Complete the office or flexi-desk lease step and prepare the lease evidence.",
+            "pointsLost": 8
+          }
+        ],
+        "profileFacts": {
+          "businessDescription": "B2B SaaS for GCC clinics' appointment scheduling, clients in UAE and KSA, subscription revenue",
+          "revenueModel": "saas",
+          "activityCode": "general-trading"
+        }
+      },
+      "ms": 2.5563019999999597
+    },
+    {
+      "runId": "da91ee5d-73b3-41c0-a14a-fe689594bb23",
+      "spanId": "a2ecce15-1271-4307-821d-f8b90f28b3bb",
+      "parentId": "83095aa5-3e80-4da2-b4bc-a5c3ff913001",
+      "ts": "2026-10-02T10:25:10.441Z",
+      "agent": "Verifier",
+      "kind": "verifier",
+      "name": "approve",
+      "data": {
+        "verdict": "approve",
+        "reasons": [],
+        "approved": true,
+        "attempt": 1
+      }
+    },
+    {
+      "runId": "da91ee5d-73b3-41c0-a14a-fe689594bb23",
+      "spanId": "4c6fb76c-e34d-43ae-a152-b52bfd8c5be9",
+      "parentId": "83095aa5-3e80-4da2-b4bc-a5c3ff913001",
+      "ts": "2026-10-02T10:25:10.442Z",
+      "agent": "Bank Officer",
+      "kind": "message_delta",
+      "data": {
+        "delta": "Your readiness check returned **52 — High risk**. This is not a bank rejection or a prediction of its decision.\n\nThe check flagged these potential obstacles:\n- **Activity mismatch:** your selected general-trading activity does not cover your stated SaaS subscription model. Review software-development with the licensing authority before changing it.\n- **Emirates ID not ready:** many banks require it for signatories; confirm your chosen bank’s requirements.\n- **Lease not ready:** an office or flexi-desk lease helps demonstrate business substance.\n\nPrioritise resolving the activity mismatch, preparing identity and lease evidence, and clearly explaining your subscription revenue. The additional questions below are preparation prompts only; they do not change your score.",
+        "verified": true
+      }
+    },
+    {
+      "runId": "da91ee5d-73b3-41c0-a14a-fe689594bb23",
+      "spanId": "163232a1-8d0a-4f3f-bcc7-ae64fb69459a",
+      "parentId": "83095aa5-3e80-4da2-b4bc-a5c3ff913001",
+      "ts": "2026-10-02T10:25:10.442Z",
+      "agent": "Manzil",
+      "kind": "final",
+      "data": {
+        "status": "complete",
+        "answer_md": "Your readiness check returned **52 — High risk**. This is not a bank rejection or a prediction of its decision.\n\nThe check flagged these potential obstacles:\n- **Activity mismatch:** your selected general-trading activity does not cover your stated SaaS subscription model. Review software-development with the licensing authority before changing it.\n- **Emirates ID not ready:** many banks require it for signatories; confirm your chosen bank’s requirements.\n- **Lease not ready:** an office or flexi-desk lease helps demonstrate business substance.\n\nPrioritise resolving the activity mismatch, preparing identity and lease evidence, and clearly explaining your subscription revenue. The additional questions below are preparation prompts only; they do not change your score.",
+        "evidence": [
+          "BK-01",
+          "BK-02",
+          "BK-04"
+        ],
+        "numbers_used": [
+          "52"
+        ],
+        "next_actions": [
+          {
+            "label": "Review bank readiness",
+            "href": "/bank"
+          },
+          {
+            "label": "Review setup steps",
+            "href": "/path"
+          }
+        ],
+        "authority_to_verify": "Your licensing authority and chosen bank",
+        "language": "en",
+        "activityMatches": [],
+        "bankReview": [
+          {
+            "title": "Subscription receipts",
+            "question": "Can you provide subscription agreements or invoices explaining expected customer payments?",
+            "evidenceQuote": "subscription revenue"
+          },
+          {
+            "title": "Cross-border payments",
+            "question": "How will customers in each market pay, and what supporting records can you provide?",
+            "evidenceQuote": "clients in UAE and KSA"
+          },
+          {
+            "title": "Healthcare data",
+            "question": "Does your scheduling service handle patient information, and how would you explain its scope and safeguards?",
+            "evidenceQuote": "clinics' appointment scheduling"
+          }
+        ]
+      },
+      "ms": 11873,
+      "costUSD": 0.0080094
+    }
+  ]
+}

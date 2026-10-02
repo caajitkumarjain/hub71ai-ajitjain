@@ -1,0 +1,263 @@
+{
+  "version": 1,
+  "id": "bank-note",
+  "recordedAt": "2026-10-02T10:25:10.936Z",
+  "source": "real-openai-run",
+  "baseURL": "https://manzil-flame-delta.vercel.app",
+  "request": {
+    "profile": {
+      "id": "priya",
+      "name": "Priya",
+      "nationality": "India",
+      "arrivalDate": "2026-10-12",
+      "inUAE": false,
+      "spouse": true,
+      "childrenAges": [
+        7
+      ],
+      "businessDescription": "B2B SaaS for GCC clinics' appointment scheduling, clients in UAE and KSA, subscription revenue",
+      "revenueModel": "saas",
+      "fundingUSD": 400000,
+      "revenue12mAED": 420000,
+      "hires12m": 2,
+      "stepStatus": {},
+      "documents": [
+        {
+          "docType": "passport"
+        },
+        {
+          "docType": "proof_of_address"
+        },
+        {
+          "docType": "cv"
+        },
+        {
+          "docType": "source_of_funds"
+        }
+      ],
+      "locale": "en",
+      "activityCode": "general-trading",
+      "drivingLicenceCountry": "India"
+    },
+    "messages": [
+      {
+        "role": "user",
+        "content": "Write a bank officer note about my bank readiness and the business-description questions a bank will ask."
+      }
+    ],
+    "intent": "bank"
+  },
+  "answer": {
+    "status": "complete",
+    "answer_md": "## Bank officer note\nYour deterministic bank-readiness score is **52**, in the **High risk** band. This is a readiness assessment, not a bank approval decision.\n\nPriority findings:\n- **BK-01 — Activity mismatch:** the selected general-trading activity does not cover the stated SaaS revenue model. Review software-development with the licensing authority; verify the official activity code before applying.\n- **BK-02 — Emirates ID not ready:** complete the founder’s residency and Emirates ID steps, then confirm the bank’s signatory requirements.\n- **BK-04 — Lease not ready:** complete the office or flexi-desk lease step and prepare supporting evidence.\n\nThe business-description questions below are additional onboarding review prompts. They do not change the score or predict a bank’s decision.",
+    "evidence": [
+      "BK-01",
+      "BK-02",
+      "BK-04"
+    ],
+    "numbers_used": [
+      "52",
+      "BK-01",
+      "BK-02",
+      "BK-04"
+    ],
+    "next_actions": [
+      {
+        "label": "Review bank readiness",
+        "href": "/bank"
+      },
+      {
+        "label": "Review setup steps",
+        "href": "/path"
+      }
+    ],
+    "authority_to_verify": "Licensing authority for the official activity code; prospective bank for onboarding requirements",
+    "language": "en",
+    "activityMatches": [],
+    "bankReview": [
+      {
+        "title": "Service and data scope",
+        "question": "What does the software do, and does it handle patient information or only appointment scheduling?",
+        "evidenceQuote": "B2B SaaS for GCC clinics' appointment scheduling"
+      },
+      {
+        "title": "Customers and payment flows",
+        "question": "Who contracts and pays in each market, and how will customer payments reach the company account?",
+        "evidenceQuote": "clients in UAE and KSA"
+      },
+      {
+        "title": "Revenue evidence",
+        "question": "Can you provide subscription contracts, pricing, invoices and the expected billing frequency?",
+        "evidenceQuote": "subscription revenue"
+      }
+    ]
+  },
+  "events": [
+    {
+      "runId": "5529a05d-4786-4b97-96c9-10acf3f1af46",
+      "spanId": "ff8ef630-32b4-4060-a290-b62e6cfea192",
+      "parentId": null,
+      "ts": "2026-10-02T10:24:57.996Z",
+      "agent": "Manzil",
+      "kind": "run_start",
+      "name": "bank",
+      "data": {
+        "language": "en"
+      }
+    },
+    {
+      "runId": "5529a05d-4786-4b97-96c9-10acf3f1af46",
+      "spanId": "b8f52322-6eca-4dbc-8c8d-3b981f8c7625",
+      "parentId": "ff8ef630-32b4-4060-a290-b62e6cfea192",
+      "ts": "2026-10-02T10:24:58.005Z",
+      "agent": "Input guardrail",
+      "kind": "guardrail",
+      "data": {
+        "approved": true,
+        "status": "passed"
+      }
+    },
+    {
+      "runId": "5529a05d-4786-4b97-96c9-10acf3f1af46",
+      "spanId": "b60125a1-9bb1-4388-9c99-e72795fd4889",
+      "parentId": "ff8ef630-32b4-4060-a290-b62e6cfea192",
+      "ts": "2026-10-02T10:25:01.056Z",
+      "agent": "Bank Officer",
+      "kind": "tool_call",
+      "name": "run_bankability",
+      "data": {}
+    },
+    {
+      "runId": "5529a05d-4786-4b97-96c9-10acf3f1af46",
+      "spanId": "8d4ca1ba-9857-4ee4-9873-c04cd348df80",
+      "parentId": "ff8ef630-32b4-4060-a290-b62e6cfea192",
+      "ts": "2026-10-02T10:25:01.059Z",
+      "agent": "Bank Officer",
+      "kind": "tool_result",
+      "name": "run_bankability",
+      "data": {
+        "score": 52,
+        "band": "High risk",
+        "findings": [
+          {
+            "checkId": "BK-01",
+            "severity": "high",
+            "title": "Activity and revenue model do not match",
+            "whyBankCares": "The chosen activity does not cover the stated revenue model in the activity catalogue.",
+            "fix": "Review software-development with the licensing authority. Official activity codes vary by authority; verify before applying.",
+            "fixAction": {
+              "field": "activityCode",
+              "value": "software-development",
+              "label": "Use matching activity"
+            },
+            "pointsLost": 30
+          },
+          {
+            "checkId": "BK-02",
+            "severity": "medium",
+            "title": "Emirates ID is not ready",
+            "whyBankCares": "Many banks require Emirates ID for signatories.",
+            "fix": "Complete the founder's residency and Emirates ID steps, then confirm the bank's requirements.",
+            "pointsLost": 10
+          },
+          {
+            "checkId": "BK-04",
+            "severity": "low",
+            "title": "Office or flexi-desk lease is not ready",
+            "whyBankCares": "A completed office or flexi-desk lease helps evidence business substance.",
+            "fix": "Complete the office or flexi-desk lease step and prepare the lease evidence.",
+            "pointsLost": 8
+          }
+        ],
+        "profileFacts": {
+          "businessDescription": "B2B SaaS for GCC clinics' appointment scheduling, clients in UAE and KSA, subscription revenue",
+          "revenueModel": "saas",
+          "activityCode": "general-trading"
+        }
+      },
+      "ms": 3.071036000037566
+    },
+    {
+      "runId": "5529a05d-4786-4b97-96c9-10acf3f1af46",
+      "spanId": "f4178fe9-f325-4d28-ab33-3b987a5d022d",
+      "parentId": "ff8ef630-32b4-4060-a290-b62e6cfea192",
+      "ts": "2026-10-02T10:25:09.453Z",
+      "agent": "Verifier",
+      "kind": "verifier",
+      "name": "approve",
+      "data": {
+        "verdict": "approve",
+        "reasons": [],
+        "approved": true,
+        "attempt": 1
+      }
+    },
+    {
+      "runId": "5529a05d-4786-4b97-96c9-10acf3f1af46",
+      "spanId": "5a728f55-3942-41c7-8320-aa771b5ac469",
+      "parentId": "ff8ef630-32b4-4060-a290-b62e6cfea192",
+      "ts": "2026-10-02T10:25:09.453Z",
+      "agent": "Bank Officer",
+      "kind": "message_delta",
+      "data": {
+        "delta": "## Bank officer note\nYour deterministic bank-readiness score is **52**, in the **High risk** band. This is a readiness assessment, not a bank approval decision.\n\nPriority findings:\n- **BK-01 — Activity mismatch:** the selected general-trading activity does not cover the stated SaaS revenue model. Review software-development with the licensing authority; verify the official activity code before applying.\n- **BK-02 — Emirates ID not ready:** complete the founder’s residency and Emirates ID steps, then confirm the bank’s signatory requirements.\n- **BK-04 — Lease not ready:** complete the office or flexi-desk lease step and prepare supporting evidence.\n\nThe business-description questions below are additional onboarding review prompts. They do not change the score or predict a bank’s decision.",
+        "verified": true
+      }
+    },
+    {
+      "runId": "5529a05d-4786-4b97-96c9-10acf3f1af46",
+      "spanId": "420fdf76-4351-43ff-bfb2-461d9a4d6f2a",
+      "parentId": "ff8ef630-32b4-4060-a290-b62e6cfea192",
+      "ts": "2026-10-02T10:25:09.454Z",
+      "agent": "Manzil",
+      "kind": "final",
+      "data": {
+        "status": "complete",
+        "answer_md": "## Bank officer note\nYour deterministic bank-readiness score is **52**, in the **High risk** band. This is a readiness assessment, not a bank approval decision.\n\nPriority findings:\n- **BK-01 — Activity mismatch:** the selected general-trading activity does not cover the stated SaaS revenue model. Review software-development with the licensing authority; verify the official activity code before applying.\n- **BK-02 — Emirates ID not ready:** complete the founder’s residency and Emirates ID steps, then confirm the bank’s signatory requirements.\n- **BK-04 — Lease not ready:** complete the office or flexi-desk lease step and prepare supporting evidence.\n\nThe business-description questions below are additional onboarding review prompts. They do not change the score or predict a bank’s decision.",
+        "evidence": [
+          "BK-01",
+          "BK-02",
+          "BK-04"
+        ],
+        "numbers_used": [
+          "52",
+          "BK-01",
+          "BK-02",
+          "BK-04"
+        ],
+        "next_actions": [
+          {
+            "label": "Review bank readiness",
+            "href": "/bank"
+          },
+          {
+            "label": "Review setup steps",
+            "href": "/path"
+          }
+        ],
+        "authority_to_verify": "Licensing authority for the official activity code; prospective bank for onboarding requirements",
+        "language": "en",
+        "activityMatches": [],
+        "bankReview": [
+          {
+            "title": "Service and data scope",
+            "question": "What does the software do, and does it handle patient information or only appointment scheduling?",
+            "evidenceQuote": "B2B SaaS for GCC clinics' appointment scheduling"
+          },
+          {
+            "title": "Customers and payment flows",
+            "question": "Who contracts and pays in each market, and how will customer payments reach the company account?",
+            "evidenceQuote": "clients in UAE and KSA"
+          },
+          {
+            "title": "Revenue evidence",
+            "question": "Can you provide subscription contracts, pricing, invoices and the expected billing frequency?",
+            "evidenceQuote": "subscription revenue"
+          }
+        ]
+      },
+      "ms": 11458,
+      "costUSD": 0.008292
+    }
+  ]
+}

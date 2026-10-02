@@ -9,6 +9,7 @@ import { checkInput } from "./guardrails";
 import { verifyAgentResult } from "./verifier";
 import { budgetedProvider, BudgetReachedError, RunBudget } from "./budget";
 import { openaiApiKey, runLimits } from "./config";
+import { findPriyaFixture } from "@/lib/fixtures";
 
 const systemAnswers = {
   en: {
@@ -50,7 +51,7 @@ export async function runAgent(input: AgentRequest, onEvent: (event: TraceEvent)
   const limits = runLimits();
   const budget = new RunBudget(limits.maxCalls, limits.budgetUSD);
   const context: ManzilRunContext = { profile: request.profile, locale, runId, toolResults: [], emit };
-  emit({ agent: "Manzil", kind: "run_start", name: request.intent ?? "ask", data: { language: locale } });
+  emit({ agent: "Manzil", kind: "run_start", name: request.intent ?? "ask", data: { language: locale, question: request.messages.at(-1)!.content.slice(0, 600) } });
 
   const finish = (answer: AgentAnswer) => {
     const result = AgentAnswer.parse(answer);
@@ -142,7 +143,17 @@ export async function runAgent(input: AgentRequest, onEvent: (event: TraceEvent)
     const reached = error instanceof BudgetReachedError || budget.calls >= limits.maxCalls || budget.costUSD >= limits.budgetUSD;
     emit({ agent: "Manzil", kind: "error", name: reached ? "BUDGET_REACHED" : signal.aborted || error instanceof ModelTimeoutError ? "RUN_TIMEOUT" : "RUN_FAILED",
       data: { message: reached ? "budget reached" : "The live run could not produce a verified answer." } });
-    // No fabricated or mismatched fixture is substituted. Recorded fixture support belongs to Phase 4.
+    const fixture = findPriyaFixture(request, locale);
+    if (fixture) {
+      emit({ agent: "Manzil", kind: "fallback", name: fixture.id, data: { fallback: true, cached: true, recordedAt: fixture.recordedAt, sourceRunId: fixture.events[0].runId } });
+      for (const event of fixture.events) {
+        if (["agent_start", "handoff", "tool_call", "tool_result"].includes(event.kind)) {
+          emit({ agent: event.agent, kind: event.kind, name: event.name, data: event.data });
+        }
+      }
+      emit({ agent: "Verifier", kind: "verifier", name: "approve", data: { verdict: "approve", approved: true, reasons: [], cached: true, recordedAt: fixture.recordedAt } });
+      return finish(fixture.answer);
+    }
     return finish(abstain(locale, reached ? "budget" : "unavailable"));
   } finally {
     clearTimeout(timer);
