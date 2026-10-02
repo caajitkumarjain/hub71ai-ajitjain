@@ -1,0 +1,23 @@
+.diagram { display: block; width: 100%; height: auto; max-height: 410px; overflow: visible; isolation: isolate; }
+.compact { max-height: none; }
+.authority { fill: var(--ink-muted); font-family: var(--font-inter), sans-serif; font-size: 12px; font-weight: 500; }
+.founder { fill: var(--ink); font-family: var(--font-inter), sans-serif; font-size: 12px; font-weight: 500; }
+.tangle { fill: none; stroke: var(--ink-muted); stroke-opacity: .24; stroke-width: 1.2; stroke-dasharray: 5 7; animation: dashDrift 7s linear infinite; }
+.wobble { transform-origin: center; transform-box: fill-box; animation: wobble 5s ease-in-out infinite alternate; }
+.connection { fill: none; stroke: var(--primary); stroke-opacity: .5; stroke-width: 1.4; filter: drop-shadow(0 0 4px var(--primary)); }
+.productTitle { fill: var(--ink); font-family: var(--font-inter), sans-serif; font-size: 14px; font-weight: 600; letter-spacing: -.15px; }
+.productCopy { fill: var(--ink-muted); font-family: var(--font-inter), sans-serif; font-size: 11px; }
+.compact .productTitle { font-size: 11.5px; }
+.compact .productCopy { font-size: 11px; }
+.manzil { fill: var(--ink); font-family: var(--font-inter), sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 4px; }
+.hubCaption { fill: var(--ink-muted); font-family: var(--font-inter), sans-serif; font-size: 10px; }
+.orbit { animation: orbit 80s linear infinite; transform-box: view-box; }
+.counterOrbit { animation: counterOrbit 80s linear infinite; transform-origin: center; transform-box: fill-box; }
+.face { filter: drop-shadow(0 3px 6px var(--bg)); }
+.diagram[data-reduced="true"] * { animation: none !important; }
+.diagram[data-phase="problem"] .orbit, .diagram[data-phase="problem"] .counterOrbit { animation-play-state: paused; }
+@keyframes dashDrift { to { stroke-dashoffset: -48; } }
+@keyframes wobble { from { transform: translateY(-2px) rotate(-1deg); } to { transform: translateY(2px) rotate(1deg); } }
+@keyframes orbit { to { transform: rotate(360deg); } }
+@keyframes counterOrbit { to { transform: rotate(-360deg); } }
+@media (prefers-reduced-motion: reduce) { .diagram * { animation: none !important; } }
