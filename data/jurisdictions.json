@@ -1,0 +1,133 @@
+[
+  {
+    "id": "adgm",
+    "name": "ADGM",
+    "licenceAEDPerYear": 5509,
+    "officeAEDPerYear": null,
+    "setupOneOffAED": null,
+    "visaAEDPerPerson": null,
+    "sourceUrl": "https://ancova-associates.com/",
+    "verifiedOn": "2026-10-02",
+    "confidence": "medium",
+    "verify": true,
+    "notes": "standard licences USD 4–12k+; Al Maryah office ~AED 55k/yr may apply to standard licences: show as a note, not in the total",
+    "fitRules": [
+      {
+        "condition": {
+          "field": "revenueModel",
+          "op": "in",
+          "value": [
+            "saas",
+            "services"
+          ]
+        },
+        "message": "✓ common-law, investor-recognised; tech-startup licence"
+      }
+    ]
+  },
+  {
+    "id": "mainland",
+    "name": "Mainland (ADDED via TAMM)",
+    "licenceAEDPerYear": 790,
+    "officeAEDPerYear": null,
+    "setupOneOffAED": null,
+    "visaAEDPerPerson": null,
+    "sourceUrl": "https://www.commenda.io/",
+    "verifiedOn": "2026-10-02",
+    "confidence": "medium",
+    "verify": true,
+    "notes": "typical LLC with 2 visas AED 55–80k year one: show as a note",
+    "fitRules": []
+  },
+  {
+    "id": "hub71",
+    "name": "Hub71 (ADGM-based)",
+    "licenceAEDPerYear": null,
+    "officeAEDPerYear": null,
+    "setupOneOffAED": null,
+    "visaAEDPerPerson": null,
+    "sourceUrl": "https://www.hub71.com/",
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": false,
+    "notes": "incentives: AED 250k in-kind + AED 250k cash SAFE + AED 250k top-up (Hub71+ AI), selected cohorts only",
+    "fitRules": [
+      {
+        "condition": {
+          "field": "fundingUSD",
+          "op": "gte",
+          "value": 0
+        },
+        "message": "⚠ selective programme: incentives not guaranteed"
+      }
+    ]
+  },
+  {
+    "id": "masdar",
+    "name": "Masdar City Free Zone",
+    "licenceAEDPerYear": null,
+    "officeAEDPerYear": null,
+    "setupOneOffAED": null,
+    "visaAEDPerPerson": null,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "low",
+    "verify": true,
+    "notes": "",
+    "fitRules": [
+      {
+        "condition": {
+          "all": []
+        },
+        "message": "✓ sustainability/tech focus"
+      }
+    ]
+  },
+  {
+    "id": "kezad",
+    "name": "KEZAD",
+    "licenceAEDPerYear": null,
+    "officeAEDPerYear": null,
+    "setupOneOffAED": null,
+    "visaAEDPerPerson": null,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "low",
+    "verify": true,
+    "notes": "",
+    "fitRules": [
+      {
+        "condition": {
+          "field": "revenueModel",
+          "op": "in",
+          "value": [
+            "manufacturing",
+            "trading"
+          ]
+        },
+        "message": "✓ industrial/logistics focus"
+      }
+    ]
+  },
+  {
+    "id": "twofour54",
+    "name": "twofour54",
+    "licenceAEDPerYear": null,
+    "officeAEDPerYear": null,
+    "setupOneOffAED": null,
+    "visaAEDPerPerson": null,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "low",
+    "verify": true,
+    "notes": "",
+    "fitRules": [
+      {
+        "condition": {
+          "all": []
+        },
+        "message": "✓ media/gaming focus"
+      }
+    ]
+  }
+]

@@ -1,0 +1,829 @@
+[
+  {
+    "id": "A-ENTRY",
+    "title": "Enter the UAE (visit visa / visa on arrival per nationality)",
+    "lane": "arrive",
+    "authority": "ICP",
+    "description": "entry rules vary by nationality → link ICP",
+    "dependsOn": [],
+    "durationDays": {
+      "min": 1,
+      "likely": 1,
+      "max": 14
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://icp.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "A-STAY",
+    "title": "Temporary accommodation (first 30–60 days)",
+    "lane": "arrive",
+    "authority": "Accommodation provider",
+    "description": "Temporary accommodation (first 30–60 days)",
+    "dependsOn": [
+      "A-ENTRY"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 1,
+      "max": 3
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "A-SIM",
+    "title": "Local mobile number",
+    "lane": "arrive",
+    "authority": "Mobile service provider",
+    "description": "needed for UAE PASS/OTP",
+    "dependsOn": [
+      "A-ENTRY"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 1,
+      "max": 1
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "C-JURIS",
+    "title": "Choose jurisdiction (Manzil Jurisdiction Twin)",
+    "lane": "company",
+    "authority": "ADDED / free-zone authority",
+    "description": "canStartBeforeArrival",
+    "dependsOn": [],
+    "durationDays": {
+      "min": 1,
+      "likely": 2,
+      "max": 7
+    },
+    "costAED": {
+      "min": 0,
+      "max": 0
+    },
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true,
+    "canStartBeforeArrival": true
+  },
+  {
+    "id": "C-ACT",
+    "title": "Choose licensed business activity (Bankability pre-check)",
+    "lane": "company",
+    "authority": "ADDED / free-zone authority",
+    "description": "canStartBeforeArrival; links BK-01",
+    "dependsOn": [
+      "C-JURIS"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 1,
+      "max": 3
+    },
+    "costAED": {
+      "min": 0,
+      "max": 0
+    },
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true,
+    "canStartBeforeArrival": true
+  },
+  {
+    "id": "C-NAME",
+    "title": "Trade name reservation & initial approval",
+    "lane": "company",
+    "authority": "ADDED / free-zone authority",
+    "description": "Trade name reservation & initial approval",
+    "dependsOn": [
+      "C-ACT"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 2,
+      "max": 5
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true,
+    "canStartBeforeArrival": true
+  },
+  {
+    "id": "C-OFFICE",
+    "title": "Office / flexi-desk lease (substance)",
+    "lane": "company",
+    "authority": "ADDED / free-zone authority",
+    "description": "mainland commercial lease registered via Tawtheeq",
+    "dependsOn": [
+      "C-NAME"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 3,
+      "max": 10
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "C-CONST",
+    "title": "Constitutional documents (AoA/MoA) & UBO register",
+    "lane": "company",
+    "authority": "ADDED / registrar",
+    "description": "rule UBO-MAINT",
+    "dependsOn": [
+      "C-NAME"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 3,
+      "max": 7
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [
+      "UBO-MAINT"
+    ],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "C-LIC",
+    "title": "Commercial licence issued",
+    "lane": "company",
+    "authority": "ADDED / free-zone authority",
+    "description": "ADGM SPV 5–10 days, general 2–6 weeks (ancova-associates.com, consultancy, medium)",
+    "dependsOn": [
+      "C-OFFICE",
+      "C-CONST"
+    ],
+    "durationDays": {
+      "min": 3,
+      "likely": 5,
+      "max": 15
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "medium",
+    "verify": true,
+    "sourceUrl": "https://ancova-associates.com/",
+    "verifiedOn": "2026-10-02"
+  },
+  {
+    "id": "C-EST",
+    "title": "Establishment card / immigration file",
+    "lane": "company",
+    "authority": "ICP / free-zone authority",
+    "description": "required to sponsor visas",
+    "dependsOn": [
+      "C-LIC"
+    ],
+    "durationDays": {
+      "min": 2,
+      "likely": 3,
+      "max": 7
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://icp.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "C-CT",
+    "title": "Corporate Tax registration (EmaraTax)",
+    "lane": "company",
+    "authority": "FTA (EmaraTax)",
+    "description": "rule CT-REG",
+    "dependsOn": [
+      "C-LIC"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 2,
+      "max": 5
+    },
+    "costAED": {
+      "min": 0,
+      "max": 0
+    },
+    "documents": [],
+    "officialUrl": "https://eservices.tax.gov.ae/",
+    "ruleIds": [
+      "CT-REG"
+    ],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "C-BANK",
+    "title": "Corporate bank account",
+    "lane": "company",
+    "authority": "Chosen bank",
+    "description": "digital banks 1–5 days; traditional longer (consultancy, low)",
+    "dependsOn": [
+      "C-LIC",
+      "R-EID",
+      "C-OFFICE"
+    ],
+    "durationDays": {
+      "min": 3,
+      "likely": 14,
+      "max": 30
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "C-HUB71",
+    "title": "Apply to Hub71 / Hub71+ AI (if eligible)",
+    "lane": "company",
+    "authority": "Hub71",
+    "description": "hub71.com/program/hub71-plus-ai (high)",
+    "dependsOn": [
+      "C-JURIS"
+    ],
+    "durationDays": {
+      "min": 7,
+      "likely": 14,
+      "max": 45
+    },
+    "costAED": {
+      "min": 0,
+      "max": 0
+    },
+    "documents": [],
+    "officialUrl": "https://www.hub71.com/program/hub71-plus-ai",
+    "ruleIds": [],
+    "confidence": "high",
+    "verify": false,
+    "appliesIf": {
+      "field": "isADGM",
+      "op": "truthy"
+    },
+    "sourceUrl": "https://www.hub71.com/program/hub71-plus-ai",
+    "verifiedOn": "2026-10-02"
+  },
+  {
+    "id": "R-INS",
+    "title": "DoH-compliant health insurance (founder)",
+    "lane": "residency",
+    "authority": "DoH",
+    "description": "required before visa; min AED 150,000 annual benefit (hayah.com, medium)",
+    "dependsOn": [
+      "A-ENTRY"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 1,
+      "max": 3
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.doh.gov.ae/",
+    "ruleIds": [],
+    "confidence": "medium",
+    "verify": true,
+    "sourceUrl": "https://hayah.com/",
+    "verifiedOn": "2026-10-02"
+  },
+  {
+    "id": "R-PERMIT",
+    "title": "Investor/partner residence entry permit or status change",
+    "lane": "residency",
+    "authority": "ICP",
+    "description": "Investor/partner residence entry permit or status change",
+    "dependsOn": [
+      "C-EST",
+      "R-INS"
+    ],
+    "durationDays": {
+      "min": 2,
+      "likely": 4,
+      "max": 10
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://icp.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "R-MED",
+    "title": "Medical fitness test",
+    "lane": "residency",
+    "authority": "DoH",
+    "description": "Medical fitness test",
+    "dependsOn": [
+      "R-PERMIT"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 2,
+      "max": 4
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.doh.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "R-BIO",
+    "title": "Emirates ID biometrics",
+    "lane": "residency",
+    "authority": "ICP",
+    "description": "Emirates ID biometrics",
+    "dependsOn": [
+      "R-PERMIT"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 2,
+      "max": 5
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://icp.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "R-VISA",
+    "title": "Residence visa issued",
+    "lane": "residency",
+    "authority": "ICP",
+    "description": "Residence visa issued",
+    "dependsOn": [
+      "R-MED",
+      "R-BIO"
+    ],
+    "durationDays": {
+      "min": 2,
+      "likely": 4,
+      "max": 10
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://icp.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "R-EID",
+    "title": "Emirates ID card + UAE PASS full verification",
+    "lane": "residency",
+    "authority": "ICP",
+    "description": "Emirates ID card + UAE PASS full verification",
+    "dependsOn": [
+      "R-VISA"
+    ],
+    "durationDays": {
+      "min": 3,
+      "likely": 5,
+      "max": 10
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://icp.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "R-DL",
+    "title": "Convert home driving licence",
+    "lane": "residency",
+    "authority": "Abu Dhabi Mobility / TAMM",
+    "description": "eligible-country exchange; residence visa required (gulfnews.com, medium)",
+    "dependsOn": [
+      "R-EID"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 2,
+      "max": 5
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "medium",
+    "verify": true,
+    "appliesIf": {
+      "field": "canConvertLicence",
+      "op": "truthy"
+    },
+    "sourceUrl": "https://gulfnews.com/",
+    "verifiedOn": "2026-10-02"
+  },
+  {
+    "id": "H-PBANK",
+    "title": "Personal bank account",
+    "lane": "home",
+    "authority": "Chosen bank",
+    "description": "Personal bank account",
+    "dependsOn": [
+      "R-EID"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 5,
+      "max": 14
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "H-LEASE",
+    "title": "Sign long-term home lease",
+    "lane": "home",
+    "authority": "Landlord / ADREC",
+    "description": "Sign long-term home lease",
+    "dependsOn": [
+      "R-EID",
+      "H-PBANK"
+    ],
+    "durationDays": {
+      "min": 3,
+      "likely": 7,
+      "max": 21
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "H-TAWTH",
+    "title": "Tawtheeq tenancy registration (landlord registers)",
+    "lane": "home",
+    "authority": "ADREC / TAMM",
+    "description": "AED 50 per contract; ADREC via TAMM/DARI (bayut.com, modon.com, medium)",
+    "dependsOn": [
+      "H-LEASE"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 1,
+      "max": 2
+    },
+    "costAED": {
+      "min": 50,
+      "max": 50
+    },
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "medium",
+    "verify": true,
+    "sourceUrl": "https://www.bayut.com/",
+    "verifiedOn": "2026-10-02"
+  },
+  {
+    "id": "H-UTIL",
+    "title": "Water & electricity connection (ADDC / AADC)",
+    "lane": "home",
+    "authority": "ADDC / AADC",
+    "description": "Tawtheeq required first (modon.com, medium)",
+    "dependsOn": [
+      "H-TAWTH"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 2,
+      "max": 5
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "medium",
+    "verify": true,
+    "sourceUrl": "https://www.modon.com/",
+    "verifiedOn": "2026-10-02"
+  },
+  {
+    "id": "H-NET",
+    "title": "Home internet (e& / du)",
+    "lane": "home",
+    "authority": "e& / du",
+    "description": "Home internet (e& / du)",
+    "dependsOn": [
+      "R-EID",
+      "H-LEASE"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 3,
+      "max": 7
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "F-ATTEST",
+    "title": "Attest marriage & birth certificates (home country + UAE MOFA)",
+    "lane": "family",
+    "authority": "Home-country authority / UAE MOFA",
+    "description": "canStartBeforeArrival:true: the classic missed parallel",
+    "dependsOn": [],
+    "durationDays": {
+      "min": 10,
+      "likely": 21,
+      "max": 45
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.mofa.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true,
+    "appliesIf": {
+      "field": "hasFamily",
+      "op": "truthy"
+    },
+    "canStartBeforeArrival": true
+  },
+  {
+    "id": "F-INS",
+    "title": "Dependent health insurance",
+    "lane": "family",
+    "authority": "DoH",
+    "description": "Dependent health insurance",
+    "dependsOn": [
+      "R-VISA"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 2,
+      "max": 5
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.doh.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true,
+    "appliesIf": {
+      "field": "hasFamily",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "F-VISA",
+    "title": "Family residence visas (sponsor: founder)",
+    "lane": "family",
+    "authority": "ICP",
+    "description": "tenancy contract typically required",
+    "dependsOn": [
+      "R-VISA",
+      "H-TAWTH",
+      "F-ATTEST",
+      "F-INS"
+    ],
+    "durationDays": {
+      "min": 5,
+      "likely": 10,
+      "max": 21
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://icp.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true,
+    "appliesIf": {
+      "field": "hasFamily",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "F-EID",
+    "title": "Dependents' medical (adults) & Emirates IDs",
+    "lane": "family",
+    "authority": "ICP",
+    "description": "Dependents' medical (adults) & Emirates IDs",
+    "dependsOn": [
+      "F-VISA"
+    ],
+    "durationDays": {
+      "min": 3,
+      "likely": 5,
+      "max": 10
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://icp.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true,
+    "appliesIf": {
+      "field": "hasFamily",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "F-SCHOOL",
+    "title": "School application (ADEK-licensed school)",
+    "lane": "family",
+    "authority": "ADEK-licensed school",
+    "description": "Start the school application before arrival. Final enrolment typically needs the child's Emirates ID.",
+    "dependsOn": [
+      "F-ATTEST"
+    ],
+    "durationDays": {
+      "min": 7,
+      "likely": 30,
+      "max": 90
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.adek.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true,
+    "appliesIf": {
+      "field": "hasChildren",
+      "op": "truthy"
+    },
+    "canStartBeforeArrival": true
+  },
+  {
+    "id": "O-BOOKS",
+    "title": "Bookkeeping & accounting system",
+    "lane": "operate",
+    "authority": "Founder / accountant",
+    "description": "Bookkeeping & accounting system",
+    "dependsOn": [
+      "C-BANK"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 3,
+      "max": 7
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.tamm.abudhabi/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "O-VATWATCH",
+    "title": "VAT threshold watch (register within 30 days of crossing AED 375k)",
+    "lane": "operate",
+    "authority": "FTA",
+    "description": "rule VAT-REG",
+    "dependsOn": [
+      "C-LIC"
+    ],
+    "durationDays": {
+      "min": 0,
+      "likely": 0,
+      "max": 0
+    },
+    "costAED": {
+      "min": 0,
+      "max": 0
+    },
+    "documents": [],
+    "officialUrl": "https://tax.gov.ae/",
+    "ruleIds": [
+      "VAT-REG"
+    ],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "O-HIRE",
+    "title": "Employee visas & payroll (MOHRE / free-zone authority, WPS)",
+    "lane": "operate",
+    "authority": "MOHRE / free-zone authority",
+    "description": "WPS penalty UNKNOWN",
+    "dependsOn": [
+      "C-EST",
+      "C-BANK"
+    ],
+    "durationDays": {
+      "min": 7,
+      "likely": 14,
+      "max": 30
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://www.mohre.gov.ae/",
+    "ruleIds": [],
+    "confidence": "low",
+    "verify": true,
+    "appliesIf": {
+      "field": "hasHires",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "O-EINV",
+    "title": "E-invoicing readiness (choose an Accredited Service Provider)",
+    "lane": "operate",
+    "authority": "MoF / FTA",
+    "description": "rules EINV-P1-ASP / EINV-P2",
+    "dependsOn": [
+      "C-CT"
+    ],
+    "durationDays": {
+      "min": 7,
+      "likely": 14,
+      "max": 30
+    },
+    "costAED": null,
+    "documents": [],
+    "officialUrl": "https://mof.gov.ae/",
+    "ruleIds": [
+      "EINV-P1-ASP",
+      "EINV-P2"
+    ],
+    "confidence": "low",
+    "verify": true
+  },
+  {
+    "id": "O-ADGMCAL",
+    "title": "ADGM annual filing calendar set-up",
+    "lane": "operate",
+    "authority": "ADGM Registration Authority",
+    "description": "rules ADGM-CS, ADGM-ACC, ADGM-RENEW",
+    "dependsOn": [
+      "C-LIC"
+    ],
+    "durationDays": {
+      "min": 1,
+      "likely": 1,
+      "max": 1
+    },
+    "costAED": {
+      "min": 0,
+      "max": 0
+    },
+    "documents": [],
+    "officialUrl": "https://www.adgm.com/",
+    "ruleIds": [
+      "ADGM-CS",
+      "ADGM-ACC",
+      "ADGM-RENEW"
+    ],
+    "confidence": "low",
+    "verify": true,
+    "appliesIf": {
+      "field": "isADGM",
+      "op": "truthy"
+    }
+  }
+]

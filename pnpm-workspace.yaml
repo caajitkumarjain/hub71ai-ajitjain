@@ -1,0 +1,7 @@
+minimumReleaseAgeExclude:
+  - '@types/node@26.6.4'
+  - framer-motion@13.5.0
+  - motion-dom@13.5.0
+  - motion-utils@13.5.0
+  - motion@13.5.0
+  - openai@7.27.0

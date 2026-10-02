@@ -1,0 +1,4 @@
+.env*
+.git/
+.verification/
+STRATEGY-AND-RESEARCH.md

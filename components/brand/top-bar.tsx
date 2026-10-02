@@ -1,0 +1,30 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { MessageSquare } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Logo } from "./logo";
+import { ThemeToggle } from "./theme-toggle";
+import { cn } from "@/lib/utils";
+
+const navigation = [{ href: "/path", label: "Your path" }, { href: "/bank", label: "Bank check" }, { href: "/deadlines", label: "Deadlines" }];
+
+export function TopBar() {
+  const pathname = usePathname();
+  return (
+    <header className="border-b border-line bg-bg">
+      <div className="mx-auto grid max-w-[1152px] grid-cols-[1fr_auto] items-center gap-x-3 px-4 pt-4 md:flex md:min-h-22 md:gap-10 md:py-4">
+        <Logo />
+        <nav aria-label="Main navigation" className="order-3 col-span-2 flex gap-7 pt-2 md:order-none md:ml-auto md:gap-8 md:pt-0">
+          {navigation.map(({ href, label }) => <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined}
+            className={cn("relative flex min-h-12 items-center whitespace-nowrap text-[13px] transition-colors hover:text-ink", pathname === href ? "text-ink after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-gold md:after:-bottom-4" : "text-ink-muted")}>{label}</Link>)}
+        </nav>
+        <div className="flex items-center gap-1 md:gap-3">
+          <ThemeToggle />
+          <Button variant="outline" size="sm" disabled aria-label="Ask Manzil — coming soon" title="Coming soon"><MessageSquare aria-hidden="true" className="hidden sm:block" />Ask Manzil</Button>
+        </div>
+      </div>
+    </header>
+  );
+}

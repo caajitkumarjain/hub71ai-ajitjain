@@ -1,0 +1,399 @@
+[
+  {
+    "id": "CT-REG",
+    "title": "Corporate Tax registration",
+    "authority": "FTA (EmaraTax)",
+    "kind": "deadline",
+    "trigger": {
+      "type": "from_date",
+      "field": "incorporationDate",
+      "offsetMonths": 3
+    },
+    "penaltyAED": 10000,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "medium",
+    "verify": true,
+    "summary": "Corporate Tax registration. from_date incorporation +3 months. Source: penalty: research brief (FTA Cabinet Decision; second-witnessed). Timing: FTA Decision No. 3 of 2024.",
+    "penaltyNote": "AED 10,000 (late registration)",
+    "currency": "AED"
+  },
+  {
+    "id": "CT-WAIVER",
+    "title": "Late-registration penalty waiver if first CT return filed within 7 months of first tax period end",
+    "authority": "FTA",
+    "kind": "info",
+    "trigger": {
+      "type": "none"
+    },
+    "penaltyAED": null,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "medium",
+    "verify": true,
+    "summary": "Late-registration penalty waiver if first CT return filed within 7 months of first tax period end. info. Source: FTA Penalty Waiver Initiative (eff. 14-Apr-2025)."
+  },
+  {
+    "id": "CT-RET",
+    "title": "Corporate Tax return & payment",
+    "authority": "FTA",
+    "kind": "deadline",
+    "trigger": {
+      "type": "from_date",
+      "field": "incorporationDate",
+      "offsetMonths": 21
+    },
+    "penaltyAED": null,
+    "sourceUrl": "https://tax.gov.ae/",
+    "verifiedOn": "2026-10-02",
+    "confidence": "medium",
+    "verify": true,
+    "summary": "Corporate Tax return & payment. from_date incorporation, offsetMonths 21 (12-month first period + 9). Source: https://tax.gov.ae/.",
+    "penaltyNote": "UNKNOWN (show \"verify with FTA\")"
+  },
+  {
+    "id": "VAT-REG",
+    "title": "Mandatory VAT registration",
+    "authority": "FTA",
+    "kind": "threshold",
+    "trigger": {
+      "type": "threshold",
+      "field": "revenue12mAED",
+      "threshold": 375000,
+      "offsetDays": 30
+    },
+    "penaltyAED": 10000,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": false,
+    "summary": "Mandatory VAT registration. threshold 375,000 → +30 days. Source: research brief.",
+    "penaltyNote": "AED 10,000 + retroactive VAT",
+    "currency": "AED",
+    "appliesIf": {
+      "field": "revenueOverVAT",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "VAT-VOL",
+    "title": "Voluntary VAT registration available",
+    "authority": "FTA",
+    "kind": "info",
+    "trigger": {
+      "type": "none"
+    },
+    "penaltyAED": null,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": false,
+    "summary": "Voluntary VAT registration available. info. Source: research brief.",
+    "appliesIf": {
+      "field": "revenueOverVATVoluntary",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "VAT-LATEPAY",
+    "title": "Late VAT payment penalty 1% per month (from 14-Apr-2026, Cabinet Decision 129/2025)",
+    "authority": "FTA",
+    "kind": "info",
+    "trigger": {
+      "type": "none"
+    },
+    "penaltyAED": null,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": true,
+    "summary": "Late VAT payment penalty 1% per month (from 14-Apr-2026, Cabinet Decision 129/2025). info. Source: research brief.",
+    "appliesIf": {
+      "field": "revenueOverVAT",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "EINV-P1-ASP",
+    "title": "E-invoicing Phase 1: appoint Accredited Service Provider",
+    "authority": "MoF / FTA",
+    "kind": "deadline",
+    "trigger": {
+      "type": "fixed_date",
+      "date": "2026-10-30"
+    },
+    "penaltyAED": null,
+    "sourceUrl": "https://www.khaleejtimes.com/business/uae-extends-e-invoicing-service-provider-deadline-to-october-2026",
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": false,
+    "summary": "E-invoicing Phase 1: appoint Accredited Service Provider. fixed_date 2026-10-30. Source: https://www.khaleejtimes.com/business/uae-extends-e-invoicing-service-provider-deadline-to-october-2026.",
+    "penaltyNote": "UNKNOWN",
+    "appliesIf": {
+      "field": "einvPhase1",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "EINV-P1-LIVE",
+    "title": "E-invoicing Phase 1 mandatory go-live (revenue ≥ AED 50M)",
+    "authority": "MoF / FTA",
+    "kind": "deadline",
+    "trigger": {
+      "type": "fixed_date",
+      "date": "2027-01-01"
+    },
+    "penaltyAED": null,
+    "sourceUrl": "https://taxnews.ey.com/news/2025-0724-uae-ministry-of-finance-releases-accredited-service-provider-accreditation-process-and-criteria",
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": false,
+    "summary": "E-invoicing Phase 1 mandatory go-live (revenue ≥ AED 50M). fixed_date 2027-01-01. Source: https://taxnews.ey.com/news/2025-0724-uae-ministry-of-finance-releases-accredited-service-provider-accreditation-process-and-criteria.",
+    "penaltyNote": "UNKNOWN",
+    "appliesIf": {
+      "field": "einvPhase1",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "EINV-P2",
+    "title": "E-invoicing mandatory for remaining VAT-registered businesses",
+    "authority": "MoF / FTA",
+    "kind": "deadline",
+    "trigger": {
+      "type": "fixed_date",
+      "date": "2027-07-01"
+    },
+    "penaltyAED": null,
+    "sourceUrl": "https://taxnews.ey.com/news/2025-0724-uae-ministry-of-finance-releases-accredited-service-provider-accreditation-process-and-criteria",
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": true,
+    "summary": "E-invoicing mandatory for remaining VAT-registered businesses. fixed_date 2027-07-01. Source: (as above).",
+    "penaltyNote": "UNKNOWN",
+    "appliesIf": {
+      "all": [
+        {
+          "field": "revenueOverVAT",
+          "op": "truthy"
+        },
+        {
+          "not": {
+            "field": "einvPhase1",
+            "op": "truthy"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "ADGM-CS",
+    "title": "ADGM confirmation statement (within 1 month of incorporation anniversary)",
+    "authority": "ADGM Registration Authority",
+    "kind": "recurring",
+    "trigger": {
+      "type": "recurring",
+      "field": "incorporationDate",
+      "offsetMonths": 13,
+      "every": "year"
+    },
+    "penaltyAED": 1101.75,
+    "sourceUrl": "https://www.adgm.com/operating-in-adgm/monitoring-and-enforcement/late-filings-to-the-registrar",
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": false,
+    "summary": "ADGM confirmation statement (within 1 month of incorporation anniversary). recurring yearly, first at incorporation offsetMonths 13. Source: https://www.adgm.com/operating-in-adgm/monitoring-and-enforcement/late-filings-to-the-registrar.",
+    "penaltyNote": "USD 300 (generally not waivable)",
+    "currency": "USD",
+    "penaltyNative": 300,
+    "appliesIf": {
+      "field": "isADGM",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "ADGM-ACC",
+    "title": "ADGM annual accounts (private co: within 9 months of accounting reference date)",
+    "authority": "ADGM RA",
+    "kind": "deadline",
+    "trigger": {
+      "type": "from_date",
+      "field": "incorporationDate",
+      "offsetMonths": 21
+    },
+    "penaltyAED": 55087.5,
+    "sourceUrl": "https://www.adgm.com/operating-in-adgm/obligations-of-adgm-registered-entities/annual-filings",
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": false,
+    "summary": "ADGM annual accounts (private co: within 9 months of accounting reference date). from_date incorporation, offsetMonths 21. Source: https://www.adgm.com/operating-in-adgm/obligations-of-adgm-registered-entities/annual-filings.",
+    "penaltyNote": "up to USD 15,000",
+    "currency": "USD",
+    "penaltyNative": 15000,
+    "appliesIf": {
+      "field": "isADGM",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "ADGM-RENEW",
+    "title": "ADGM commercial licence renewal",
+    "authority": "ADGM RA",
+    "kind": "recurring",
+    "trigger": {
+      "type": "recurring",
+      "field": "incorporationDate",
+      "offsetMonths": 12,
+      "every": "year"
+    },
+    "penaltyAED": 550.875,
+    "sourceUrl": "https://www.adgm.com/operating-in-adgm/monitoring-and-enforcement/late-filings-to-the-registrar",
+    "verifiedOn": "2026-10-02",
+    "confidence": "high",
+    "verify": false,
+    "summary": "ADGM commercial licence renewal. recurring yearly from incorporation +12m. Source: https://www.adgm.com/operating-in-adgm/monitoring-and-enforcement/late-filings-to-the-registrar.",
+    "penaltyNote": "USD 150 per month late, max USD 450",
+    "currency": "USD",
+    "penaltyNative": 150,
+    "appliesIf": {
+      "field": "isADGM",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "UBO-MAINT",
+    "title": "Maintain & update UBO register",
+    "authority": "ADDED / registrar",
+    "kind": "info",
+    "trigger": {
+      "type": "none"
+    },
+    "penaltyAED": 50000,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "medium",
+    "verify": true,
+    "summary": "Maintain & update UBO register. info. Source: research brief.",
+    "penaltyNote": "AED 50,000 per breach (mainland); AED 100,000 (DNFBPs)",
+    "currency": "AED",
+    "appliesIf": {
+      "field": "isMainland",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "GOAML",
+    "title": "goAML registration (DNFBPs only, e.g. real-estate brokers, dealers in precious metals, CSPs)",
+    "authority": "Ministry of Economy / FIU",
+    "kind": "info",
+    "trigger": {
+      "type": "none"
+    },
+    "penaltyAED": 50000,
+    "sourceUrl": null,
+    "verifiedOn": "2026-10-02",
+    "confidence": "medium",
+    "verify": true,
+    "summary": "goAML registration (DNFBPs only, e.g. real-estate brokers, dealers in precious metals, CSPs). info. Source: research brief.",
+    "penaltyNote": "from AED 50,000",
+    "currency": "AED",
+    "appliesIf": {
+      "field": "isDnfbpActivity",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "HI-RENEW",
+    "title": "Health insurance renewal (founder & dependents)",
+    "authority": "DoH",
+    "kind": "recurring",
+    "trigger": {
+      "type": "recurring",
+      "field": "arrivalDate",
+      "offsetMonths": 12,
+      "every": "year"
+    },
+    "penaltyAED": null,
+    "sourceUrl": "https://www.doh.gov.ae/",
+    "verifiedOn": "2026-10-02",
+    "confidence": "medium",
+    "verify": true,
+    "summary": "Health insurance renewal (founder & dependents). recurring yearly from arrival +12m. Source: https://www.doh.gov.ae/.",
+    "penaltyNote": "UNKNOWN"
+  },
+  {
+    "id": "VISA-RENEW",
+    "title": "Residence visa & Emirates ID renewal reminder",
+    "authority": "ICP",
+    "kind": "deadline",
+    "trigger": {
+      "type": "from_date",
+      "field": "arrivalDate",
+      "offsetMonths": 24,
+      "offsetDays": -30
+    },
+    "penaltyAED": null,
+    "sourceUrl": "https://icp.gov.ae/",
+    "verifiedOn": "2026-10-02",
+    "confidence": "low",
+    "verify": true,
+    "summary": "Residence visa & Emirates ID renewal reminder. from_date arrival + 24 months − 30 days. Source: https://icp.gov.ae/.",
+    "penaltyNote": "UNKNOWN"
+  },
+  {
+    "id": "TAWTH-RENEW",
+    "title": "Tawtheeq renewal with lease",
+    "authority": "ADREC / TAMM",
+    "kind": "recurring",
+    "trigger": {
+      "type": "recurring",
+      "field": "arrivalDate",
+      "offsetMonths": 12,
+      "every": "year"
+    },
+    "penaltyAED": null,
+    "sourceUrl": "https://www.bayut.com/",
+    "verifiedOn": "2026-10-02",
+    "confidence": "medium",
+    "verify": false,
+    "summary": "Tawtheeq renewal with lease. recurring yearly from arrival +12m. Source: bayut.com Tawtheeq guide.",
+    "penaltyNote": "AED 50 renewal fee (not a penalty)"
+  },
+  {
+    "id": "WPS",
+    "title": "Monthly payroll via WPS",
+    "authority": "MOHRE / free-zone authority",
+    "kind": "recurring",
+    "trigger": {
+      "type": "recurring",
+      "field": "incorporationDate",
+      "every": "month"
+    },
+    "penaltyAED": null,
+    "sourceUrl": "https://www.mohre.gov.ae/",
+    "verifiedOn": "2026-10-02",
+    "confidence": "low",
+    "verify": true,
+    "summary": "Monthly payroll via WPS. recurring monthly. Source: https://www.mohre.gov.ae/.",
+    "penaltyNote": "UNKNOWN",
+    "appliesIf": {
+      "field": "hasHires",
+      "op": "truthy"
+    }
+  },
+  {
+    "id": "ESR-INFO",
+    "title": "Economic Substance Regulations: verify current applicability (repealed for later periods)",
+    "authority": "MoF",
+    "kind": "info",
+    "trigger": {
+      "type": "none"
+    },
+    "penaltyAED": null,
+    "sourceUrl": "https://mof.gov.ae/",
+    "verifiedOn": "2026-10-02",
+    "confidence": "low",
+    "verify": true,
+    "summary": "Economic Substance Regulations: verify current applicability (repealed for later periods). info. Source: https://mof.gov.ae/."
+  }
+]

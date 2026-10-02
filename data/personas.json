@@ -1,0 +1,73 @@
+{
+  "priya": {
+    "id": "priya",
+    "name": "Priya",
+    "nationality": "India",
+    "arrivalDate": "2026-10-12",
+    "inUAE": false,
+    "spouse": true,
+    "childrenAges": [
+      7
+    ],
+    "businessDescription": "B2B SaaS for GCC clinics' appointment scheduling, clients in UAE and KSA, subscription revenue",
+    "revenueModel": "saas",
+    "fundingUSD": 400000,
+    "revenue12mAED": 420000,
+    "hires12m": 2,
+    "stepStatus": {},
+    "documents": [
+      {
+        "docType": "passport"
+      },
+      {
+        "docType": "proof_of_address"
+      },
+      {
+        "docType": "cv"
+      },
+      {
+        "docType": "source_of_funds"
+      }
+    ],
+    "locale": "en",
+    "activityCode": "general-trading",
+    "drivingLicenceCountry": "India"
+  },
+  "omar": {
+    "id": "omar",
+    "name": "Omar",
+    "nationality": "Egypt",
+    "arrivalDate": "2026-10-12",
+    "inUAE": false,
+    "spouse": false,
+    "childrenAges": [],
+    "businessDescription": "F&B restaurant",
+    "revenueModel": "fnb",
+    "fundingUSD": 0,
+    "revenue12mAED": 2500000,
+    "hires12m": 6,
+    "stepStatus": {},
+    "documents": [],
+    "locale": "en",
+    "jurisdiction": "mainland"
+  },
+  "lena": {
+    "id": "lena",
+    "name": "Lena",
+    "nationality": "Germany",
+    "arrivalDate": "2026-10-12",
+    "inUAE": false,
+    "spouse": false,
+    "childrenAges": [],
+    "businessDescription": "Climate-tech hardware",
+    "revenueModel": "manufacturing",
+    "fundingUSD": 0,
+    "revenue12mAED": 0,
+    "hires12m": 0,
+    "stepStatus": {},
+    "documents": [],
+    "locale": "en",
+    "jurisdiction": "masdar",
+    "drivingLicenceCountry": "Germany"
+  }
+}

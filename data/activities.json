@@ -1,0 +1,88 @@
+[
+  {
+    "id": "software-development",
+    "revenueModels": [
+      "saas",
+      "services"
+    ],
+    "dnfbp": false
+  },
+  {
+    "id": "it-consultancy",
+    "revenueModels": [
+      "services"
+    ],
+    "dnfbp": false
+  },
+  {
+    "id": "ecommerce",
+    "revenueModels": [
+      "marketplace",
+      "trading"
+    ],
+    "dnfbp": false
+  },
+  {
+    "id": "general-trading",
+    "revenueModels": [
+      "trading"
+    ],
+    "dnfbp": false
+  },
+  {
+    "id": "management-consultancy",
+    "revenueModels": [
+      "services"
+    ],
+    "dnfbp": false
+  },
+  {
+    "id": "marketing-services",
+    "revenueModels": [
+      "services"
+    ],
+    "dnfbp": false
+  },
+  {
+    "id": "restaurant",
+    "revenueModels": [
+      "fnb"
+    ],
+    "dnfbp": false
+  },
+  {
+    "id": "light-manufacturing",
+    "revenueModels": [
+      "manufacturing"
+    ],
+    "dnfbp": false
+  },
+  {
+    "id": "real-estate-brokerage",
+    "revenueModels": [
+      "services"
+    ],
+    "dnfbp": true
+  },
+  {
+    "id": "precious-metals-trading",
+    "revenueModels": [
+      "trading"
+    ],
+    "dnfbp": true
+  },
+  {
+    "id": "media-production",
+    "revenueModels": [
+      "services"
+    ],
+    "dnfbp": false
+  },
+  {
+    "id": "edtech-platform",
+    "revenueModels": [
+      "saas"
+    ],
+    "dnfbp": false
+  }
+]
