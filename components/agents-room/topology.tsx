@@ -1,5 +1,7 @@
-import type { CSSProperties } from "react";
+import { useId, type CSSProperties } from "react";
+import { getImageProps } from "next/image";
 import { agentLane, type AgentManifestEntry } from "./manifest";
+import { agentPortraits } from "./portraits";
 import styles from "./agents-room.module.css";
 
 function Flow({ path, delay = 0, tone = "sky" }: { path: string; delay?: number; tone?: string }) {
@@ -9,13 +11,18 @@ function Flow({ path, delay = 0, tone = "sky" }: { path: string; delay?: number;
   </g>;
 }
 
-function Node({ x, y, width = 180, height = 44, label, monogram, tone = "sky" }: {
-  x: number; y: number; width?: number; height?: number; label: string; monogram?: string; tone?: string;
+function Node({ x, y, width = 180, height = 44, label, monogram, agentId, tone = "sky" }: {
+  x: number; y: number; width?: number; height?: number; label: string; monogram?: string; agentId?: string; tone?: string;
 }) {
+  const clipId = useId();
+  const portrait = agentId ? agentPortraits[agentId] : undefined;
+  const size = height > 32 ? 32 : 26;
+  const top = (height - size) / 2;
+  const image = portrait ? getImageProps({ src: portrait, alt: "", width: 48, height: 48 }).props.src : undefined;
   return <g transform={`translate(${x} ${y})`} className={styles.mapNode} data-tone={tone}>
     <rect width={width} height={height} rx="7" />
-    {monogram && <><rect x="9" y={(height - 24) / 2} width="26" height="24" rx="5" className={styles.nodeAvatar} /><text x="22" y={height / 2 + 3} textAnchor="middle" className={styles.nodeMonogram}>{monogram}</text></>}
-    <text x={monogram ? 45 : width / 2} y={height / 2 + 4} textAnchor={monogram ? "start" : "middle"} className={styles.nodeLabel}>{label}</text>
+    {image ? <><defs><clipPath id={clipId}><circle cx={9 + size / 2} cy={height / 2} r={size / 2} /></clipPath></defs><image href={image} x="9" y={top} width={size} height={size} clipPath={`url(#${clipId})`} preserveAspectRatio="xMidYMid slice" /></> : monogram && <><rect x="9" y={(height - 24) / 2} width="26" height="24" rx="5" className={styles.nodeAvatar} /><text x="22" y={height / 2 + 3} textAnchor="middle" className={styles.nodeMonogram}>{monogram}</text></>}
+    <text x={image ? 9 + size + 8 : monogram ? 45 : width / 2} y={height / 2 + 4} textAnchor={image || monogram ? "start" : "middle"} className={styles.nodeLabel}>{label}</text>
   </g>;
 }
 
@@ -39,7 +46,7 @@ export function Topology({ agents }: { agents: AgentManifestEntry[] }) {
         return <g key={agent.id}>
           <Flow path={`M 424 251 H 465 V ${y + 22} H 510`} delay={-index * 0.65} tone={agentLane(agent.id)} />
           <Flow path={`M 700 ${y + 22} H 775 V 251 H 820`} delay={-index * 0.8 - 1} tone="teal" />
-          <Node x={510} y={y} width={190} label={agent.name} monogram={agent.monogram} tone={agentLane(agent.id)} />
+          <Node x={510} y={y} width={190} label={agent.name} monogram={agent.monogram} agentId={agent.id} tone={agentLane(agent.id)} />
         </g>;
       })}
       <rect x="490" y="346" width="230" height="210" rx="10" className={styles.studioBoundary} />
@@ -50,14 +57,14 @@ export function Topology({ agents }: { agents: AgentManifestEntry[] }) {
         return <g key={agent.id}>
           <Flow path={`M 424 251 H 465 V ${y + 16} H 510`} delay={-index * 0.7} tone="gold" />
           <Flow path={`M 700 ${y + 16} H 775 V 251 H 820`} delay={-index * 0.7 - 1} tone="teal" />
-          <Node x={510} y={y} width={190} height={32} label={agent.name} monogram={agent.monogram} tone="gold" />
+          <Node x={510} y={y} width={190} height={32} label={agent.name} monogram={agent.monogram} agentId={agent.id} tone="gold" />
         </g>;
       })}
       <Flow path="M 958 251 L 992 251" tone="teal" delay={-1.5} />
       <Node x={12} y={229} width={66} label="You" tone="muted" />
-      <Node x={112} y={229} width={136} label="Input Guardrail" tone="teal" />
-      <Node x={286} y={229} width={138} label="Concierge" monogram="CO" tone="gold" />
-      <Node x={820} y={229} width={138} label={verifier.name} monogram={verifier.monogram} tone="teal" />
+      <Node x={112} y={229} width={136} label="Input Guardrail" agentId="input-guardrail" tone="teal" />
+      <Node x={286} y={229} width={138} label="Concierge" monogram="CO" agentId="concierge" tone="gold" />
+      <Node x={820} y={229} width={138} label={verifier.name} monogram={verifier.monogram} agentId={verifier.id} tone="teal" />
       <Node x={992} y={229} width={78} label="You" tone="muted" />
       <text x="180" y="298" textAnchor="middle" className={styles.mapNote}>Screen the request</text>
       <text x="355" y="298" textAnchor="middle" className={styles.mapNote}>Route by intent</text>
@@ -71,15 +78,15 @@ export function Topology({ agents }: { agents: AgentManifestEntry[] }) {
       <Flow path="M 170 54 V 80" tone="teal" />
       <Flow path="M 170 124 V 150" tone="teal" delay={-1} />
       <Node x={117} y={10} width={106} label="You" tone="muted" />
-      <Node x={70} y={80} width={200} label="Input Guardrail" monogram="IG" tone="teal" />
-      <Node x={70} y={150} width={200} label="Concierge" monogram="CO" tone="gold" />
+      <Node x={70} y={80} width={200} label="Input Guardrail" monogram="IG" agentId="input-guardrail" tone="teal" />
+      <Node x={70} y={150} width={200} label="Concierge" monogram="CO" agentId="concierge" tone="gold" />
       <text x="70" y="232" className={styles.mapCaption}>SPECIALIST HANDOFFS</text>
       {specialistAgents.map((agent, index) => {
         const y = 250 + index * 52;
         return <g key={agent.id}>
           <Flow path={`M 170 194 V 210 H 35 V ${y + 22} H 70`} delay={-index * .7} tone={agentLane(agent.id)} />
           <Flow path={`M 270 ${y + 22} H 306 V 847 H 270`} delay={-index * .7 - 1} tone="teal" />
-          <Node x={70} y={y} width={200} label={agent.name} monogram={agent.monogram} tone={agentLane(agent.id)} />
+          <Node x={70} y={y} width={200} label={agent.name} monogram={agent.monogram} agentId={agent.id} tone={agentLane(agent.id)} />
         </g>;
       })}
       <rect x="56" y="528" width="228" height="268" rx="9" className={styles.studioBoundary} />
@@ -90,10 +97,10 @@ export function Topology({ agents }: { agents: AgentManifestEntry[] }) {
         return <g key={agent.id}>
           <Flow path={`M 170 194 V 210 H 35 V ${y + 22} H 70`} delay={-index * .7} tone="gold" />
           <Flow path={`M 270 ${y + 22} H 306 V 847 H 270`} delay={-index * .7 - 1} tone="teal" />
-          <Node x={70} y={y} width={200} label={agent.name} monogram={agent.monogram} tone="gold" />
+          <Node x={70} y={y} width={200} label={agent.name} monogram={agent.monogram} agentId={agent.id} tone="gold" />
         </g>;
       })}
-      <Node x={70} y={825} width={200} label={verifier.name} monogram={verifier.monogram} tone="teal" />
+      <Node x={70} y={825} width={200} label={verifier.name} monogram={verifier.monogram} agentId={verifier.id} tone="teal" />
       <Flow path="M 170 869 V 902" tone="teal" delay={-1.5} />
       <Node x={117} y={902} width={106} label="You" tone="muted" />
     </svg>

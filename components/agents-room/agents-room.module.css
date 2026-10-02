@@ -73,8 +73,11 @@
 .agentCard:hover { border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); background: color-mix(in srgb, var(--surface-2) 35%, var(--surface)); transform: translateY(-2px); }
 .cardTop { color: var(--ink-muted); margin-bottom: 19px; }
 .cardTop .eyebrow { font-size: 9px; }
-.cardIdentity { display: flex; align-items: center; gap: 12px; }
-.avatar { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 43px; height: 43px; border: 1px solid color-mix(in srgb, var(--lane) 25%, var(--line)); border-radius: 9px; color: var(--lane); background: color-mix(in srgb, var(--lane) 10%, var(--bg)); font: 500 13px var(--font-jetbrains-mono), monospace; }
+.cardIdentity { display: flex; align-items: center; gap: 17px; }
+.avatar { position: relative; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; width: 96px; height: 96px; padding: 3px; border: 1px solid color-mix(in srgb, var(--lane) 50%, var(--line)); border-radius: 50%; color: var(--lane); background: var(--bg); box-shadow: 0 0 0 5px color-mix(in srgb, var(--lane) 5%, transparent); }
+.portraitImage { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; transition: filter 180ms ease; }
+.avatarCode { position: absolute; right: -3px; bottom: 0; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: 2px solid var(--surface); border-radius: 50%; color: var(--lane); background: var(--surface-2); font: 500 8px var(--font-jetbrains-mono), monospace; }
+.agentCard:hover .portraitImage { filter: brightness(1.08); }
 .cardIdentity h3 { font-size: 16px; font-weight: 500; line-height: 1.45; letter-spacing: -.02em; }
 .tier { display: inline-flex; font: 9px/1.5 var(--font-jetbrains-mono), monospace; color: var(--ink-muted); border: 1px solid var(--line); background: var(--bg); padding: 1px 5px; border-radius: 4px; margin-top: 5px; }
 .tier[data-tier="Fast"] { color: var(--gold); }
@@ -135,7 +138,7 @@
 .drawerBar { position: sticky; top: 0; z-index: 2; padding: 13px 26px; background: var(--surface); border-bottom: 1px solid var(--line); }
 .drawerBody { padding: 30px; }
 .drawerHeading { display: flex; align-items: center; gap: 15px; }
-.drawerHeading .avatar { width: 55px; height: 55px; font-size: 17px; }
+.drawerHeading .avatar { width: 112px; height: 112px; }
 .agentId { font: 10px var(--font-jetbrains-mono), monospace; color: var(--ink-muted); margin-bottom: 5px; }
 .drawerHeading h2 { font: 500 30px/1.2 var(--font-fraunces), serif; letter-spacing: -.02em; }
 .drawerRole { margin: 19px 0 26px; font-size: 13px; line-height: 1.8; color: var(--ink-muted); }
@@ -200,6 +203,11 @@
   .mapLegend p { width: 100%; margin: 0; }
   .agentGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .agentCard { padding: 16px 17px 0; }
+  .cardIdentity { gap: 15px; }
+  .avatar { width: 84px; height: 84px; }
+  .drawerHeading { align-items: center; gap: 16px; }
+  .drawerHeading .avatar { width: 92px; height: 92px; }
+  .drawerHeading h2 { font-size: 26px; }
   .cardStats { margin-left: -17px; margin-right: -17px; padding-left: 17px; padding-right: 17px; }
   .emptyRuns { padding: 22px 18px; align-items: start; gap: 13px; }
   .emptyRuns > svg { width: 22px; }

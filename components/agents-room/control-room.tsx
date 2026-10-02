@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ArrowDown, ArrowUpRight, Check, ChevronDown, Clock3, Radio, RefreshCw, ShieldCheck, X } from "lucide-react";
 import { agentLane, studioIds, type AgentManifestEntry } from "./manifest";
 import { agentKey, loadFleetRuns, statsForAgent, type AgentStats, type FleetRun, type RunTrace } from "./telemetry";
 import { Topology } from "./topology";
+import { agentPortraits } from "./portraits";
 import styles from "./agents-room.module.css";
 
 function useFleetTelemetry() {
@@ -38,7 +40,11 @@ function useFleetTelemetry() {
 }
 
 function Avatar({ agent }: { agent: AgentManifestEntry }) {
-  return <span className={styles.avatar} data-tone={agentLane(agent.id)} aria-hidden="true">{agent.monogram}</span>;
+  const portrait = agentPortraits[agent.id];
+  return <span className={styles.avatar} data-tone={agentLane(agent.id)} aria-hidden="true">
+    {portrait && <Image src={portrait} alt="" width={112} height={112} placeholder="blur" className={styles.portraitImage} data-agent-portrait={agent.id} />}
+    <span className={styles.avatarCode}>{agent.monogram}</span>
+  </span>;
 }
 
 function AgentCard({ agent, stats, onOpen }: { agent: AgentManifestEntry; stats: AgentStats | null; onOpen: () => void }) {
@@ -149,7 +155,7 @@ export function AgentControlRoom({ agents }: { agents: AgentManifestEntry[] }) {
     <section className={styles.routingSection} aria-labelledby="routing-title"><div className={styles.sectionHeading}><div><p className={styles.eyebrow}>01 / Orchestration</p><h2 id="routing-title">How the fleet works</h2></div><span className={styles.outlineBadge}><ShieldCheck size={14} aria-hidden="true" />Every path is verified</span></div><p className={styles.sectionNote}>One concierge routes your request. Specialists prepare the work. The Verifier checks the result.</p><Topology agents={agents} /></section>
     <section id="agent-directory" className={styles.directory} aria-labelledby="directory-title"><div className={styles.sectionHeading}><div><p className={styles.eyebrow}>02 / The directory</p><h2 id="directory-title">Meet your agents</h2></div><span className={styles.count}>{agents.length} contracts</span></div><p className={styles.sectionNote}>Open an agent to inspect its brief, boundaries and acceptance cases.</p><div className={styles.directoryNote}><ShieldCheck size={15} aria-hidden="true" /><p>Release badges confirm five contract checks: standard, missing input, injection, external action and holdout. Runtime evaluation results are separate. Metrics cover the available run history.</p></div><div className={styles.agentGrid}>{agents.map((agent) => <AgentCard key={agent.id} agent={agent} stats={telemetry.runs ? statsForAgent(telemetry.runs, agent.id) : null} onOpen={() => setSelected(agent)} />)}</div></section>
     <LatestRuns {...telemetry} agents={agents} />
-    <div className={styles.closingNote}><ShieldCheck size={17} aria-hidden="true" /><p>Prepared by agents. Checked against evidence. Decided by you.</p><span>Manzil</span></div>
+    <div className={styles.closingNote}><ShieldCheck size={17} aria-hidden="true" /><p>Illustrated AI personas. Prepared by agents. Checked against evidence. Decided by you.</p><span>Manzil</span></div>
     {selected && <ContractDrawer key={selected.id} agent={selected} onClose={() => setSelected(null)} />}
   </div>;
 }
