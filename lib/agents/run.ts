@@ -10,6 +10,7 @@ import { verifyAgentResult } from "./verifier";
 import { budgetedProvider, BudgetReachedError, RunBudget } from "./budget";
 import { openaiApiKey, runLimits } from "./config";
 import { findPriyaFixture } from "@/lib/fixtures";
+import { verifyDocumentPack } from "@/lib/export/verify";
 
 const systemAnswers = {
   en: {
@@ -111,6 +112,10 @@ export async function runAgent(input: AgentRequest, onEvent: (event: TraceEvent)
         }
         await completion;
         candidate = stream.finalOutput;
+        const draft = AgentAnswer.safeParse(candidate);
+        if (draft.success && draft.data.pack) {
+          candidate = { ...draft.data, pack: verifyDocumentPack(draft.data.pack, context.profile, context.toolResults) };
+        }
         const verdict = verifyAgentResult(candidate, context.toolResults, context.profile, locale);
         const parsedCandidate = AgentAnswer.safeParse(candidate);
         if (parsedCandidate.success && parsedCandidate.data.status === "complete") {
@@ -120,6 +125,9 @@ export async function runAgent(input: AgentRequest, onEvent: (event: TraceEvent)
             if (!navigation || !Array.isArray(navigation.missingFacts) || navigation.missingFacts.length) {
               verdict.reasons.push("Ask only the missing customer, regulation, investor and goods questions (at most four), then abstain until answered. Call navigate_jurisdiction with those facts before recommending.");
             } else if (!navigation.winner) verdict.reasons.push("No eligible jurisdiction was found; abstain instead of recommending a knocked-out location.");
+          }
+          if ((request.intent === "mission" || activeName === "Mission Builder") && !parsedCandidate.data.pack) {
+            verdict.reasons.push("A complete document requires structured pack JSON.");
           }
           if (request.intent === "activity" && parsedCandidate.data.activityMatches?.length !== 3) {
             verdict.reasons.push("A complete activity match must return exactly three distinct seeded activities.");

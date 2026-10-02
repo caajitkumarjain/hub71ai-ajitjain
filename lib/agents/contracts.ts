@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { AgentResult, Profile } from "@/lib/schemas";
+import { DocumentPack, ModelDocumentPack } from "@/lib/export/schema";
 
 export const Language = z.enum(["en", "ar", "hi"]);
 export type Language = z.infer<typeof Language>;
@@ -9,9 +10,11 @@ export const BankReviewFinding = z.object({
 });
 // SDK structured output requires every field; deterministic system replies may omit the additions.
 export const AgentOutput = AgentResult.extend({
+  pack: ModelDocumentPack.nullable(),
   activityMatches: z.array(ActivityMatch).max(3), bankReview: z.array(BankReviewFinding).max(3),
 });
 export const AgentAnswer = AgentResult.extend({
+  pack: DocumentPack.nullable().optional(),
   activityMatches: z.array(ActivityMatch).max(3).optional(),
   bankReview: z.array(BankReviewFinding).max(3).optional(),
 });

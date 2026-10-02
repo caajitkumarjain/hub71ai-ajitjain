@@ -2,6 +2,7 @@ import type { Profile } from "@/lib/schemas";
 import { AgentAnswer, type Language } from "@/lib/agents/contracts";
 import { activities, jurisdictions, rules, steps } from "@/lib/engines/seed-data";
 import { jurisdictionRules } from "@/lib/engines/jurisdiction-twin";
+export { verifyDocumentPack } from "@/lib/export/verify";
 
 export type VerificationResult = { verdict: "approve" | "revise"; reasons: string[] };
 

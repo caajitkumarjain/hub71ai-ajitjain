@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AgentResult, Profile, TraceEvent } from "@/lib/schemas";
+import { Profile, TraceEvent } from "@/lib/schemas";
+import { AgentAnswer } from "@/lib/agents/contracts";
 
 // SSE framing is independent of network chunks, including CRLF and split UTF-8 characters.
 export async function* missionEvents(body: ReadableStream<Uint8Array>) {
@@ -25,7 +26,7 @@ export async function* missionEvents(body: ReadableStream<Uint8Array>) {
 }
 
 export function useMissionPack() {
-  const [result, setResult] = useState<AgentResult | null>(null);
+  const [result, setResult] = useState<AgentAnswer | null>(null);
   const [status, setStatus] = useState("");
   const [busy, setBusy] = useState(false);
   const [cached, setCached] = useState(false);
@@ -54,7 +55,7 @@ export function useMissionPack() {
         }
         if (event.kind === "final") {
           // Render only the route's verified final result, never unverified message deltas.
-          const final = AgentResult.parse(event.data);
+          const final = AgentAnswer.parse(event.data);
           if (final.status === "complete" && !approved) throw new Error("Draft was not verified");
           setResult(final); setStatus(""); return;
         }
