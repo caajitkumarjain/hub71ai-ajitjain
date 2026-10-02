@@ -1,3 +1,3 @@
-import { RouteShell } from "@/components/brand/route-shell";
+import { BankWorkspace } from "@/components/bank/bank-workspace";
 export const metadata = { title: "Bank check" };
-export default function BankPage() { return <RouteShell eyebrow="Prepare with confidence" title="Bank check" description="See what a bank will question before you apply." />; }
+export default function BankPage() { return <BankWorkspace />; }

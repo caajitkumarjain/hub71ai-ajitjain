@@ -1,0 +1,13 @@
+.eyebrow { color: var(--ink-muted); font-size: 11px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; }
+.workspace { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 32px; align-items: start; }
+.ring { position: relative; width: 240px; max-width: 100%; aspect-ratio: 1; margin: auto; border-radius: 50%; }
+.ringContent { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.arc { transition: stroke-dashoffset .65s cubic-bezier(.2,.8,.3,1), stroke .3s ease; }
+.improved { animation: glow 1.4s ease-out; }
+.severity { display: inline-block; padding: 3px 8px; border-radius: 99px; font-size: 11px; color: var(--ink); background: var(--surface-2); }
+.severity[data-severity="high"] { background: color-mix(in srgb, var(--coral) 12%, transparent); }
+.severity[data-severity="medium"] { background: color-mix(in srgb, var(--amber) 12%, transparent); }
+@keyframes glow { 0%, 100% { box-shadow: 0 0 0 0 transparent; } 35% { box-shadow: 0 0 40px 9px color-mix(in srgb, var(--teal) 18%, transparent); } }
+@media (max-width: 900px) { .workspace { grid-template-columns: 280px minmax(0, 1fr); gap: 24px; } }
+@media (max-width: 767px) { .workspace { grid-template-columns: minmax(0, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .arc { transition: none; } .improved { animation: none; } }

@@ -1,3 +1,3 @@
-import { RouteShell } from "@/components/brand/route-shell";
+import { DeadlinesWorkspace } from "@/components/deadlines/deadlines-workspace";
 export const metadata = { title: "Deadlines" };
-export default function DeadlinesPage() { return <RouteShell eyebrow="Keep moving forward" title="Deadlines" description="Your important dates, and what needs your attention next." />; }
+export default function DeadlinesPage() { return <DeadlinesWorkspace />; }
