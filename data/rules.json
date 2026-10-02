@@ -10,11 +10,11 @@
       "offsetMonths": 3
     },
     "penaltyAED": 10000,
-    "sourceUrl": null,
+    "sourceUrl": "https://tax.gov.ae/en/media.centre/news/federal.tax.authority.issues.public.clarification.on.registration.timelines.for.taxable.persons.for.corporate.tax.aspx",
     "verifiedOn": "2026-10-02",
-    "confidence": "medium",
+    "confidence": "high",
     "verify": true,
-    "summary": "Corporate Tax registration. from_date incorporation +3 months. Source: penalty: research brief (FTA Cabinet Decision; second-witnessed). Timing: FTA Decision No. 3 of 2024.",
+    "summary": "FTA explicitly states an AED 10,000 late-registration penalty and a three-month registration period for resident juridical persons incorporated, established or recognised on or after 1 March 2024. Confirm the person's category: other categories have different registration timelines.",
     "penaltyNote": "AED 10,000 (late registration)",
     "currency": "AED"
   },
@@ -27,11 +27,11 @@
       "type": "none"
     },
     "penaltyAED": null,
-    "sourceUrl": null,
+    "sourceUrl": "https://tax.gov.ae/en/content/waiver.of.penalties.aspx",
     "verifiedOn": "2026-10-02",
-    "confidence": "medium",
+    "confidence": "high",
     "verify": true,
-    "summary": "Late-registration penalty waiver if first CT return filed within 7 months of first tax period end. info. Source: FTA Penalty Waiver Initiative (eff. 14-Apr-2025)."
+    "summary": "FTA's waiver initiative requires the first Corporate Tax return within seven months after the first tax period ends; exempt persons use an annual declaration within seven months after their first financial year. Confirm eligibility and filing dates. This is a conditional waiver, not a separate fixed penalty."
   },
   {
     "id": "CT-RET",
@@ -44,12 +44,12 @@
       "offsetMonths": 21
     },
     "penaltyAED": null,
-    "sourceUrl": "https://tax.gov.ae/",
+    "sourceUrl": "https://tax.gov.ae/Datafolder/Files/Legislation/Corporate%20Tax/Cabinet%20Decision%20No.%2075%20of%202023%20on%20The%20Administrative%20Penalties%20for%20Violations%20Related%20to%20the%20Application%20of%20Corporate%20Tax%20Law%20-%20For%20Publishing.pdf",
     "verifiedOn": "2026-10-02",
     "confidence": "medium",
     "verify": true,
-    "summary": "Corporate Tax return & payment. from_date incorporation, offsetMonths 21 (12-month first period + 9). Source: https://tax.gov.ae/.",
-    "penaltyNote": "UNKNOWN (show \"verify with FTA\")"
+    "summary": "Corporate Tax return and payment. The existing incorporation +21-month reminder assumes a 12-month first tax period plus nine months; verify the actual tax period. Cabinet Decision 75/2023, table items 7 and 8, specifies separate late-filing and late-payment penalties. No single fixed AED total applies.",
+    "penaltyNote": "Late filing: AED 500 for each month or part during the first 12 months; AED 1,000 for each month or part thereafter. Late payment: 14% per annum applied monthly to unsettled payable tax. Total UNKNOWN without delay duration and unpaid tax; verify with FTA."
   },
   {
     "id": "VAT-REG",
@@ -63,11 +63,11 @@
       "offsetDays": 30
     },
     "penaltyAED": 10000,
-    "sourceUrl": null,
+    "sourceUrl": "https://tax.gov.ae/Datafolder/Files/Legislation/2025/Cabinet%20Decision%20No.%2040%20of%202017%20and%20its%20amendments%20-%20publishing%2011%202025.pdf",
     "verifiedOn": "2026-10-02",
     "confidence": "high",
     "verify": false,
-    "summary": "Mandatory VAT registration. threshold 375,000 → +30 days. Source: research brief.",
+    "summary": "Cabinet Decision 40/2017 as amended, Table 1 item 3, states the AED 10,000 late-registration penalty; Article 3 preserves liability for tax due. FTA's registration service states the AED 375,000 resident-business threshold and application within 30 days of becoming required to register: https://www.tax.gov.ae/en/services/vat.registration.aspx. The test concerns taxable supplies and imports, not all revenue.",
     "penaltyNote": "AED 10,000 + retroactive VAT",
     "currency": "AED",
     "appliesIf": {
@@ -86,11 +86,11 @@
       "threshold": 187500
     },
     "penaltyAED": null,
-    "sourceUrl": null,
+    "sourceUrl": "https://tax.gov.ae/en/taxes/Vat/vat.topics/registration.for.vat.aspx",
     "verifiedOn": "2026-10-02",
     "confidence": "high",
     "verify": false,
-    "summary": "Voluntary VAT registration available. info. Source: research brief.",
+    "summary": "FTA states an AED 187,500 voluntary registration threshold for taxable supplies and imports or taxable expenses over the previous 12 months, or amounts expected over the next 30 days. This is an optional registration provision, not a fixed monetary penalty.",
     "appliesIf": {
       "field": "revenueOverVATVoluntary",
       "op": "truthy"
@@ -126,13 +126,13 @@
       "field": "revenue12mAED",
       "threshold": 50000000
     },
-    "penaltyAED": null,
-    "sourceUrl": "https://www.khaleejtimes.com/business/uae-extends-e-invoicing-service-provider-deadline-to-october-2026",
+    "penaltyAED": 5000,
+    "sourceUrl": "https://tax.gov.ae/Datafolder/Files/Legislation/2025/Cabinet%20Decision%20No.%20106%20of%202025.pdf",
     "verifiedOn": "2026-10-02",
     "confidence": "high",
     "verify": false,
-    "summary": "E-invoicing Phase 1: appoint Accredited Service Provider. fixed_date 2026-10-30. Source: https://www.khaleejtimes.com/business/uae-extends-e-invoicing-service-provider-deadline-to-october-2026.",
-    "penaltyNote": "UNKNOWN",
+    "summary": "Cabinet Decision 106/2025, annex item 1, covers delayed implementation including failure to appoint an ASP; voluntary participants are excluded. FTA confirms the AED 50M threshold and 30 October 2026 appointment deadline: https://tax.gov.ae/en/media.centre/news/federal.tax.authority.organises.joint.awareness.meeting.for.accredited.service.providers.and.persons.subject.to.the.einvoicing.system.aspx.",
+    "penaltyNote": "AED 5,000 per month or part of a month of delay",
     "appliesIf": {
       "field": "einvPhase1",
       "op": "truthy"
@@ -147,13 +147,13 @@
       "type": "fixed_date",
       "date": "2027-01-01"
     },
-    "penaltyAED": null,
-    "sourceUrl": "https://taxnews.ey.com/news/2025-0724-uae-ministry-of-finance-releases-accredited-service-provider-accreditation-process-and-criteria",
+    "penaltyAED": 5000,
+    "sourceUrl": "https://tax.gov.ae/Datafolder/Files/Legislation/2025/Cabinet%20Decision%20No.%20106%20of%202025.pdf",
     "verifiedOn": "2026-10-02",
     "confidence": "high",
     "verify": false,
-    "summary": "E-invoicing Phase 1 mandatory go-live (revenue ≥ AED 50M). fixed_date 2027-01-01. Source: https://taxnews.ey.com/news/2025-0724-uae-ministry-of-finance-releases-accredited-service-provider-accreditation-process-and-criteria.",
-    "penaltyNote": "UNKNOWN",
+    "summary": "Cabinet Decision 106/2025, annex item 1, sets the monthly implementation-delay penalty. FTA confirms 1 January 2027 implementation for persons subject to the system with revenue of at least AED 50M: https://tax.gov.ae/en/media.centre/news/federal.tax.authority.organises.joint.awareness.meeting.for.accredited.service.providers.and.persons.subject.to.the.einvoicing.system.aspx.",
+    "penaltyNote": "AED 5,000 per month or part of a month of delay",
     "appliesIf": {
       "field": "einvPhase1",
       "op": "truthy"
@@ -168,13 +168,13 @@
       "type": "fixed_date",
       "date": "2027-07-01"
     },
-    "penaltyAED": null,
-    "sourceUrl": "https://taxnews.ey.com/news/2025-0724-uae-ministry-of-finance-releases-accredited-service-provider-accreditation-process-and-criteria",
+    "penaltyAED": 5000,
+    "sourceUrl": "https://tax.gov.ae/Datafolder/Files/Legislation/2025/Cabinet%20Decision%20No.%20106%20of%202025.pdf",
     "verifiedOn": "2026-10-02",
     "confidence": "high",
     "verify": true,
-    "summary": "E-invoicing mandatory for remaining VAT-registered businesses. fixed_date 2027-07-01. Source: (as above).",
-    "penaltyNote": "UNKNOWN",
+    "summary": "Cabinet Decision 106/2025, annex item 1, sets the monthly implementation-delay penalty. FTA confirms 1 July 2027 implementation below AED 50M: https://tax.gov.ae/en/media.centre/news/federal.tax.authority.organises.joint.awareness.meeting.for.accredited.service.providers.and.persons.subject.to.the.einvoicing.system.aspx. Verify scope: the source refers to persons subject to the system, not simply VAT-registered businesses.",
+    "penaltyNote": "AED 5,000 per month or part of a month of delay",
     "appliesIf": {
       "all": [
         {

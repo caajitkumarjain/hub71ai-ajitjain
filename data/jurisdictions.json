@@ -66,14 +66,14 @@
     "id": "masdar",
     "name": "Masdar City Free Zone",
     "licenceAEDPerYear": null,
-    "officeAEDPerYear": null,
+    "officeAEDPerYear": 10000,
     "setupOneOffAED": null,
     "visaAEDPerPerson": null,
-    "sourceUrl": null,
+    "sourceUrl": "https://masdarcityfreezone.com/explore/license-and-registration",
     "verifiedOn": "2026-10-02",
-    "confidence": "low",
-    "verify": true,
-    "notes": "",
+    "confidence": "high",
+    "verify": false,
+    "notes": "Office amount is the published Flexidesk lease: AED 10,000 per year, excluding VAT; a refundable deposit equal to two months' rent is additional. The page separately lists a two-year employment visa package at AED 3,050 excluding medical fitness testing and Emirates ID. A universal per-person visa amount remains UNKNOWN because this is an employment package, not a dependent or renewal tariff. Annual licence and total one-off setup fees remain UNKNOWN: published licence packages bundle registration, and the page does not separate the recurring licence fee.",
     "fitRules": [
       {
         "condition": {
