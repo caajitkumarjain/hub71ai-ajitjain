@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { OpenAIProvider, Runner, withTrace, getGlobalTraceProvider, ModelTimeoutError, type AgentInputItem, type ModelProvider } from "@openai/agents";
+import { OpenAIProvider, Runner, withTrace, getGlobalTraceProvider, setTracingExportApiKey, ModelTimeoutError, type AgentInputItem, type ModelProvider } from "@openai/agents";
 import { TraceEvent } from "@/lib/schemas";
 import { createTraceEmitter } from "@/lib/trace";
 import { AgentAnswer, AgentRequest, detectLanguage, type Language } from "./contracts";
@@ -8,7 +8,7 @@ import { createAgents } from "./registry";
 import { checkInput } from "./guardrails";
 import { verifyAgentResult } from "./verifier";
 import { budgetedProvider, BudgetReachedError, RunBudget } from "./budget";
-import { runLimits } from "./config";
+import { openaiApiKey, runLimits } from "./config";
 
 const systemAnswers = {
   en: {
@@ -66,9 +66,11 @@ export async function runAgent(input: AgentRequest, onEvent: (event: TraceEvent)
   context.signal = signal;
   const timer = setTimeout(() => controller.abort(new Error("run timeout")), options.timeoutMs ?? limits.timeoutMs);
   try {
-    if (!options.modelProvider && !process.env.OPENAI_API_KEY) throw new Error("Model unavailable");
+    const apiKey = openaiApiKey();
+    if (!options.modelProvider && !apiKey) throw new Error("Model unavailable");
+    if (!options.modelProvider && apiKey) setTracingExportApiKey(apiKey);
     const provider = options.modelProvider ?? new OpenAIProvider({
-      apiKey: process.env.OPENAI_API_KEY, useResponses: true,
+      apiKey, useResponses: true,
     });
     const runConfig = { modelProvider: budgetedProvider(provider, budget), traceIncludeSensitiveData: false,
       tracingDisabled: Boolean(options.modelProvider), workflowName: "manzil-run",

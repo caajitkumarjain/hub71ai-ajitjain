@@ -10,8 +10,27 @@ import { createTools } from "@/lib/agents/tools";
 import { createAgents } from "@/lib/agents/registry";
 import { validateActivityMatches } from "@/lib/agents/activity-matcher";
 import { AgentOutput } from "@/lib/agents/contracts";
-import { models } from "@/lib/agents/config";
+import { models, openaiApiKey } from "@/lib/agents/config";
 import type { ManzilRunContext, TraceInput } from "@/lib/agents/context";
+
+describe("OpenAI environment configuration", () => {
+  afterEach(() => vi.unstubAllEnvs());
+  it("uses the existing Vercel OPENAI variable when the standard name is absent", () => {
+    vi.stubEnv("OPENAI_API_KEY", undefined);
+    vi.stubEnv("OPENAI", "test-vercel-value");
+    expect(openaiApiKey()).toBe("test-vercel-value");
+  });
+  it("prefers OPENAI_API_KEY when both names are configured", () => {
+    vi.stubEnv("OPENAI_API_KEY", "test-standard-value");
+    vi.stubEnv("OPENAI", "test-vercel-value");
+    expect(openaiApiKey()).toBe("test-standard-value");
+  });
+  it("does not invent a key when neither variable exists", () => {
+    vi.stubEnv("OPENAI_API_KEY", undefined);
+    vi.stubEnv("OPENAI", undefined);
+    expect(openaiApiKey()).toBeUndefined();
+  });
+});
 
 function session(patch: Partial<Profile> = {}, locale: ManzilRunContext["locale"] = "en") {
   const events: TraceInput[] = [];

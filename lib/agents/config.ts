@@ -3,6 +3,8 @@
 // https://developers.openai.com/api/docs/models/gpt-6.1-sol
 // https://developers.openai.com/api/docs/models/gpt-realtime-2.1
 const configured = (name: string, fallback: string) => process.env[name]?.trim() || fallback;
+// Server-side only: support the existing Vercel variable while preferring the standard name.
+export const openaiApiKey = () => process.env.OPENAI_API_KEY ?? process.env.OPENAI;
 export const models = {
   fast: configured("OPENAI_MODEL_FAST", "gpt-6-luna"),
   reasoning: configured("OPENAI_MODEL_REASONING", "gpt-6.1-sol"),
