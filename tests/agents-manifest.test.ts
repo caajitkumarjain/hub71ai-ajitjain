@@ -6,7 +6,7 @@ import { parseFleetRuns, statsForAgent } from "@/components/agents-room/telemetr
 const expectedFleet = [
   "concierge", "pathfinder", "bank-officer", "deadline-sentinel", "mission-builder",
   "activity-matcher", "name-agent", "bank-pack-agent", "governance-agent", "tax-prep-agent",
-  "input-guardrail", "verifier",
+  "input-guardrail", "verifier", "bawsala",
 ];
 const contractFields = [
   "id", "name", "monogram", "role", "mission", "tier", "tools", "guardrails", "deliverable",

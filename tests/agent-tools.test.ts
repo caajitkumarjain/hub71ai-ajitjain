@@ -11,6 +11,7 @@ import { createAgents } from "@/lib/agents/registry";
 import { validateActivityMatches } from "@/lib/agents/activity-matcher";
 import { AgentOutput } from "@/lib/agents/contracts";
 import { models, openaiApiKey } from "@/lib/agents/config";
+import { verifyAgentResult } from "@/lib/agents/verifier";
 import type { ManzilRunContext, TraceInput } from "@/lib/agents/context";
 
 describe("OpenAI environment configuration", () => {
@@ -57,6 +58,38 @@ function matcherAnswer(activityId = "software-development") {
 afterEach(() => vi.useRealTimers());
 
 describe("context-bound agent tools", () => {
+  it.each(["navigateJurisdiction", "simulateJurisdiction"] as const)("grounds quoted calculator inputs in %s results", async (toolName) => {
+    const { run, context } = session();
+    const args = {
+      facts: { customerLocations: ["mainland"], regulatedFinancialActivity: false, raisingForeignInvestment: true, physicalGoods: false },
+      prefs: { weights: { cost: 3, tax: 2 } },
+      calcInputs: { annualProfitAED: 432101, mainlandRevenueSharePct: 37, visas: 0, years: 3 },
+    };
+    const result = await createTools("Bawsala")[toolName].invoke(run, JSON.stringify(args));
+    expect(result).toMatchObject({ calcInputs: args.calcInputs, prefs: args.prefs, profileFacts: args.facts });
+    expect(context.toolResults).toEqual([result]);
+    expect(verifyAgentResult({ status: "complete", answer_md: "This estimate uses AED 432101 annual profit and 37% mainland sales.",
+      evidence: ["adgm", "R-CT"], numbers_used: ["432101", "37"], next_actions: [], authority_to_verify: "FTA", language: "en" }, context.toolResults)).toEqual({ verdict: "approve", reasons: [] });
+    expect(context.profile.customerLocations).toBeUndefined();
+  });
+
+  it("validates navigator inputs and applies only explicit interview facts to a simulation", async () => {
+    const { run, context } = session();
+    const tools = createTools("Bawsala");
+    const original = structuredClone(context.profile);
+    const result = await tools.navigateJurisdiction.invoke(run, JSON.stringify({
+      facts: { customerLocations: ["mainland"], regulatedFinancialActivity: false, raisingForeignInvestment: false, physicalGoods: true },
+      calcInputs: { annualProfitAED: 800000, annualRevenueAED: 1500000, mainlandRevenueSharePct: 40, visas: 0, years: 3 },
+    }));
+    expect(result).toMatchObject({ missingFacts: [], rankings: expect.arrayContaining([expect.objectContaining({ jurisdictionId: "adgm", warnings: expect.arrayContaining(["R-QFZP", "R-DUAL"]) })]) });
+    expect(context.profile).toEqual(original);
+    await expect(tools.navigateJurisdiction.invoke(run, JSON.stringify({ facts: { jurisdiction: "adgm" } }))).rejects.toThrow();
+    await expect(tools.simulateJurisdiction.invoke(run, JSON.stringify({ calcInputs: { annualProfitAED: -1 } }))).rejects.toThrow();
+    expect(await tools.getRules.invoke(run, JSON.stringify({ ids: ["R-QFZP", "R-DUAL", "R-CT", "UNKNOWN"] }))).toMatchObject({
+      rules: expect.arrayContaining([expect.objectContaining({ id: "R-QFZP" }), expect.objectContaining({ id: "R-DUAL" }), expect.objectContaining({ id: "R-CT" })]), missingIds: ["UNKNOWN"],
+    });
+  });
+
   it("rejects a model-supplied profile before calling an engine", async () => {
     const { run, context, events } = session();
     const original = structuredClone(context.profile);
@@ -162,11 +195,11 @@ describe("context-bound agent tools", () => {
 });
 
 describe("SDK agents and Activity Matcher", () => {
-  it("configures a real Concierge handoff to four structured specialists", async () => {
+  it("configures a real Concierge handoff to five structured specialists", async () => {
     const { run } = session();
     const agents = createAgents();
     expect(agents.concierge.model).toBe(models.fast);
-    expect((await agents.concierge.getEnabledHandoffs(run)).map((handoff) => handoff.agentName)).toEqual(["Pathfinder", "Bank Officer", "Deadline Sentinel", "Mission Builder"]);
+    expect((await agents.concierge.getEnabledHandoffs(run)).map((handoff) => handoff.agentName)).toEqual(["Pathfinder", "Bank Officer", "Deadline Sentinel", "Mission Builder", "Bawsala"]);
     for (const agent of Object.values(agents)) {
       expect(agent.outputType).toBe(AgentOutput);
       if (agent.name !== "Concierge") expect(agent.model).toBe(models.reasoning);
@@ -175,7 +208,8 @@ describe("SDK agents and Activity Matcher", () => {
       expect(instructions).toContain("## Context discipline");
       expect(instructions).toContain("## Action policy");
     }
-    expect(agents.pathfinder.tools.map((tool) => tool.name)).toContain("compare_jurisdictions");
+    expect(agents.pathfinder.tools.map((tool) => tool.name)).not.toContain("compare_jurisdictions");
+    expect(agents.navigator.tools.map((tool) => tool.name)).toEqual(["navigate_jurisdiction", "simulate_jurisdiction", "flip_points", "get_rules"]);
     expect(agents.bank.tools.map((tool) => tool.name)).toContain("match_activities");
   });
 

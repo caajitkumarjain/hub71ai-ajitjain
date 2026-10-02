@@ -3,10 +3,30 @@ import { z } from "zod";
 import { Profile } from "@/lib/schemas";
 import { compilePath, compareJurisdictions, computeObligations, scoreBankability, whatIf } from "@/lib/engines";
 import { activities, jurisdictions, rules, steps } from "@/lib/engines/seed-data";
+import { navigate, flipPoints, NavigationPreferences, CalculatorInputs, jurisdictionRules } from "@/lib/engines/jurisdiction-twin";
 import type { ManzilRunContext } from "./context";
 import { createActivityMatcherTool } from "./activity-matcher";
 
 const emptyInput = z.object({}).strict();
+const navigatorFacts = z.object({
+  customerLocations: z.array(z.enum(["mainland", "freezone", "abroad", "government"])).min(1).max(4).optional(),
+  regulatedFinancialActivity: z.boolean().optional(),
+  raisingForeignInvestment: z.boolean().optional(),
+  physicalGoods: z.boolean().optional(),
+}).strict();
+const navigatorInput = z.object({
+  prefs: NavigationPreferences.optional(), calcInputs: CalculatorInputs.optional(), facts: navigatorFacts.optional(),
+}).strict();
+function navigatorProfile(profile: Profile, facts: z.infer<typeof navigatorFacts> | undefined): Profile {
+  return Profile.parse({ ...profile, ...facts });
+}
+function navigatorGrounding(profile: Profile, prefs: z.infer<typeof NavigationPreferences> | undefined, calcInputs: z.input<typeof CalculatorInputs> | undefined) {
+  return {
+    prefs: NavigationPreferences.parse(prefs ?? {}), calcInputs: CalculatorInputs.parse(calcInputs ?? {}),
+    profileFacts: { customerLocations: profile.customerLocations, regulatedFinancialActivity: profile.regulatedFinancialActivity,
+      raisingForeignInvestment: profile.raisingForeignInvestment, physicalGoods: profile.physicalGoods, revenue12mAED: profile.revenue12mAED },
+  };
+}
 type ToolCallDetails = Parameters<FunctionTool<ManzilRunContext>["invoke"]>[2];
 const stepInput = z.object({ stepId: z.string().min(1).max(64) }).strict();
 // Zod 4 retains inner defaults under partial(): omitted patch fields must stay omitted.
@@ -95,7 +115,20 @@ export function createTools(agent: string, runConfig?: Partial<RunConfig>) {
     explainDependencies: contextTool(agent, "explain_dependencies", "Return the ancestors and descendants of a step in the session founder's compiled path.", stepInput, ({ stepId }, profile) => dependencies(profile, stepId)),
     compareJurisdictions: contextTool(agent, "compare_jurisdictions", "Compare sourced three-year jurisdiction totals for the session founder. Unknown cost components are not zero; quote source notes and qualifications.", emptyInput, (_input, profile) => ({
       comparisons: compareJurisdictions(profile, jurisdictions),
+      navigation: navigate(profile),
       sources: jurisdictions.map(({ id, name, sourceUrl, verifiedOn, confidence, verify, notes }) => ({ id, name, sourceUrl, verifiedOn, confidence, verify, notes })),
+    })),
+    navigateJurisdiction: contextTool(agent, "navigate_jurisdiction", "Rank eligible jurisdictions using deterministic deal-breakers, sourced rules and current calculator inputs. Supply only interview facts explicitly answered by the founder. Missing facts must be asked before recommending.", navigatorInput, ({ prefs, calcInputs, facts }, profile) => {
+      const founder = navigatorProfile(profile, facts);
+      return { ...navigate(founder, prefs, calcInputs), ...navigatorGrounding(founder, prefs, calcInputs), tool: "navigate_jurisdiction" };
+    }),
+    simulateJurisdiction: contextTool(agent, "simulate_jurisdiction", "Calculate jurisdiction cost and tax estimates for the requested inputs. Unknown costs remain excluded and labelled; never infer qualifying tax status from mainland share alone.", navigatorInput, ({ prefs, calcInputs, facts }, profile) => {
+      const founder = navigatorProfile(profile, facts);
+      const result = navigate(founder, prefs, calcInputs);
+      return { tool: "simulate_jurisdiction", ...navigatorGrounding(founder, prefs, calcInputs), estimateLabel: result.estimateLabel, calculations: result.rankings.map(({ jurisdictionId, name, totalCostAED, taxEstimateAED, totalAED, unknowns, warnings, evidence }) => ({ jurisdictionId, name, totalCostAED, taxEstimateAED, totalAED, unknowns, warnings, evidence })) };
+    }),
+    flipPoints: contextTool(agent, "flip_points", "Scan deterministic mainland-revenue-share and annual-profit scenarios. Return only actual recommendation changes; an empty list means no change found in the scanned range.", navigatorInput, ({ prefs, calcInputs, facts }, profile) => ({
+      tool: "flip_points", flipPoints: flipPoints(navigatorProfile(profile, facts), prefs, calcInputs),
     })),
     runBankability: contextTool(agent, "run_bankability", "Run deterministic bank-readiness checks. Quote this score and finding IDs. profileFacts supplies the trusted description for additional AI-review questions, which never change the score.", emptyInput, (_input, profile) => ({
       ...scoreBankability(profile, activities),
@@ -119,8 +152,8 @@ export function createTools(agent: string, runConfig?: Partial<RunConfig>) {
     }),
     whatIf: contextTool(agent, "what_if", "Simulate only the named revenue, hiring, jurisdiction or incorporation-date changes. Returns before/after/diff without changing the session profile.", whatIfInput, (patch, profile) => whatIf(profile, patch)),
     getRules: contextTool(agent, "get_rules", "Read exact sourced rules by ID. Missing IDs are reported, not invented.", z.object({ ids: z.array(z.string().min(1).max(64)).max(50) }).strict(), ({ ids }) => ({
-      rules: rules.filter((rule) => ids.includes(rule.id)),
-      missingIds: ids.filter((id) => !rules.some((rule) => rule.id === id)),
+      rules: [...rules, ...jurisdictionRules].filter((rule) => ids.includes(rule.id)),
+      missingIds: ids.filter((id) => ![...rules, ...jurisdictionRules].some((rule) => rule.id === id)),
     })),
     applyProfilePatch: contextTool(agent, "apply_profile_patch", "Propose a limited profile patch for explicit client confirmation. This tool does not apply changes, submit forms or contact anyone.", z.object({ patch: proposedPatch }).strict(), ({ patch }) => ({
       proposedPatch: patch, applied: false, requiresConfirmation: true,

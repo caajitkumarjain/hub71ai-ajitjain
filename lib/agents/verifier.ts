@@ -1,10 +1,11 @@
 import type { Profile } from "@/lib/schemas";
 import { AgentAnswer, type Language } from "@/lib/agents/contracts";
 import { activities, jurisdictions, rules, steps } from "@/lib/engines/seed-data";
+import { jurisdictionRules } from "@/lib/engines/jurisdiction-twin";
 
 export type VerificationResult = { verdict: "approve" | "revise"; reasons: string[] };
 
-const seedIds = new Set([...steps, ...rules, ...jurisdictions, ...activities].map((item) => item.id));
+const seedIds = new Set([...steps, ...rules, ...jurisdictionRules, ...jurisdictions, ...activities].map((item) => item.id));
 const activityIds = new Set(activities.map((activity) => activity.id));
 const monthNames = [
   ["January", "Jan", "يناير", "जनवरी"], ["February", "Feb", "فبراير", "फरवरी", "फ़रवरी"], ["March", "Mar", "مارس", "मार्च"],
@@ -114,7 +115,7 @@ export function verifyAgentResult(result: unknown, toolResults: unknown[], profi
   if (answer.status === "complete" && !answer.evidence.length) reasons.push("A complete answer must cite evidence.");
   if (!answer.answer_md.trim()) reasons.push("The answer must not be empty.");
   for (const action of answer.next_actions) {
-    if (!/^\/(?:path|bank|deadlines|start)?(?:[?#][^\s\\]*)?$/.test(action.href) || /[\u0000-\u0020\u007f]/.test(action.href)) {
+    if (!/^\/(?:path|bank|deadlines|navigator|start)?(?:[?#][^\s\\]*)?$/.test(action.href) || /[\u0000-\u0020\u007f]/.test(action.href)) {
       reasons.push("Next actions must link to an existing founder route.");
     }
   }

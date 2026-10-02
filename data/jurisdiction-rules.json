@@ -1,0 +1,66 @@
+[
+  {
+    "id": "R-DUAL",
+    "title": "Mainland operating permission",
+    "summary": "A free-zone company serving mainland or government customers must check activity eligibility and obtain the required Abu Dhabi dual licence or other operating authorisation before operating on the mainland.",
+    "sourceUrl": "https://masdarcityfreezone.com/blog/dual-license-abu-dhabi",
+    "verifiedOn": "2026-10-02",
+    "verify": true,
+    "values": {
+      "licenceAED": 1200,
+      "includedActivities": 6,
+      "reportedEnforcementFrom": "2026-03"
+    },
+    "verificationNote": "The cited Masdar guide confirms the dual-licence route and eligibility checks. The requested AED 1,200 / six-activity amount and March 2026 enforcement date were not found on that page; retain only as user-supplied estimates requiring ADDED confirmation. The fee is counted once; renewal cost is unknown."
+  },
+  {
+    "id": "R-QFZP",
+    "title": "Qualifying free-zone income",
+    "summary": "Free-zone zero-rate corporate tax requires qualifying income, adequate substance and other QFZP conditions. Non-qualifying revenue must not exceed the lower of the revenue percentage limit and monetary cap. Breaching the test loses QFZP status for the current and following tax periods.",
+    "sourceUrl": "https://ancova-associates.com/insights/uae-free-zone-corporate-tax-2026",
+    "verifiedOn": "2026-10-02",
+    "verify": true,
+    "values": {
+      "qualifyingRatePct": 0,
+      "nonQualifyingLimitPct": 5,
+      "nonQualifyingLimitAED": 5000000,
+      "lossTaxPeriods": 5
+    },
+    "verificationNote": "Simplified scenario model treats mainland revenue as non-qualifying revenue. Actual classification, exclusions, substance, audited accounts and the taxable base require FTA verification; customer geography alone does not establish QFZP eligibility."
+  },
+  {
+    "id": "R-CT",
+    "title": "Standard corporate tax",
+    "summary": "The standard corporate-tax regime applies a zero rate up to the taxable-income threshold and the standard rate above it.",
+    "sourceUrl": "https://mof.gov.ae/",
+    "corroboratingSourceUrl": "https://mof.gov.ae/en/news/ministry-of-finance-confirms-applicable-taxable-income-threshold-for-corporate-tax-abu-dhabi-uae/",
+    "verifiedOn": "2026-10-02",
+    "verify": false,
+    "values": {
+      "zeroRateThresholdAED": 375000,
+      "standardRatePct": 9
+    }
+  },
+  {
+    "id": "R-FIN",
+    "title": "Regulated financial activities",
+    "summary": "Within these six candidate routes, regulated financial services require the ADGM route and FSRA permission. This is a navigator eligibility filter, not a claim that other UAE regulators do not exist.",
+    "sourceUrl": "https://www.adgm.com/",
+    "corroboratingSourceUrl": "https://www.adgm.com/financial-services-regulatory-authority/fsra-general-application-process",
+    "verifiedOn": "2026-10-02",
+    "verify": true,
+    "values": {
+      "eligibleJurisdictionId": "adgm"
+    }
+  },
+  {
+    "id": "R-FIT",
+    "title": "Jurisdiction focus fit",
+    "summary": "Compare the business focus with each jurisdiction focusTags. Scores are transparent planning heuristics, not official ratings or promises of eligibility. Unknown costs, speed and visa capacity are not treated as confirmed advantages.",
+    "sourceUrl": "https://www.adgm.com/",
+    "verifiedOn": "2026-10-02",
+    "verify": true,
+    "values": {},
+    "verificationNote": "Each jurisdiction classificationSource identifies its own source. Equal priority weights are a product default, not a sourced jurisdiction fact."
+  }
+]

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { ArrowUpRight, Check, LoaderCircle, X } from "lucide-react";
 import type { PathNode, Profile } from "@/lib/schemas";
 import { Rule } from "@/lib/schemas";
@@ -37,6 +38,7 @@ export function StepDrawer({ node, nodes, profile, updating, notice, onClose, on
     <div className="space-y-7 p-6 sm:p-8">
       <header><div className="mb-3 flex flex-wrap items-center gap-2"><span className="font-mono text-xs text-ink-muted">{node.id}</span>{node.verify && <VerifyBadge />}{node.critical && <span className="rounded-full bg-gold/15 px-2 py-1 text-xs">Critical step</span>}{node.status === "done" && <span className="text-sm text-primary-ink">Done</span>}</div><h2 id="step-title" className="font-display text-3xl leading-tight">{shortTitle(node)}</h2><p className="mt-2 text-sm text-ink-muted">{node.authority}</p></header>
       <section><h3 className="mb-2 font-medium">Why</h3><p className="leading-6 text-ink-muted">{why}</p></section>
+      {node.id === "C-JURIS" && <Button asChild className="w-full"><Link href="/navigator">Decide with Bawsala<ArrowUpRight aria-hidden="true" /></Link></Button>}
       <section><h3 className="mb-3 font-medium">You’ll need</h3>{node.documents.length ? <ul className="space-y-3">{node.documents.map((document) => <li key={document}><label className="flex items-start gap-3"><input type="checkbox" className="mt-1 size-4 accent-primary" />{document}</label></li>)}</ul> : <p className="text-sm leading-6 text-ink-muted">UNKNOWN · verify the document checklist with {node.authority}.</p>}</section>
       <section className="rounded-xl border border-line bg-bg p-4"><p className="font-medium">Takes ~{node.durationDays.likely} days <span className="text-xs font-normal text-ink-muted">· estimate</span></p><p className="mt-2">Costs {node.costAED ? `AED ${node.costAED.min.toLocaleString("en-US")}–${node.costAED.max.toLocaleString("en-US")} · estimate` : `UNKNOWN · verify with ${node.authority}`}</p><div className="mt-3"><SourceChip {...node} /></div></section>
       <section><h3 className="mb-3 font-medium">Unlocks next</h3>{unlocks.length ? <ul className="space-y-2 text-sm text-ink-muted">{unlocks.map((next) => <li key={next.id} className="flex items-center gap-2"><ArrowUpRight aria-hidden="true" className="size-4 shrink-0 text-primary-ink" />{shortTitle(next)}</li>)}</ul> : <p className="text-sm text-ink-muted">No further steps depend on this one.</p>}</section>

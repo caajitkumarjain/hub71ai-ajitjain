@@ -7,6 +7,7 @@ import { agentLane, studioIds, type AgentManifestEntry } from "./manifest";
 import { agentKey, loadFleetRuns, statsForAgent, type AgentStats, type FleetRun, type RunTrace } from "./telemetry";
 import { Topology } from "./topology";
 import { agentPortraits } from "./portraits";
+import { BawsalaAvatar } from "@/components/navigator/bawsala-avatar";
 import styles from "./agents-room.module.css";
 
 function useFleetTelemetry() {
@@ -42,6 +43,7 @@ function useFleetTelemetry() {
 function Avatar({ agent }: { agent: AgentManifestEntry }) {
   const portrait = agentPortraits[agent.id];
   return <span className={styles.avatar} data-tone={agentLane(agent.id)} aria-hidden="true">
+    {agent.id === "bawsala" && <BawsalaAvatar size={96} />}
     {portrait && <Image src={portrait} alt="" width={112} height={112} placeholder="blur" className={styles.portraitImage} data-agent-portrait={agent.id} />}
     <span className={styles.avatarCode}>{agent.monogram}</span>
   </span>;
