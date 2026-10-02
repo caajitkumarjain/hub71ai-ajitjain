@@ -17,3 +17,35 @@ Source of truth: `MANZIL-CODEX-BUILD-SPEC.md`. Build per §15-S (4.5-hour plan, 
     - Fallback fixtures show a "cached" chip.
     - Fixtures are recorded from real runs, never hand-written.
 11. **Done means verified.** Before saying a phase is done, run `pnpm test` and `pnpm build`, and check the phase's "Done when" against the deployed URL.
+
+## HARD TIMELINE (Abu Dhabi time, UTC+4): this overrides the clock times in the spec's §15-S
+
+The judges check GitHub commit time and SHA. **Code freeze is 15:30.** Nothing is committed after that.
+
+| Deadline | Must be merged + pushed to GitHub `main` |
+|---|---|
+| 13:00 | Phase 2A pushed on `main`; Phase 2B committed on branch `phase-b`, with `main` merged into it |
+| 14:10 | Phase 3A (on `main`) + Phase 3B (on `phase-b`) done; `phase-b` merged into `main`, everything wired and pushed |
+| 14:05 | Agent Control Room (/agents) committed on branch `phase-c`; merged into `main` in the 14:10 merge together with `phase-b` |
+| 14:50 | Phase 4 on `main` (admin + fixtures + Rulebook + README) AND, in parallel on `phase-b`, the Company Setup Studio (/company) |
+| 15:00 | `phase-b` (Company Studio) merged into `main` and pushed |
+| 15:15 | Phase 5 (acceptance checklist §17-S passes on the live URL) |
+| 15:30 | Final push. FREEZE. |
+
+**Clock rules for every task:**
+1. Run `Get-Date` at the start of the task and again before each major step.
+2. Fifteen minutes before your phase deadline, stop adding features. Make what exists pass `pnpm test` and `pnpm build`, then commit and push. A working smaller feature beats a broken bigger one.
+3. If the deadline passes mid-feature, revert or disable the unfinished part (feature flag or hidden route), push the working state, and report what was cut.
+4. If behind at 14:10, cut in this order:
+   1. hiring stepper;
+   2. "Where to set up" card;
+   3. Mission Pack streaming;
+   4. admin live-runs table.
+5. **Never cut:**
+   - Path timeline
+   - Bank Fix animation
+   - Revenue what-if
+   - Ask Manzil + theatre
+   - Friction Radar
+   - Source chips
+6. Push to GitHub after every phase, not just at the end, so a valid timestamped commit always exists.

@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "./logo";
 import { ThemeToggle } from "./theme-toggle";
 import { cn } from "@/lib/utils";
+import { useAskManzil } from "@/components/agent/ask-manzil";
 
 const navigation = [{ href: "/path", label: "Your path" }, { href: "/bank", label: "Bank check" }, { href: "/deadlines", label: "Deadlines" }];
 
 export function TopBar() {
   const pathname = usePathname();
+  const askManzil = useAskManzil();
   return (
     <header className="border-b border-line bg-bg">
       <div className="mx-auto grid max-w-[1152px] grid-cols-[1fr_auto] items-center gap-x-3 px-4 pt-4 md:flex md:min-h-22 md:gap-10 md:py-4">
@@ -22,7 +24,7 @@ export function TopBar() {
         </nav>
         <div className="flex items-center gap-1 md:gap-3">
           <ThemeToggle />
-          <Button variant="outline" size="sm" disabled aria-label="Ask Manzil — coming soon" title="Coming soon"><MessageSquare aria-hidden="true" className="hidden sm:block" />Ask Manzil</Button>
+          {!pathname.startsWith("/admin") && <Button variant="outline" size="sm" onClick={askManzil.open} aria-haspopup="dialog"><MessageSquare aria-hidden="true" className="hidden sm:block" />Ask Manzil</Button>}
         </div>
       </div>
     </header>

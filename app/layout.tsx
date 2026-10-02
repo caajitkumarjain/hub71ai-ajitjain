@@ -3,6 +3,7 @@ import { Fraunces, Inter, IBM_Plex_Sans_Arabic, JetBrains_Mono } from "next/font
 import Link from "next/link";
 import { ThemeProvider } from "@/components/brand/theme-provider";
 import { TopBar } from "@/components/brand/top-bar";
+import { AskManzilProvider } from "@/components/agent/ask-manzil";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <body>
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-surface focus:p-4">Skip to content</a>
       <ThemeProvider>
+        <AskManzilProvider>
         <div className="flex min-h-dvh flex-col">
           <TopBar />
           <main id="main-content" tabIndex={-1} className="mx-auto w-full max-w-[1152px] flex-1 px-4">{children}</main>
@@ -29,6 +31,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </div>
           </footer>
         </div>
+        </AskManzilProvider>
       </ThemeProvider>
     </body>
   </html>;
