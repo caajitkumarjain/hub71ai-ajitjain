@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { inflateRawSync } from "node:zlib";
 import ExcelJS from "exceljs";
+import { z } from "zod";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
 import { Profile } from "@/lib/schemas";
 import personas from "@/data/personas.json";
 import { rules, steps } from "@/lib/engines/seed-data";
 import { compilePath, computeObligations } from "@/lib/engines";
-import { DocumentPack, DRAFT_NOTE, ExportRequest } from "@/lib/export/schema";
+import { DocumentPack, ModelDocumentPack, DRAFT_NOTE, ExportRequest } from "@/lib/export/schema";
 import { verifyDocumentPack } from "@/lib/agents/verifier";
 import { renderDocx } from "@/lib/export/docx";
 import { renderChecklist, renderDeadlines, renderEmaraTax } from "@/lib/export/xlsx";
@@ -69,6 +70,12 @@ function request(body: unknown) {
 }
 
 describe("structured export verification", () => {
+  it("keeps model JSON Schema within supported formats while validating URLs at the application boundary", () => {
+    expect(JSON.stringify(z.toJSONSchema(ModelDocumentPack))).not.toContain('"format":"uri"');
+    const badUrl = { ...pack, officialUrl: "not-a-url" };
+    expect(ModelDocumentPack.safeParse(badUrl).success).toBe(true);
+    expect(DocumentPack.safeParse(badUrl).success).toBe(false);
+  });
   it("nulls invented values, corrects provenance, and matches normalized profile/tool values", () => {
     const result = verifyDocumentPack({ ...pack, fields: [
       { label: "Founder", value: `  ${profile.name.toUpperCase()}  `, provenance: "calculated" },

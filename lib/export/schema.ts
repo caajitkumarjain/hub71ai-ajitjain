@@ -23,9 +23,12 @@ export type DocumentPack = z.infer<typeof DocumentPack>;
 
 // The model's strict JSON schema requires every key; absent optional information is null.
 export const ModelDocumentPack = DocumentPack.extend({
+  // OpenAI structured outputs do not accept JSON Schema's "uri" format.
+  // The returned value still passes DocumentPack's HTTPS URL validation before use.
+  officialUrl: z.string().max(2048).nullable(),
   fields: z.array(PackField.extend({ sourceRuleId: z.string().nullable() })).max(100),
   email: DocumentPack.shape.email.unwrap(),
-  sources: z.array(PackSource.extend({ ruleId: z.string().nullable(), stepId: z.string().nullable() })).max(50),
+  sources: z.array(PackSource.extend({ ruleId: z.string().nullable(), stepId: z.string().nullable(), url: z.string().max(2048) })).max(50),
 });
 export const documentKinds = ["mission-pack", "business-profile", "source-of-funds", "board-resolution", "ubo-declaration", "emaratax"] as const;
 export const DocumentKind = z.enum(documentKinds);
