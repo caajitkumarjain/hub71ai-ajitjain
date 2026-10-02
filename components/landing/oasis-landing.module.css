@@ -31,14 +31,16 @@
 .previewHeader h2 { margin-top: 5px; font-family: var(--font-fraunces),serif; font-size: 23px; line-height: 30px; font-weight: 500; }
 .demoLabel { white-space: nowrap; padding: 4px 7px; border: 1px solid color-mix(in srgb,var(--hero-ink) 25%,transparent); border-radius: 20px; font-size: 8px; line-height: 14px; opacity: .8; }
 .previewRule { display: flex; justify-content: space-between; gap: 8px; margin: 26px 0 16px; font-size: 7px; letter-spacing: .1em; opacity: .55; }
-.lanes { display: grid; gap: 17px; }
-.lane { display: grid; grid-template-columns: 60px 1fr; align-items: center; gap: 12px; }
-.lane > span { font-size: 10px; opacity: .77; }
+.lanes { display: grid; gap: 8px; }
+.lane { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 12px; padding: 7px 8px; border-radius: 7px; border-left: 3px solid var(--preview-lane); background: color-mix(in srgb,var(--preview-lane) 12%,transparent); }
+.lane > span { font-size: 10px; font-weight: 600; }
 .laneTrack { position: relative; height: 18px; background-image: repeating-linear-gradient(90deg,transparent,transparent calc(25% - 1px),color-mix(in srgb,var(--hero-ink) 12%,transparent) calc(25% - 1px),color-mix(in srgb,var(--hero-ink) 12%,transparent) 25%); }
-.laneBar { position: absolute; top: 1px; height: 16px; width: 38%; left: 0; border-radius: 4px; background: color-mix(in srgb,var(--hero-ink) 38%,transparent); transform-origin: left; animation: laneGrow .6s ease-out both; animation-delay: calc(var(--lane-order) * .05s); }
-.lane:nth-child(2) .laneBar { left: 18%; width: 60%; }
-.lane:nth-child(3) .laneBar { left: 64%; width: 34%; }
-.lane:nth-child(4) .laneBar { left: 34%; width: 45%; opacity: .7; }
+.laneBar { position: absolute; top: 1px; height: 16px; width: 38%; left: 0; border-radius: 4px; background: var(--preview-lane); box-shadow: inset 0 1px color-mix(in srgb,var(--hero-ink) 25%,transparent); transform-origin: left; animation: laneGrow .6s ease-out both; animation-delay: calc(var(--lane-order) * .05s); }
+.lane:nth-child(2) .laneBar { left: 18%; width: 45%; }
+.lane:nth-child(3) .laneBar { left: 20%; width: 78%; }
+.lane:nth-child(4) .laneBar { left: 34%; width: 45%; }
+.lane:nth-child(5) .laneBar { left: 48%; width: 44%; }
+.lane:nth-child(6) .laneBar { left: 68%; width: 30%; }
 .criticalBar { background: var(--gold); box-shadow: 0 0 18px color-mix(in srgb,var(--gold) 20%,transparent); }
 .criticalBar span { display: block; padding: 0 8px; color: var(--hero-deep); font-size: 9px; font-style: normal; line-height: 16px; font-weight: 600; }
 .previewDivider { height: 1px; margin: 25px 0 22px; background: color-mix(in srgb,var(--hero-ink) 16%,transparent); }
@@ -107,9 +109,9 @@
 .pathCard { background: var(--grad-soft); }
 .pathMini { margin-top: 27px; padding: 20px 22px 12px; border: 1px solid var(--line); border-radius: 12px; background: color-mix(in srgb,var(--surface) 80%,transparent); }
 .compactLanes { gap: 12px; }
-.compactLanes .lane > span { color: var(--ink-muted); font-size: 9px; }
+.compactLanes .lane > span { color: var(--ink); font-size: 9px; }
 .compactLanes .laneTrack { background-image: repeating-linear-gradient(90deg,transparent,transparent calc(25% - 1px),var(--line) calc(25% - 1px),var(--line) 25%); }
-.compactLanes .laneBar { background: color-mix(in srgb,var(--primary) 25%,transparent); }
+.compactLanes .laneBar { background: var(--preview-lane); }
 .compactLanes .criticalBar { background: var(--gold); }
 .demoCaption { display: block; margin-top: 14px; color: var(--ink-muted); opacity: .8; font-size: 8px; line-height: 15px; }
 .bankMini { display: flex; flex-direction: column; justify-content: center; min-height: 159px; margin-top: 27px; padding: 24px; border-radius: 14px; background: var(--grad-soft); }
@@ -176,3 +178,13 @@
 
 @media (prefers-reduced-motion: no-preference) { .bentoCard { transition: border-color .2s ease-out, box-shadow .2s ease-out, translate .2s ease-out; } .bentoCard:hover { translate: 0 -3px; } }
 .bentoCard { box-shadow: var(--shadow-soft); }
+.navigatorSection { padding-top: 40px; }
+.navigatorCard { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 28px; padding: 32px; border: 1px solid color-mix(in srgb,var(--teal) 35%,var(--line)); border-radius: 24px; background: linear-gradient(120deg,var(--surface),var(--primary-soft)); box-shadow: var(--shadow-soft); }
+.navigatorCompass { display: grid; place-items: center; }
+.navigatorCopy h2 { margin-top: 8px; font-family: var(--font-fraunces),serif; font-size: clamp(25px,3vw,33px); line-height: 1.2; letter-spacing: -.025em; }
+.navigatorCopy > p:last-child { max-width: 560px; margin-top: 12px; color: var(--ink-muted); font-size: 13px; line-height: 23px; }
+.navigatorButton { display: inline-flex; justify-content: center; align-items: center; gap: 12px; min-height: 48px; padding: 12px 20px; border-radius: 12px; background: var(--primary); color: var(--primary-foreground); font-size: 13px; font-weight: 600; white-space: nowrap; box-shadow: inset 0 1px color-mix(in srgb,var(--hero-ink) 25%,transparent); }
+.navigatorButton svg { width: 17px; height: 17px; }
+.navigatorButton:hover { background: var(--primary-hover); color: var(--primary-hover-foreground); }
+@media (max-width: 760px) { .navigatorCard { grid-template-columns: auto minmax(0,1fr); gap: 20px; padding: 24px; } .navigatorCompass svg { width: 72px; height: 72px; } .navigatorCopy { grid-column: 1 / -1; } .navigatorCompass { justify-self: start; } .navigatorButton { grid-column: 1 / -1; justify-self: start; } }
+@media (prefers-reduced-motion: no-preference) { .navigatorButton { transition: transform .2s ease-out,box-shadow .2s ease-out,background .2s ease-out; } .navigatorButton:hover { transform: translateY(-1px); box-shadow: 0 7px 18px color-mix(in srgb,var(--primary) 20%,transparent); } }

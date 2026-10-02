@@ -9,6 +9,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight, Bot, Building2, CalendarClock, Che
 import { useEffect, type CSSProperties, type ReactNode } from "react";
 import { GeoPattern } from "@/components/brand/geo-pattern";
 import { PriyaButton } from "@/components/path/priya-button";
+import { BawsalaAvatar } from "@/components/navigator/bawsala-avatar";
 import styles from "./oasis-landing.module.css";
 
 type LandingProps = { initialScore: number; fixedScore: number; vatDays: number | null };
@@ -20,7 +21,14 @@ function Reveal({ children, delay = 0, className }: { children: ReactNode; delay
 
 function PreviewLanes({ compact = false }: { compact?: boolean }) {
   return <div className={`${styles.lanes} ${compact ? styles.compactLanes : ""}`} aria-hidden="true">
-    {["Arrive", "Company", "Bank", "Home"].map((name, index) => <div className={styles.lane} key={name}><span>{name}</span><div className={styles.laneTrack}><i className={`${styles.laneBar} ${index === 1 ? styles.criticalBar : ""}`} style={{ "--lane-order": index } as CSSProperties}>{index === 1 && <span>Critical path</span>}</i></div></div>)}
+    {[
+      { name: "Arrive", color: "var(--sky)" },
+      { name: "Visa", color: "var(--teal)" },
+      { name: "Company", color: "var(--primary)" },
+      { name: "Home", color: "var(--amber)" },
+      { name: "Family", color: "var(--coral)" },
+      { name: "Operate", color: "color-mix(in srgb, var(--sky) 70%, var(--hero-deep))" },
+    ].map(({ name, color }, index) => <div className={styles.lane} key={name} style={{ "--preview-lane": color, "--lane-order": index } as CSSProperties}><span>{name}</span><div className={styles.laneTrack}><i className={`${styles.laneBar} ${index === 2 ? styles.criticalBar : ""}`}>{index === 2 && <span>Critical path</span>}</i></div></div>)}
   </div>;
 }
 
@@ -81,6 +89,18 @@ export function OasisLanding(props: LandingProps) {
     </section>
 
     <section className={styles.trust} aria-label="Official source references"><p>Rules sourced from</p><div>{["adgm.com", "tax.gov.ae", "tamm.abudhabi", "masdarcityfreezone.com", "doh.gov.ae"].map((domain) => <a href={`https://${domain}/`} key={domain} target="_blank" rel="noopener noreferrer"><strong>{domain}</strong><ArrowUpRight aria-hidden="true" /></a>)}</div></section>
+
+    <section className={styles.navigatorSection} aria-labelledby="navigator-heading">
+      <Reveal className={styles.navigatorCard}>
+        <div className={styles.navigatorCompass}><BawsalaAvatar size={112} /></div>
+        <div className={styles.navigatorCopy}>
+          <p className={styles.sectionEyebrow}>MEET BAWSALA · YOUR LOCATION NAVIGATOR</p>
+          <h2 id="navigator-heading">Where should your business belong?</h2>
+          <p>Meet Bawsala, your jurisdiction guide. Answer four questions, compare Abu Dhabi locations and see the reasons behind your recommendation.</p>
+        </div>
+        <Link href="/navigator" className={styles.navigatorButton}>Open navigator<ArrowRight aria-hidden="true" /></Link>
+      </Reveal>
+    </section>
 
     <section id="how-it-works" className={styles.howSection} aria-labelledby="how-heading">
       <Reveal className={styles.sectionHeading}><p className={styles.sectionEyebrow}>LESS GUESSWORK. MORE MOMENTUM.</p><h2 id="how-heading">From a big move<br />to your next small step.</h2><p>Start with who you are. See what connects. Move forward with a plan that makes sense.</p></Reveal>

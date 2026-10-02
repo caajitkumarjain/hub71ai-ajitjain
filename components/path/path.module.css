@@ -73,23 +73,23 @@
 .axisTrack { position: relative; height: 56px; margin-right: 18px; }
 .tick { position: absolute; top: 20px; transform: translateX(-50%); white-space: nowrap; }
 .arrival { color: var(--ink); font-weight: 600; }
-.lane { border-top: 1px solid var(--line); }
-.lane:nth-of-type(even) { background: color-mix(in srgb, var(--primary-soft) 27%, var(--surface)); }
+.lane { --lane-solid: color-mix(in srgb, var(--lane-color) 55%, var(--hero-deep)); --lane-ink: var(--hero-ink); border-top: 1px solid color-mix(in srgb, var(--lane-color) 24%, var(--line)); background: color-mix(in srgb, var(--lane-color) 7%, var(--surface)); border-left: 4px solid var(--lane-color); }
+:global([data-theme="night"]) .lane { --lane-solid: var(--lane-color); --lane-ink: var(--bg); }
 .lane:last-child { border-radius: 0 0 18px 18px; }
-.laneTitle { display: flex; align-items: flex-start; gap: 9px; padding: 22px 12px; font-weight: 500; font-size: 12px; }
-.laneTitle svg { flex-shrink: 0; width: 17px; height: 17px; color: var(--lane-color); }
+.laneTitle { display: flex; align-items: flex-start; gap: 9px; margin: 12px 12px 12px 8px; padding: 13px 10px; align-self: start; border-radius: 9px; background: var(--lane-solid); color: var(--lane-ink); font-weight: 600; font-size: 12px; line-height: 1.5; box-shadow: 0 3px 9px color-mix(in srgb, var(--lane-color) 12%, transparent); }
+.laneTitle svg { flex-shrink: 0; width: 17px; height: 17px; margin-top: 1px; color: currentColor; }
 .track { position: relative; margin-right: 18px; padding: 10px 0; }
 .gridline { pointer-events: none; position: absolute; inset-block: 0; border-left: 1px solid var(--line); }
 .landingLine { border-left: 1px dashed var(--primary); }
 .stepRow { position: relative; height: 44px; }
 .stepRow:nth-of-type(even)::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: color-mix(in srgb, var(--line) 13%, transparent); }
-.step { position: absolute; left: var(--step-left); width: var(--step-width); min-width: 8px; height: 32px; top: 6px; border: 1px solid color-mix(in srgb, var(--lane-color) 35%, transparent); border-radius: 7px; background: linear-gradient(180deg, color-mix(in srgb, var(--lane-color) 23%, var(--surface)), color-mix(in srgb, var(--lane-color) 10%, var(--surface))); color: var(--ink); box-shadow: 0 2px 4px color-mix(in srgb, var(--lane-color) 8%, transparent); cursor: pointer; transition: left .45s ease-out, width .45s ease-out, background .2s ease-out, transform .2s ease-out, box-shadow .2s ease-out; text-align: left; }
+.step { position: absolute; left: var(--step-left); width: var(--step-width); min-width: 8px; height: 32px; top: 6px; border: 1px solid var(--lane-solid); border-radius: 7px; background: var(--lane-solid); color: var(--lane-ink); box-shadow: 0 2px 4px color-mix(in srgb, var(--lane-color) 8%, transparent); cursor: pointer; transition: left .45s ease-out, width .45s ease-out, background .2s ease-out, transform .2s ease-out, box-shadow .2s ease-out; text-align: left; }
 .step:hover, .step:focus-visible { outline: 1px solid var(--lane-color); outline-offset: 2px; z-index: 3; transform: translateY(-2px); box-shadow: 0 5px 12px color-mix(in srgb, var(--lane-color) 19%, transparent); }
 .step[aria-expanded="true"] { outline: 2px solid var(--primary); outline-offset: 3px; }
-.step.critical { background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 85%, var(--surface)), var(--gold)); border-color: var(--gold); color: var(--critical-ink); box-shadow: 0 2px 12px color-mix(in srgb, var(--gold) 27%, transparent); }
+.step.critical { background: var(--gold); border-color: var(--gold); color: var(--critical-ink); box-shadow: 0 2px 12px color-mix(in srgb, var(--gold) 27%, transparent); }
 .step.critical:hover, .step.critical:focus-visible { box-shadow: 0 4px 19px color-mix(in srgb, var(--gold) 42%, transparent); outline-color: var(--gold); }
 .step.critical::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(110deg, transparent 20%, color-mix(in srgb, var(--surface) 20%, transparent) 48%, transparent 75%); }
-.step.done { background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 85%, var(--surface)), var(--primary)); border-color: var(--primary); color: var(--primary-foreground); }
+.step.done { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
 .barLabel { position: relative; z-index: 1; display: flex; align-items: center; gap: 6px; padding: 0 9px; white-space: nowrap; font-size: 11px; font-weight: 500; }
 .shortLabel { position: absolute; left: calc(100% + 7px); top: 5px; padding: 0; color: var(--ink); }
 .shortLabelLeft { left: auto; right: calc(100% + 7px); }
@@ -123,15 +123,15 @@
   .firstStep p { font-size: 12px; }
   .axis { display: none; }
   .lane { display: block; padding: 0 16px 16px; }
-  .laneTitle { padding: 20px 0 12px; font-size: 14px; }
+  .laneTitle { margin: 16px 0 12px; padding: 12px; font-size: 14px; }
   .track { margin: 0; padding: 0; }
   .gridline { display: none; }
   .stepRow { height: auto; margin-top: 8px; }
   .step { position: relative; top: auto; left: auto; width: 100%; min-height: 62px; height: auto; padding: 12px; border-radius: 7px; border-left: 3px solid var(--lane-color); }
   .step.critical { background: color-mix(in srgb, var(--gold) 12%, var(--surface)); color: var(--ink); border: 1px solid var(--line); border-left: 3px solid var(--gold); }
   .step.done { background: var(--primary-soft); color: var(--ink); border: 1px solid var(--line); border-left: 3px solid var(--primary); }
-  .barLabel, .shortLabel, .shortLabelLeft { position: static; padding: 0; white-space: normal; font-size: 13px; }
-  .mobileTime { display: block; margin-top: 5px; font-size: 11px; color: var(--ink-muted); }
+  .barLabel, .shortLabel, .shortLabelLeft { position: static; padding: 0; white-space: normal; font-size: 13px; color: inherit; }
+  .mobileTime { display: block; margin-top: 5px; font-size: 11px; color: inherit; }
   .stepTooltip { display: none; }
   .comparison { display: none; }
   .mobileComparison { display: grid; gap: 16px; }

@@ -10,9 +10,9 @@ const lanes = [
   { id: "arrive", label: "Arrive", Icon: PlaneLanding, color: "var(--sky)" },
   { id: "residency", label: "Your visa", Icon: Fingerprint, color: "var(--teal)" },
   { id: "company", label: "Your company", Icon: Building2, color: "var(--primary)" },
-  { id: "home", label: "Your home", Icon: House, color: "var(--lane-home)" },
-  { id: "family", label: "Your family", Icon: Users, color: "var(--lane-family)" },
-  { id: "operate", label: "Running the business", Icon: BriefcaseBusiness, color: "var(--ink-muted)" },
+  { id: "home", label: "Your home", Icon: House, color: "var(--amber)" },
+  { id: "family", label: "Your family", Icon: Users, color: "var(--coral)" },
+  { id: "operate", label: "Running the business", Icon: BriefcaseBusiness, color: "color-mix(in srgb, var(--sky) 70%, var(--hero-deep))" },
 ] satisfies { id: Lane; label: string; Icon: typeof House; color: string }[];
 
 const titles: Record<string, string> = {
@@ -50,13 +50,13 @@ export function SwimlaneTimeline({ path, selectedId, onSelect }: { path: PathRes
             const short = width < 19;
             const labelLeft = short && (node.earliestFinish + 30) / span > .7;
             return <div key={node.id} className={styles.stepRow}><button id={`step-${node.id}`} type="button" data-step-id={node.id} data-status={node.status} aria-haspopup="dialog" aria-expanded={selectedId === node.id}
-              aria-label={`${shortTitle(node)}${node.critical && node.status !== "done" ? " Critical" : ""} Day ${node.earliestStart} → ${node.earliestFinish} · ${node.status === "done" ? "Done" : `${node.durationDays.likely} days · estimate`}${node.status === "blocked" ? " · Blocked" : node.status === "in_progress" ? " · In progress" : ""}. ${node.title}.${node.verify ? " Verify with authority." : ""}`}
+              aria-labelledby={`step-label-${node.id} step-time-${node.id}`}
               aria-describedby={`step-tooltip-${node.id}`}
               onClick={() => onSelect(node)}
               className={cn(styles.step, node.status === "done" ? styles.done : node.critical && styles.critical)}
               style={{ "--step-left": position(node.earliestStart), "--step-width": `${width}%` } as CSSProperties}>
-              <span className={cn(styles.barLabel, short && styles.shortLabel, labelLeft && styles.shortLabelLeft)}>{node.status === "done" && <Check className="size-3 shrink-0" aria-hidden="true" />}{shortTitle(node)}{node.verify && <span className={styles.verifyDot} aria-hidden="true" />}{node.critical && node.status !== "done" && <span className="text-[9px] uppercase tracking-wide opacity-80">{" "}Critical</span>}</span>
-              <span className={styles.mobileTime}>{" "}Day {node.earliestStart} → {node.earliestFinish} · {node.status === "done" ? "Done" : `${node.durationDays.likely} days · estimate`}{node.status === "blocked" ? " · Blocked" : node.status === "in_progress" ? " · In progress" : ""}</span>
+              <span id={`step-label-${node.id}`} className={cn(styles.barLabel, short && styles.shortLabel, labelLeft && styles.shortLabelLeft)}>{node.status === "done" && <Check className="size-3 shrink-0" aria-hidden="true" />}{shortTitle(node)}{node.verify && <span className={styles.verifyDot} aria-hidden="true" />}{node.critical && node.status !== "done" && <span className="text-[9px] uppercase tracking-wide opacity-80">{" "}Critical</span>}</span>
+              <span id={`step-time-${node.id}`} className={styles.mobileTime}>{" "}Day {node.earliestStart} → {node.earliestFinish} · {node.status === "done" ? "Done" : `${node.durationDays.likely} days · estimate`}{node.status === "blocked" ? " · Blocked" : node.status === "in_progress" ? " · In progress" : ""}</span>
               <span id={`step-tooltip-${node.id}`} role="tooltip" className={cn(styles.stepTooltip, (node.earliestFinish + 30) / span > .7 && styles.tooltipLeft)}><strong>{node.title}</strong><span>{node.authority}</span><span>Day {node.earliestStart} → {node.earliestFinish} · estimate</span></span>
             </button></div>;
           })}
