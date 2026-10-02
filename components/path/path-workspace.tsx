@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { ArrowRight, ArrowUpRight, LoaderCircle, Route } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { ArrowRight, ArrowUpRight, CheckCircle2, Clock3, ListChecks, LoaderCircle, Route, ShieldCheck } from "lucide-react";
 import type { PathNode, Profile } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { SourceChip } from "@/components/brand/source-chip";
@@ -29,7 +29,7 @@ function CountUp({ value }: { value: number }) {
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
   }, [value]);
-  return <span aria-label={value.toLocaleString("en-US")}><span aria-hidden="true">{display.toLocaleString("en-US")}</span></span>;
+  return <span><span className="sr-only">{value.toLocaleString("en-US")}</span><span aria-hidden="true">{display.toLocaleString("en-US")}</span></span>;
 }
 
 export function PathWorkspace() {
@@ -78,7 +78,7 @@ export function PathWorkspace() {
     finally { if (!controller.signal.aborted) setUpdating(false); }
   }
 
-  if (!journey || !profile) return <section className="py-20" aria-live="polite" aria-busy={!error}><p className={styles.eyebrow}>Your next chapter</p><h1 className="mt-4 font-display text-4xl">Your path</h1>{error ? <><p role="alert" className="mt-8 text-ink-muted">{error}</p><Button className="mt-5" onClick={retry} disabled={updating}>Try again</Button><Link href="/start" className="ml-5 underline underline-offset-4">Edit my details</Link></> : <p className="mt-8 flex items-center gap-3 text-ink-muted"><LoaderCircle className="size-5 animate-spin text-gold" aria-hidden="true" />Putting your steps in order…</p>}</section>;
+  if (!journey || !profile) return <section className="py-20" aria-live="polite" aria-busy={!error}><p className={styles.eyebrow}>Your next chapter</p><h1 className="mt-4 font-display text-4xl">Your path</h1>{error ? <><p role="alert" className="mt-8 text-ink-muted">{error}</p><Button className="mt-5" onClick={retry} disabled={updating}>Try again</Button><Link href="/start" className="ml-5 underline underline-offset-4">Edit my details</Link></> : <p className="mt-8 flex items-center gap-3 text-ink-muted"><LoaderCircle className="size-5 animate-spin text-primary" aria-hidden="true" />Putting your steps in order…</p>}</section>;
   const { path } = journey;
   const selected = path.nodes.find((node) => node.id === selectedId);
   const opportunities = path.parallelOpportunities.filter((item) => path.nodes.some((node) => node.id === item.stepId && node.status !== "done"));
@@ -87,16 +87,25 @@ export function PathWorkspace() {
     ? `Start marriage and birth certificate attestation ${profile.inUAE ? "now" : "before you land"} — it can run alongside your company set-up.`
     : opportunity?.message.replace(" (Manzil Jurisdiction Twin)", "").replace(" (Bankability pre-check)", "");
   const exposure = exposureSummary(journey.obligations);
+  const done = path.nodes.filter((node) => node.status === "done").length;
+  const progress = path.nodes.length ? done / path.nodes.length * 100 : 0;
+  const savedProportion = path.naiveDays ? Math.min(100, path.savedDays / path.naiveDays * 100) : 0;
   return <section className="py-12 md:py-16">
-    <header className="mb-8 flex flex-wrap items-end justify-between gap-5"><div><p className={styles.eyebrow}>Arrive. Build. Belong.</p><h1 className="mt-4 font-display text-4xl leading-tight tracking-tight">{profile.name}’s path</h1><p className="mt-3 text-ink-muted">A clear order. Room to move forward.</p></div><Link href="/start" className="inline-flex min-h-11 items-center gap-2 text-sm text-ink-muted hover:text-ink">Edit my details<ArrowUpRight aria-hidden="true" className="size-4" /></Link></header>
     {storageNotice && <p role="status" className="mb-4 text-xs text-ink-muted">{storageNotice}</p>}
-    <div className="grid gap-4 sm:grid-cols-3" aria-label="Your path at a glance">
-      <article className="rounded-xl border border-line bg-surface p-6"><p className="text-sm text-ink-muted">Ready in <span className="text-xs">· estimate</span></p><p className="mt-4 font-display text-[38px] leading-tight">~<CountUp value={path.optimizedDays} /> <span className="text-xl">days</span></p><p className="mt-3 text-xs text-ink-muted">vs ~{path.naiveDays} days step by step</p></article>
-      <article className="rounded-xl border border-line bg-surface p-6"><p className="text-sm text-ink-muted">Your whole journey</p><p className="mt-4 font-display text-[38px] leading-tight"><CountUp value={path.nodes.length} /> <span className="text-xl">steps</span></p><p className="mt-3 text-xs text-ink-muted">From your arrival to everyday life</p></article>
-      <article className="rounded-xl border border-line bg-surface p-6"><p className="text-sm text-ink-muted">AED at stake</p><p className={`mt-4 font-display leading-tight ${exposure ? "text-[38px]" : "text-3xl"}`}>{exposure ? <CountUp value={exposure.total} /> : "UNKNOWN"}</p><p className="mt-3 text-xs text-ink-muted">{exposure ? `Next 12 months${exposure.unknown ? " · excludes unknown penalties" : ""}` : "Verify with the relevant authorities"}</p>{exposure && exposure.rows.length > 0 && <details className="mt-3 text-xs"><summary className="cursor-pointer text-ink-muted">Sources & amounts</summary><ul className="mt-3 space-y-3">{exposure.rows.map((row, index) => <li key={`${row.ruleId}-${row.dueDate}-${index}`}><p className="mb-1">{row.title} · {row.penaltyDisplay}</p><SourceChip {...row} /></li>)}</ul></details>}</article>
-    </div>
-    {opportunity && <div className="my-8 flex flex-wrap items-center justify-between gap-5 rounded-xl border border-gold/50 bg-gold/10 p-5 sm:p-6"><div className="flex max-w-3xl items-start gap-4"><Route className="mt-1 size-5 shrink-0 text-gold" aria-hidden="true" /><div><h2 className="font-medium">Do this first</h2><p className="mt-1 leading-6 text-ink-muted">{opportunityMessage}</p></div></div><Button onClick={() => { const node = path.nodes.find((item) => item.id === opportunity.stepId); if (!node) return; const target = document.getElementById(`step-${node.id}`); target?.scrollIntoView({ block: "center", behavior: "instant" }); target?.focus({ preventScroll: true }); openStep(node); }}>Show me<ArrowRight aria-hidden="true" /></Button></div>}
-    <section aria-labelledby="timeline-title" className="mt-10"><div className="mb-5 flex flex-wrap items-baseline justify-between gap-3"><h2 id="timeline-title" className="font-display text-2xl">The way forward</h2><p className="text-xs text-ink-muted">Select a step to see what you need</p></div><SwimlaneTimeline path={path} selectedId={selectedId} onSelect={openStep} /><p className="mt-4 text-xs leading-6 text-ink-muted">Gold = sets your finish date · Teal = done · Amber dot = verify with authority</p><p className="mt-1 text-xs leading-5 text-ink-muted">Timing is an estimate. Dates run from your arrival; negative days are before you land.</p></section>
+    <header className={styles.missionControl}>
+      <div className={styles.missionHeading}><div className={styles.welcome}><p className={styles.missionEyebrow}><span aria-hidden="true" />Mission control</p><h1>Welcome, {profile.name}.</h1><p>Your path to Abu Dhabi, one clear step at a time.</p></div><Link href="/start" className={styles.editDetails}>Edit my details<ArrowUpRight aria-hidden="true" className="size-4" /></Link></div>
+      <div className={styles.journeyProgress}>
+        <div className={styles.progressCaption}><span><CheckCircle2 aria-hidden="true" />Your progress</span><span><strong>{done}</strong> / {path.nodes.length} steps done</span></div>
+        <div className={styles.progressTrack} role="progressbar" aria-label="Journey steps completed" aria-valuemin={0} aria-valuemax={path.nodes.length || 1} aria-valuenow={done} aria-valuetext={`${done} of ${path.nodes.length} steps done`}><span className={styles.progressFill} style={{ "--progress": `${progress}%` } as CSSProperties} /></div>
+      </div>
+      <div className={styles.missionMetrics} aria-label="Your path at a glance">
+        <article className={`${styles.metricCard} ${styles.readyCard}`}><div><p className={styles.metricLabel}>Ready in <span>· estimate</span></p><p className={styles.metricValue}>~<CountUp value={path.optimizedDays} /> <span>days</span></p><p className={styles.metricNote}>vs ~{path.naiveDays} days step by step</p></div><div className={styles.readyRing} role="img" aria-label={`${path.savedDays} estimated days saved through parallel steps`} title={`${path.savedDays} estimated days saved through parallel steps`}><svg viewBox="0 0 80 80" aria-hidden="true"><circle className={styles.ringTrack} cx="40" cy="40" r="33" /><circle className={styles.ringValue} cx="40" cy="40" r="33" pathLength="100" strokeDasharray={`${savedProportion} 100`} /></svg><Clock3 aria-hidden="true" /></div></article>
+        <article className={styles.metricCard}><div className={styles.metricTop}><p className={styles.metricLabel}>Your whole journey</p><ListChecks aria-hidden="true" /></div><p className={styles.metricValue}><CountUp value={path.nodes.length} /> <span>steps</span></p><p className={styles.metricNote}>From your arrival to everyday life</p></article>
+        <article className={styles.metricCard}><div className={styles.metricTop}><p className={styles.metricLabel}>AED at stake</p><ShieldCheck aria-hidden="true" /></div><p className={styles.metricValue}>{exposure ? <CountUp value={exposure.total} /> : <span className={styles.unknownValue}>UNKNOWN</span>}</p><p className={styles.metricNote}>{exposure ? `Next 12 months${exposure.unknown ? " · excludes unknown penalties" : ""}` : "Verify with the relevant authorities"}</p>{exposure && exposure.rows.length > 0 && <details className={styles.exposureSources}><summary>Sources & amounts</summary><ul>{exposure.rows.map((row, index) => <li key={`${row.ruleId}-${row.dueDate}-${index}`}><p>{row.title} · {row.penaltyDisplay}</p><SourceChip {...row} /></li>)}</ul></details>}</article>
+      </div>
+    </header>
+    {opportunity && <div className={styles.firstStep}><div className={styles.firstStepContent}><span className={styles.firstStepIcon}><Route aria-hidden="true" /></span><div><h2>Do this first</h2><p>{opportunityMessage}</p></div></div><Button onClick={() => { const node = path.nodes.find((item) => item.id === opportunity.stepId); if (!node) return; const target = document.getElementById(`step-${node.id}`); target?.scrollIntoView({ block: "center", behavior: "instant" }); target?.focus({ preventScroll: true }); openStep(node); }}>Show me<ArrowRight aria-hidden="true" /></Button></div>}
+    <section aria-labelledby="timeline-title" className="mt-10"><div className="mb-5 flex flex-wrap items-baseline justify-between gap-3"><h2 id="timeline-title" className="font-display text-2xl">The way forward</h2><p className="text-xs text-ink-muted">Select a step to see what you need</p></div><SwimlaneTimeline path={path} selectedId={selectedId} onSelect={openStep} /><p className="mt-4 text-xs leading-6 text-ink-muted">Gold = sets your finish date · Emerald = done · Amber dot = verify with authority</p><p className="mt-1 text-xs leading-5 text-ink-muted">Timing is an estimate. Dates run from your arrival; negative days are before you land.</p></section>
     {path.excludedSteps.length > 0 && <details className="mt-5 text-xs text-ink-muted"><summary className="min-h-11 cursor-pointer py-3">Steps outside this path</summary><ul className="space-y-3 pb-4">{path.excludedSteps.map((step) => <li key={step.stepId}><span className="font-mono">{step.stepId}</span> · {step.reason}</li>)}</ul></details>}
     <div className="mt-10"><JurisdictionCard comparisons={journey.jurisdictions} /></div>
     {selected && <StepDrawer key={selected.id} node={selected} nodes={path.nodes} profile={profile} updating={updating} notice={notice} onClose={() => setSelectedId(undefined)} onDone={markDone} />}

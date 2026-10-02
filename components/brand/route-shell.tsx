@@ -7,7 +7,7 @@ export function RouteShell({ eyebrow, title, description, pattern = false }: { e
       <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-ink-muted">{eyebrow}</p>
       <h1 className="max-w-2xl font-display text-4xl leading-[44px] font-medium tracking-[-0.02em]">{title}</h1>
       <p className="mt-5 max-w-md text-base leading-7 text-ink-muted">{description}</p>
-      <div className="mt-12 flex items-center gap-3 border-t border-line pt-6 text-xs text-ink-muted"><span className="size-1.5 rounded-full bg-gold" aria-hidden="true" />Coming soon</div>
+      <div className="mt-12 flex items-center gap-3 border-t border-line pt-6 text-xs text-ink-muted"><span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />Coming soon</div>
     </div>
   </section>;
 }

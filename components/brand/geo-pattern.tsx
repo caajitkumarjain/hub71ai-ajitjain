@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 export function GeoPattern({ className }: { className?: string }) {
   const patternId = useId().replace(/:/g, "");
   return (
-    <svg aria-hidden="true" focusable="false" className={cn("pointer-events-none absolute inset-0 size-full text-gold opacity-5", className)} xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden="true" focusable="false" className={cn("pointer-events-none absolute inset-0 size-full text-primary opacity-5", className)} xmlns="http://www.w3.org/2000/svg">
       <defs>
         <pattern id={patternId} width="96" height="96" patternUnits="userSpaceOnUse">
           <path d="M48 8 60 28 80 16 68 36 88 48 68 60 80 80 60 68 48 88 36 68 16 80 28 60 8 48 28 36 16 16 36 28Z" fill="none" stroke="currentColor" strokeWidth="1.5" />

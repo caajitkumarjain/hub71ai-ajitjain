@@ -64,7 +64,7 @@ export function StartForm() {
     <div className="mt-5 rounded-2xl border border-line bg-surface p-5 sm:p-10">
       <div className="flex flex-wrap items-center justify-between gap-4"><h1 className="font-display text-4xl leading-tight tracking-tight">Tell us about you</h1><Button type="button" size="sm" variant="secondary" onClick={() => { setProfile(structuredClone(priya)); setError(""); setAge(""); }}>Use example: Priya</Button></div>
       <p className="mt-4 leading-6 text-ink-muted">A few details to put your move, your family and your business in the right order.</p>
-      <nav aria-label="Form sections" className="my-8 grid grid-cols-3 gap-2">{["You", "Family", "Business"].map((label, index) => <a key={label} href={`#form-${index}`} onClick={() => setGroup(index)} aria-current={group === index ? "step" : undefined} className={`border-t-2 pt-3 text-sm ${group === index ? "border-gold text-ink" : "border-line text-ink-muted"}`}>{label}</a>)}</nav>
+      <nav aria-label="Form sections" className="my-8 grid grid-cols-3 gap-2">{["You", "Family", "Business"].map((label, index) => <a key={label} href={`#form-${index}`} onClick={() => setGroup(index)} aria-current={group === index ? "step" : undefined} className={`border-t-2 pt-3 text-sm ${group === index ? "border-primary text-ink" : "border-line text-ink-muted"}`}>{label}</a>)}</nav>
       <form onSubmit={submit} className={styles.form}>
         <fieldset id="form-0" onFocus={() => setGroup(0)}><legend>You</legend>
           <div className={styles.fields}><label>Your name<input autoComplete="given-name" value={profile.name} onChange={(event) => patch("name", event.target.value)} required maxLength={100} /></label>
@@ -90,7 +90,7 @@ export function StartForm() {
     </div>
     <dialog ref={dialog} className={styles.compileDialog} aria-labelledby="compile-title" onCancel={(event) => { event.preventDefault(); controller.current?.abort(); setBusy(false); }}>
       <p className={styles.eyebrow}>Connecting the dots</p><h2 id="compile-title" className="mt-3 font-display text-3xl">One path, made for you.</h2>
-      <div className="my-8 space-y-5" aria-live="polite">{checks.map(({ id, label }) => <div key={id} className="flex items-center gap-3">{states[id] === "ready" ? <Check className="size-5 text-teal" aria-hidden="true" /> : states[id] === "pending" ? <LoaderCircle className="size-5 animate-spin text-gold" aria-hidden="true" /> : <Circle className="size-5 text-amber" aria-hidden="true" />}<div><p>{label}</p><p className="text-xs text-ink-muted">{states[id] === "ready" ? "Ready" : states[id] === "unavailable" ? "Unavailable — no result yet" : "Waiting for result…"}</p></div></div>)}</div>
+      <div className="my-8 space-y-5" aria-live="polite">{checks.map(({ id, label }) => <div key={id} className="flex items-center gap-3">{states[id] === "ready" ? <Check className="size-5 text-primary-ink" aria-hidden="true" /> : states[id] === "pending" ? <LoaderCircle className="size-5 animate-spin text-primary-ink" aria-hidden="true" /> : <Circle className="size-5 text-ink" aria-hidden="true" />}<div><p>{label}</p><p className="text-xs text-ink-muted">{states[id] === "ready" ? "Ready" : states[id] === "unavailable" ? "Unavailable — no result yet" : "Waiting for result…"}</p></div></div>)}</div>
       <Button variant="ghost" onClick={() => { controller.current?.abort(); setBusy(false); }}>Back to my details</Button>
     </dialog>
   </section>;

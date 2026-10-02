@@ -3,19 +3,31 @@
 @custom-variant dark (&:where([data-theme="night"], [data-theme="night"] *));
 
 :root {
-  --bg: #F7F3EC;
+  --bg: #F2F8F5;
   --surface: #FFFFFF;
-  --surface-2: #F0E9DD;
-  --ink: #0E1726;
-  --ink-muted: #5B6475;
-  --line: #E4DACA;
-  --gold: #C9973B;
-  --teal: #0F8B83;
-  --coral: #D9573F;
-  --amber: #C77D0A;
-  --sky: #2F6FDE;
-  --lane-home: #8E6BBF;
-  --lane-family: #C2577A;
+  --surface-2: #E4F2EB;
+  --ink: #0B2A22;
+  --ink-muted: #4A6A5F;
+  --line: #D3E5DC;
+  --primary: #0E9F6E;
+  --primary-hover: #0A7F57;
+  --primary-soft: #D1F2E4;
+  --gold: #D4A13A;
+  --teal: #14B8A6;
+  --coral: #E2583E;
+  --amber: #D98E04;
+  --sky: #2F7DE1;
+  --lane-home: var(--sky);
+  --lane-family: var(--primary);
+  --hero-ink: #FFFFFF;
+  --hero-deep: #0B3D2E;
+  --grad-hero: linear-gradient(135deg,#0B3D2E 0%,#0E9F6E 55%,#14B8A6 100%);
+  --grad-soft: linear-gradient(180deg,var(--bg),var(--surface-2));
+  /* The supplied emerald remains unchanged. Its text shade meets AA on soft surfaces. */
+  --primary-ink: color-mix(in srgb,var(--primary) 66%,var(--ink));
+  --primary-hover-foreground: var(--hero-ink);
+  --shadow-soft: 0 8px 28px color-mix(in srgb,var(--hero-deep) 6%,transparent);
+  --shadow-lift: 0 14px 32px color-mix(in srgb,var(--hero-deep) 14%,transparent);
   --radius: 0.75rem;
   --background: var(--bg);
   --foreground: var(--ink);
@@ -23,7 +35,6 @@
   --card-foreground: var(--ink);
   --popover: var(--surface-2);
   --popover-foreground: var(--ink);
-  --primary: var(--gold);
   --primary-foreground: var(--ink);
   --secondary: var(--surface-2);
   --secondary-foreground: var(--ink);
@@ -34,23 +45,28 @@
   --destructive: var(--coral);
   --border: var(--line);
   --input: var(--line);
-  --ring: var(--gold);
+  --ring: var(--primary-ink);
   color-scheme: light;
 }
 
 [data-theme="night"] {
-  --bg: #0A1020;
-  --surface: #111A2E;
-  --surface-2: #16223B;
-  --ink: #EEF1F6;
-  --ink-muted: #9AA4B8;
-  --line: #22304D;
-  --gold: #E0B25A;
-  --teal: #2CC5B8;
+  --bg: #06140F;
+  --surface: #0C1F18;
+  --surface-2: #12291F;
+  --ink: #E8F5EE;
+  --ink-muted: #93B3A6;
+  --line: #1E3A2E;
+  --primary: #34D399;
+  --primary-hover: #6EE7B7;
+  --primary-soft: #0F3B2B;
+  --gold: #F0C060;
+  --teal: #2DD4BF;
   --coral: #FF7A61;
   --amber: #F2A93B;
   --sky: #6EA2FF;
   --primary-foreground: var(--bg);
+  --primary-hover-foreground: var(--bg);
+  --primary-ink: var(--primary);
   color-scheme: dark;
 }
 
@@ -63,6 +79,11 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-hover-foreground: var(--primary-hover-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-ink: var(--primary-ink);
+  --color-hero-ink: var(--hero-ink);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -102,11 +123,18 @@
   body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-inter), sans-serif; font-size: 14px; line-height: 20px; font-variant-numeric: tabular-nums; -webkit-font-smoothing: antialiased; }
   button, a, input { -webkit-tap-highlight-color: transparent; }
   button, a { touch-action: manipulation; }
-  :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
-  ::selection { background: var(--gold); color: var(--bg); }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
+  ::selection { background: var(--primary-soft); color: var(--ink); }
   [dir="rtl"] { font-family: var(--font-ibm-plex-arabic), sans-serif; }
 }
 
+@layer components {
+  .oasis-button {
+    box-shadow: inset 0 1px 0 color-mix(in srgb,var(--hero-ink) 24%,transparent), 0 3px 8px color-mix(in srgb,var(--hero-deep) 8%,transparent);
+  }
+  .oasis-button:hover { box-shadow: inset 0 1px 0 color-mix(in srgb,var(--hero-ink) 24%,transparent), var(--shadow-lift); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
