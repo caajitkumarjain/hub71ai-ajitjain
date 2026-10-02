@@ -27,6 +27,7 @@ The judges check GitHub commit time and SHA. **Code freeze is 15:30.** Nothing i
 | 13:00 | Phase 2A pushed on `main`; Phase 2B committed on branch `phase-b`, with `main` merged into it |
 | 14:10 | Phase 3A (on `main`) + Phase 3B (on `phase-b`) done; `phase-b` merged into `main`, everything wired and pushed |
 | 14:05 | Agent Control Room (/agents) committed on branch `phase-c`; merged into `main` in the 14:10 merge together with `phase-b` |
+| 14:45 | Bawsala jurisdiction navigator committed on `phase-c` (after the Agents page; upgrades the existing jurisdiction engine/card, no duplicates) |
 | 14:50 | Phase 4 on `main` (admin + fixtures + Rulebook + README) AND, in parallel on `phase-b`, the Company Setup Studio (/company) |
 | 15:00 | `phase-b` (Company Studio) merged into `main` and pushed |
 | 15:15 | Phase 5 (acceptance checklist §17-S passes on the live URL) |
